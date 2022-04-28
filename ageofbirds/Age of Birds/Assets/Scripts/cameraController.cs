@@ -17,6 +17,8 @@ public class cameraController : MonoBehaviour
     public float minZoom, MaxZoom;
     private Quaternion newRotation;
 
+    public bool objectOn;
+
     void Start()
     {
         instance = this;
@@ -27,17 +29,18 @@ public class cameraController : MonoBehaviour
     }
     void LateUpdate()
     {
-        if(followTransform != null)
+        if(followTransform != null)//acopla ao objeto
         {
             transform.position = followTransform.position;
+            ObjectCameraFollow();
         }
-        else
+        else //calcula o movimento normal da camera
         {
             CalculoDoInputdeMovimento();
             CalculoDoMouse();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))//desacopla do objeto
         {
             followTransform = null;
         }
@@ -45,11 +48,11 @@ public class cameraController : MonoBehaviour
        
     }
 
-    void CalculoDoMouse()
+    void CalculoDoMouse()//calcula da movimentacao pelo mouse
     {
         if(Input.mouseScrollDelta.y != 0)
         {
-            NewZoom += Input.mouseScrollDelta.y * zoomForce;
+            NewZoom += Input.mouseScrollDelta.y * zoomForce * 10;
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -97,7 +100,7 @@ public class cameraController : MonoBehaviour
         }
     }
 
-    void CalculoDoInputdeMovimento()
+    void CalculoDoInputdeMovimento()//calculo da movimentacao pelo teclado
     {
         if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
@@ -144,6 +147,55 @@ public class cameraController : MonoBehaviour
         NewZoom.z = Mathf.Clamp(NewZoom.z, -MaxZoom, minZoom);
 
         transform.position = Vector3.Lerp(transform.position, NewPos, Time.deltaTime * cameraForce);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * cameraForce);
+        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, NewZoom, Time.deltaTime * cameraForce);
+    }
+
+    void ObjectCameraFollow()//calcula a movimentacao da camera acoplada ao objeto
+    {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            newRotation *= Quaternion.Euler(Vector3.up * rotationForce);
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            newRotation *= Quaternion.Euler(Vector3.up * -rotationForce);
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            NewZoom += zoomForce;
+        }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            NewZoom -= zoomForce;
+        }
+
+        if (Input.mouseScrollDelta.y != 0)
+        {
+            NewZoom += Input.mouseScrollDelta.y * zoomForce * 10;
+        }
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            rotateStartPos = Input.mousePosition;
+        }
+        if (Input.GetMouseButton(2))
+        {
+            rotateCurrentPos = Input.mousePosition;
+
+            Vector3 diferenca = rotateStartPos - rotateCurrentPos;
+
+            rotateStartPos = rotateCurrentPos;
+
+            newRotation *= Quaternion.Euler(Vector3.up * (-diferenca.x / 5f));
+        }
+
+        NewZoom.y = Mathf.Clamp(NewZoom.y, -minZoom, MaxZoom);
+        NewZoom.z = Mathf.Clamp(NewZoom.z, -MaxZoom, minZoom);
+
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * cameraForce);
         cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, NewZoom, Time.deltaTime * cameraForce);
     }
