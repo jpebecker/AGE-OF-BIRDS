@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
 public enum ObjectType
 {
     terreno, passaros
@@ -16,10 +14,10 @@ public class objectController : MonoBehaviour
         {
             cameraController.instance.followTransform = transform;
         }
-        else
+        if(tipodeobjeto != ObjectType.passaros)
         {
             cameraController.instance.followTransform = null;
+
         }
-        
     }
 }

@@ -199,4 +199,6 @@ public class cameraController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * cameraForce);
         cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, NewZoom, Time.deltaTime * cameraForce);
     }
+
+
 }
