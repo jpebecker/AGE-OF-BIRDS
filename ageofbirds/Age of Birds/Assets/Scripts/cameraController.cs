@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class cameraController : MonoBehaviour
 {
+    //valores iniciais do RIG: x:110 y:-80 z:55  rotation y:45/ valores iniciais da camera x:0 y:225 z:225 rotation: x:45
+
     public static cameraController instance;
 
     public Transform cameraTransform;
@@ -32,12 +34,14 @@ public class cameraController : MonoBehaviour
         if(followTransform != null)//acopla ao objeto
         {
             transform.position = followTransform.position;
+            FindObjectOfType<GameController>().HUDbirds.SetActive(true);
             ObjectCameraFollow();
         }
         else //calcula o movimento normal da camera
         {
             CalculoDoInputdeMovimento();
             CalculoDoMouse();
+            FindObjectOfType<GameController>().HUDbirds.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))//desacopla do objeto

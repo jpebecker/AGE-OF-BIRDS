@@ -8,16 +8,31 @@ public enum ObjectType
 public class objectController : MonoBehaviour
 {
     public ObjectType tipodeobjeto;
+    private bool BirdOptions;
     private void OnMouseDown()
     {
-        if(tipodeobjeto != ObjectType.terreno)
+        if (tipodeobjeto != ObjectType.terreno)
         {
             cameraController.instance.followTransform = transform;
         }
         if(tipodeobjeto != ObjectType.passaros)
         {
             cameraController.instance.followTransform = null;
+            BirdOptions = false;
+            FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
+        }
+    }
 
+    private void OnMouseOver()
+    {
+        if(Input.GetMouseButtonDown(1) && tipodeobjeto != ObjectType.terreno)//right click
+        {
+            BirdOptions = !BirdOptions;
+            cameraController.instance.followTransform = transform;
+            //abrir painel
+            cameraController.instance.followTransform = null;
+            print("open Options");
+            GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
         }
     }
 }
