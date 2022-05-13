@@ -34,14 +34,14 @@ public class cameraController : MonoBehaviour
         if(followTransform != null)//acopla ao objeto
         {
             transform.position = followTransform.position;
-            FindObjectOfType<GameController>().HUDbirds.SetActive(true);
+            FindObjectOfType<GameController>().HUD_birds.SetActive(true);
             ObjectCameraFollow();
         }
         else //calcula o movimento normal da camera
         {
             CalculoDoInputdeMovimento();
             CalculoDoMouse();
-            FindObjectOfType<GameController>().HUDbirds.SetActive(false);
+            FindObjectOfType<GameController>().HUD_birds.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))//desacopla do objeto

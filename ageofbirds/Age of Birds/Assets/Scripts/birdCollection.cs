@@ -26,6 +26,14 @@ public class birdCollection : MonoBehaviour
         birdsCount = Random.Range(100, 150);
         specieLevel = 1;
         strenght = 5;
+
+        for (int i = 0; i < birdsCount / 10; ++i)
+        {
+            GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + i*2, transform.position.y, transform.position.z + i * 2), Quaternion.identity); // spawna aves rotacionando elas
+            birds.transform.parent = transform;
+        }
+
+
     }
     void Update()
     {

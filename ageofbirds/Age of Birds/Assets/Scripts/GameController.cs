@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject HUDbirds;
+    public GameObject HUD_birds;
     void Start()
     {
         
