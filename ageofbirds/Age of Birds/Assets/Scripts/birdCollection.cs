@@ -19,6 +19,7 @@ public class birdCollection : MonoBehaviour
 
     [Header("Resources")]
     [SerializeField]private GameObject birdPrefab;
+    [SerializeField]private GameObject[] birdsSpawned;
     public GameObject birdOptions;
 
     void Start()
@@ -29,8 +30,9 @@ public class birdCollection : MonoBehaviour
 
         for (int i = 0; i < birdsCount / 10; ++i)
         {
-            GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + i*2, transform.position.y, transform.position.z + i * 2), Quaternion.identity); // spawna aves rotacionando elas
+            GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i,5), transform.position.y, transform.position.z + Random.Range(i,5)),Quaternion.identity); // spawna aves rotacionando elas
             birds.transform.parent = transform;
+            
         }
 
 
@@ -38,5 +40,10 @@ public class birdCollection : MonoBehaviour
     void Update()
     {
         birdOptions.transform.rotation = Quaternion.LookRotation(birdOptions.transform.position - Camera.main.transform.position);//clamp a rotacao do canvas de opceos
+    }
+
+    public void MoveTo()
+    {
+
     }
 }

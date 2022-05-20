@@ -25,14 +25,22 @@ public class objectController : MonoBehaviour
 
     private void OnMouseOver()
     {
+        if(Input.GetMouseButtonDown(1) && tipodeobjeto == ObjectType.terreno)
+        {
+            BirdOptions = false;
+            FindObjectOfType<birdCollection>().birdOptions.SetActive(false);
+            cameraController.instance.followTransform = null;
+        }
+
+
         if(Input.GetMouseButtonDown(1) && tipodeobjeto != ObjectType.terreno)//right click
         {
             BirdOptions = !BirdOptions;
             cameraController.instance.followTransform = transform;
             //abrir painel
-            cameraController.instance.followTransform = null;
+            //cameraController.instance.followTransform = null;
             print("open Options");
-            GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
+            FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
         }
     }
 }
