@@ -15,11 +15,17 @@ public class objectController : MonoBehaviour
         {
             cameraController.instance.followTransform = transform;
         }
-        if(tipodeobjeto != ObjectType.passaros)
+        if(tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)
         {
-            cameraController.instance.followTransform = null;
-            BirdOptions = false;
-            FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
+           cameraController.instance.followTransform = null;
+           BirdOptions = false;
+           FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
+
+            
+        }
+        if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == true)
+        {
+            cameraController.instance.followTransform.GetComponent<birdCollection>().MoveTo();
         }
     }
 
