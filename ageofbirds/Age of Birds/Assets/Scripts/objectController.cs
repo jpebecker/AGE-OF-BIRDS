@@ -13,24 +13,30 @@ public class objectController : MonoBehaviour
     {
         if (tipodeobjeto != ObjectType.terreno)
         {
-            cameraController.instance.followTransform = transform;
+            cameraController.instance.followTransform = transform.parent;
         }
-        if(tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)
+        if (cameraController.instance.followTransform)
         {
-           cameraController.instance.followTransform = null;
-           BirdOptions = false;
-           FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
+            if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)
+            {
+                cameraController.instance.followTransform = null;
+                BirdOptions = false;
+                FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
 
-            
+
+            }
+            if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == true)
+            {
+                print("move");
+                cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected = false;
+            }
         }
-        if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == true)
-        {
-            cameraController.instance.followTransform.GetComponent<birdCollection>().MoveTo();
-        }
+       
     }
 
     private void OnMouseOver()
     {
+        //right click
         if(Input.GetMouseButtonDown(1) && tipodeobjeto == ObjectType.terreno)
         {
             BirdOptions = false;

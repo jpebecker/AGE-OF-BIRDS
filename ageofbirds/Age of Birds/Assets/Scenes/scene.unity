@@ -2226,7 +2226,7 @@ GameObject:
   - component: {fileID: 1578932827}
   - component: {fileID: 1578932828}
   m_Layer: 0
-  m_Name: birdsSpecie
+  m_Name: Birds
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2254,6 +2254,7 @@ MonoBehaviour:
   birdPrefab: {fileID: 7416640345450608850, guid: c78883430c9d2b149b275003f772f30c, type: 3}
   birdsSpawned: []
   birdOptions: {fileID: 2101825278}
+  isSelected: 0
 --- !u!4 &1578932826
 Transform:
   m_ObjectHideFlags: 0
@@ -2291,7 +2292,7 @@ BoxCollider:
   m_GameObject: {fileID: 1578932824}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 7.166218, y: 2, z: 7.159154}
   m_Center: {x: -0.52775, y: 0.100000024, z: 1.079577}
