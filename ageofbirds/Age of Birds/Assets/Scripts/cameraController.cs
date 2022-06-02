@@ -37,17 +37,9 @@ public class cameraController : MonoBehaviour
             transform.position = followTransform.position;
 
             //pega as infos
-            string name = followTransform.GetComponent<birdCollection>().Specie_Name.ToString();
-            int population = followTransform.GetComponent<birdCollection>().birdsCount;
-            int level = followTransform.GetComponent<birdCollection>().specieLevel;
-            int strenght = followTransform.GetComponent<birdCollection>().Specie_strenght;
-            int reprodution = followTransform.GetComponent<birdCollection>().specie_reprodution;
-            Habilities habilidade = followTransform.GetComponent<birdCollection>().habilidadeEspecial;
-            int habilityLvl = followTransform.GetComponent<birdCollection>().specie_hability_force;
-
-
+            
             FindObjectOfType<GameController>().HUD_birds.SetActive(true);
-            FindObjectOfType<GameController>().SetHudValues(name,population,level,strenght,reprodution,habilityLvl, habilidade);
+            FindObjectOfType<GameController>().SetHudValues();
             ObjectCameraFollow();
         }
         else //calcula o movimento normal da camera

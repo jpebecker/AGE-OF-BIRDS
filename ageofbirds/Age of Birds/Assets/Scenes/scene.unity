@@ -275,14 +275,14 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 963194227}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1932616145
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &209627341
@@ -1513,7 +1513,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1578932825}
         m_TargetAssemblyTypeName: birdCollection, Assembly-CSharp
-        m_MethodName: MoveTo
+        m_MethodName: ToggleMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1579,6 +1579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipodeobjeto: 0
+  BirdOptions: 0
 --- !u!4 &719008524 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2081430559399834275, guid: 2a4625c7296ca1848bf85307ce47de11, type: 3}
@@ -2255,6 +2256,7 @@ MonoBehaviour:
   birdsSpawned: []
   birdOptions: {fileID: 2101825278}
   isSelected: 0
+  moving: 0
 --- !u!4 &1578932826
 Transform:
   m_ObjectHideFlags: 0
@@ -2283,6 +2285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipodeobjeto: 1
+  BirdOptions: 0
 --- !u!65 &1578932828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2910,6 +2913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipodeobjeto: 0
+  BirdOptions: 0
 --- !u!4 &1927689879 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4963853187110856, guid: e31d877dfa8d9e34bb6047a23a6c0d88, type: 3}

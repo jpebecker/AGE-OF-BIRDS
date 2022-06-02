@@ -17,14 +17,15 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void SetHudValues(string SpecieName,int SpeciePopulation,int SpecieLevel, int Strenght, int Reprodution, int habilityLevel, Habilities hab)
+    public void SetHudValues()
     {
-        SpecieNameTxt.text = SpecieName;
-        specieNumberTXT.text = SpeciePopulation.ToString() + " aves";
-        LvlTxt.text = "Lvl " + SpecieLevel.ToString();
-        repTxt.text = Reprodution.ToString() + "/100";
-        StrenghtTxt.text = Strenght.ToString() + "/100";
-        SpecialHabilityTxt.text = habilityLevel.ToString() + "/100";
+        Habilities hab = FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().habilidadeEspecial;
+        SpecieNameTxt.text = FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().Specie_Name.ToString();
+        specieNumberTXT.text = FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().birdsCount.ToString() + " aves";
+        LvlTxt.text = "Lvl " + FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().specieLevel.ToString();
+        repTxt.text = FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().specie_reprodution.ToString() + "/100";
+        StrenghtTxt.text = FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().Specie_strenght.ToString() + "/100";
+        SpecialHabilityTxt.text = FindObjectOfType<cameraController>().followTransform.GetComponent<birdCollection>().specie_hability_force.ToString() + "/100";
 
         switch (hab)
         {

@@ -8,12 +8,29 @@ public enum ObjectType
 public class objectController : MonoBehaviour
 {
     public ObjectType tipodeobjeto;
-    private bool BirdOptions;
+    [HideInInspector]public bool BirdOptions;
+    private Vector3 clickPOS;
     private void OnMouseDown()
     {
-        if (tipodeobjeto != ObjectType.terreno)
+        //coleta o ponto que foi clicado
+        Vector3 mouse = Input.mousePosition;
+        Ray castPoint = Camera.main.ScreenPointToRay(mouse);
+        RaycastHit hit;
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
+        {
+            clickPOS = hit.point;
+        }
+
+
+        if (tipodeobjeto != ObjectType.terreno)//se clicar nos passaros
         {
             cameraController.instance.followTransform = transform.parent;
+        }
+        if (tipodeobjeto != ObjectType.passaros && FindObjectOfType<birdCollection>().isSelected == true)//mover os passaros ate ponto X
+        {
+            print("move");
+            FindObjectOfType<birdCollection>().isSelected = false;
+            FindObjectOfType<birdCollection>().MoveBirds(clickPOS);
         }
         if (cameraController.instance.followTransform)
         {
@@ -25,15 +42,9 @@ public class objectController : MonoBehaviour
 
 
             }
-            if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == true)
-            {
-                print("move");
-                cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected = false;
-            }
         }
        
     }
-
     private void OnMouseOver()
     {
         //right click
@@ -48,11 +59,12 @@ public class objectController : MonoBehaviour
         if(Input.GetMouseButtonDown(1) && tipodeobjeto != ObjectType.terreno)//right click
         {
             BirdOptions = !BirdOptions;
-            cameraController.instance.followTransform = transform;
             //abrir painel
-            //cameraController.instance.followTransform = null;
+            cameraController.instance.followTransform = null;
             print("open Options");
             FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
+            FindObjectOfType<birdCollection>().isSelected = false;
+            FindObjectOfType<birdCollection>().moving = false;
         }
     }
 }

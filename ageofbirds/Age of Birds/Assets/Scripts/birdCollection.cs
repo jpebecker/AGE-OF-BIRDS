@@ -22,7 +22,8 @@ public class birdCollection : MonoBehaviour
     [SerializeField]private GameObject birdPrefab;
     [SerializeField]private GameObject[] birdsSpawned;
     public GameObject birdOptions;
-    public bool isSelected;
+    public bool isSelected, moving;
+    private Vector3 target;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class birdCollection : MonoBehaviour
         specie_reprodution = 3;
         Specie_strenght = 5;
         specie_hability_force = 3;
+        
 
         for (int i = 0; i < birdsCount / 10; ++i)//spawna passaros pela qtd
         {
@@ -45,11 +47,26 @@ public class birdCollection : MonoBehaviour
     void Update()
     {
         birdOptions.transform.rotation = Quaternion.LookRotation(birdOptions.transform.position - Camera.main.transform.position);//clamp a rotacao do canvas de opceos
+
+        if (moving)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target, 10 * Time.deltaTime);
+        }
     }
 
-    public void MoveTo()
+    public void ToggleMove()
     {
-        print("IsSelected");
-        isSelected = true;
+        if (!moving && !isSelected)
+        {
+            print("IsSelected");
+            birdOptions.gameObject.SetActive(false);
+            isSelected = true;
+        }
+    }
+
+    public void MoveBirds(Vector3 pos)
+    {
+        target = pos;
+        moving = true;
     }
 }
