@@ -15,8 +15,10 @@ public class birdCollection : MonoBehaviour
 
     [Header("Estatisticas da Espécie")]
     public string Specie_Name;
-    public int Specie_strenght, specie_reprodution, specie_hability_force;
+    public int Specie_strenght, specie_reprodution, specie_hability_force, specie_speed;
     public Habilities habilidadeEspecial;
+    public Color corEspecie;
+
 
     [Header("Resources")]
     [SerializeField]private GameObject birdPrefab;
@@ -27,21 +29,16 @@ public class birdCollection : MonoBehaviour
 
     void Start()
     {
-        Specie_Name = "Krakatos pilarus";
         birdsCount = Random.Range(100, 150);
         specieLevel = 1;
-        specie_reprodution = 3;
-        Specie_strenght = 5;
-        specie_hability_force = 3;
-        
 
         for (int i = 0; i < birdsCount / 10; ++i)//spawna passaros pela qtd
         {
             GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i,5), transform.position.y, transform.position.z + Random.Range(i,5)),Quaternion.identity); // spawna aves rotacionando elas
             birds.transform.parent = transform;
+            birds.GetComponent<MeshRenderer>().material.color = corEspecie;
             
         }
-
 
     }
     void Update()
@@ -50,10 +47,18 @@ public class birdCollection : MonoBehaviour
 
         if (moving)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, 10 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target, specie_speed * Time.deltaTime);
+
+            if(transform.position == target)
+            {
+                moving = false;
+                print("destino");
+            }
         }
     }
 
+
+    #region BirdOptions
     public void ToggleMove()
     {
         if (!moving && !isSelected)
@@ -63,7 +68,7 @@ public class birdCollection : MonoBehaviour
             isSelected = true;
         }
     }
-
+    #endregion
     public void MoveBirds(Vector3 pos)
     {
         target = pos;
