@@ -6,8 +6,8 @@ using Photon.Realtime;
 
 public class UiManager : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Text _txtMenssage;//txt de status 
+    [Header("referencias")]
+    [SerializeField] private Text txtStatus;//txt de status 
     [SerializeField] private GameObject _panelNickname;//painel que faz o nick do jogador
     [SerializeField] private InputField _txtNickName;//input que le o nick que o jogador digita
     [SerializeField] private GameObject _panelLobby;//painel do lobby que se exibe apos logar
@@ -16,26 +16,19 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _prefabRoomItem;//prefab exibido quando ha uma sala criada mostrando o nome e qtd de players
     [SerializeField] private Transform _parentRoomItem;//posicao para spawnar o prefab da sala
 
-    //private UiLog _uiLog;//referencia ao script da UI
+    private LogConsole LogConsole;//referencia ao script da UI
     private menuController menuController;//referencia ao gamecontroller
     private int _minNameLenght = 3;//quantidade minima de letras pro nick do jogador
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("[Ui_Controller inicializando]");
-        //_uiLog = GetComponent<UiLog>();
+        LogConsole = GetComponent<LogConsole>();
         menuController = GetComponent<menuController>();
 
         //GetNickName();//carrega o nickname salvo
-        _txtMenssage.text = string.Empty;//zera o status 
+        txtStatus.text = string.Empty;//zera o status 
         _panelNickname.SetActive(true);//ativa o painel de nickname
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     #region Nick e NomedaSala -- Criar e Entrar
@@ -43,14 +36,14 @@ public class UiManager : MonoBehaviour
     {
         if (_txtNickName.text.Length < _minNameLenght)//se o nick digitado no input field tiver menos letras que o minimo
         {
-            //_uiLog.SetText("Nickname inválido, minimo de " + _minNameLenght);
+            LogConsole.DefinirTexto("Nickname inválido, minimo de " + _minNameLenght);
             return;
         }
 
         SalvarNick();//salva o nickname
         _panelNickname.SetActive(false);//fecha o painel de nick
-        //_uiLog.SetText(string.Empty);
-        _txtMenssage.text = "LOADING...";//ilustra o status
+        LogConsole.DefinirTexto(string.Empty);
+        txtStatus.text = "LOADING...";//ilustra o status
         menuController.StartConnection(_txtNickName.text);//tenta conectar no servidor com o nick salvo
     }
 
@@ -97,7 +90,7 @@ public class UiManager : MonoBehaviour
         if (mostrarpainel == true)
         {
             _panelLobby.SetActive(true);
-            _txtMenssage.text = string.Empty;
+            txtStatus.text = string.Empty;
         }
         else
         {
@@ -107,13 +100,13 @@ public class UiManager : MonoBehaviour
 
     public void PrintLog(string consoleMessage)//determina o txt do console
     {
-        //_uiLog.SetText(consoleMessage);
+        LogConsole.DefinirTexto(consoleMessage);
     }
 
-    public void ShowMessage(string s)//determina o txt do painel
+    public void ShowMessage(string message)//determina o txt do painel
     {
-        Debug.Log("[UiController]txt do lobby atualizado");
-        _txtMenssage.text = s;
+        
+        txtStatus.text = message;
     }
 
     public void ShowServerData(string data)//determina o txt de propriedades do servidor
