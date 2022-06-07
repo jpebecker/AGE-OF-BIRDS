@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4794467
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1796,6 +1796,7 @@ GameObject:
   - component: {fileID: 1334752242}
   - component: {fileID: 1334752241}
   - component: {fileID: 1334752245}
+  - component: {fileID: 1334752246}
   m_Layer: 5
   m_Name: CANVAS
   m_TagString: Untagged
@@ -1895,6 +1896,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26c956769f0f21246b584257c6f9a240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerporsala: 4
+--- !u!114 &1334752246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334752240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d60b0656526354c8769e7fb3c9ed37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1722578167
@@ -2271,7 +2285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2042007578
 RectTransform:
   m_ObjectHideFlags: 0
