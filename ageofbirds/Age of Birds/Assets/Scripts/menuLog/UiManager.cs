@@ -6,58 +6,109 @@ using Photon.Realtime;
 
 public class UiManager : MonoBehaviour
 {
-    [Header("referencias")]
+    [Header("multiplayerLobby")]
     [SerializeField] private Text txtStatus;//txt de status 
-    [SerializeField] private GameObject _panelNickname;//painel que faz o nick do jogador
-    [SerializeField] private InputField _txtNickName;//input que le o nick que o jogador digita
-    [SerializeField] private GameObject _panelLobby;//painel do lobby que se exibe apos logar
-    [SerializeField] private Text _txtServerData;//exibe as configuracoes do servidor como a region/versao/max players
-    [SerializeField] private InputField _txtRoomName;//input que le o nome da sala que o jogador digita
-    [SerializeField] private GameObject _prefabRoomItem;//prefab exibido quando ha uma sala criada mostrando o nome e qtd de players
-    [SerializeField] private Transform _parentRoomItem;//posicao para spawnar o prefab da sala
+    [SerializeField] private GameObject painelNick;//painel que faz o nick do jogador
+    [SerializeField] private InputField InputNick;//input que le o nick que o jogador digita
+    [SerializeField] private GameObject PainelLobby;//painel do lobby que se exibe apos logar
+    [SerializeField] private Text TxtServerData;//exibe as configuracoes do servidor como a region/versao/max players
+    [Header("salas")]
+    [SerializeField] private InputField inputNomeSala;//input que le o nome da sala que o jogador digita
+    [SerializeField] private GameObject PrefabSalaLista;//prefab exibido quando ha uma sala criada mostrando o nome e qtd de players
+    [SerializeField] private Transform parenteListaSala;//posicao para spawnar o prefab da sala
+    [SerializeField] private byte playersSala;
+    [Header("mapa")]
+    [SerializeField] private Image mapImage;
+    [SerializeField] private Text  maptxt;
+
 
     private LogConsole LogConsole;//referencia ao script da UI
     private menuController menuController;//referencia ao gamecontroller
-    private int _minNameLenght = 3;//quantidade minima de letras pro nick do jogador
+    private int tamanhominimonick = 3;//quantidade minima de letras pro nick do jogador
+    private int mapaNum = 1;
 
-    // Start is called before the first frame update
     void Start()
     {
         LogConsole = GetComponent<LogConsole>();
         menuController = GetComponent<menuController>();
 
-        //GetNickName();//carrega o nickname salvo
+        CarregarNick();//carrega o nickname salvo
         txtStatus.text = string.Empty;//zera o status 
-        _panelNickname.SetActive(true);//ativa o painel de nickname
+        painelNick.SetActive(true);//ativa o painel de nickname
     }
 
     #region Nick e NomedaSala -- Criar e Entrar
     public void NicknameBtn()//chamado pelo btn q confirma o nick
     {
-        if (_txtNickName.text.Length < _minNameLenght)//se o nick digitado no input field tiver menos letras que o minimo
+        if (PlayerPrefs.HasKey("nickname"))
         {
-            LogConsole.DefinirTexto("Nickname inválido, minimo de " + _minNameLenght);
+            painelNick.SetActive(false);//fecha o painel de nick
+        }
+        if (InputNick.text.Length < tamanhominimonick)//se o nick digitado no input field tiver menos letras que o minimo
+        {
+            LogConsole.DefinirTexto("Nickname inválido, minimo de " + tamanhominimonick);
             return;
         }
 
         SalvarNick();//salva o nickname
-        _panelNickname.SetActive(false);//fecha o painel de nick
+        painelNick.SetActive(false);//fecha o painel de nick
         LogConsole.DefinirTexto(string.Empty);
-        txtStatus.text = "LOADING...";//ilustra o status
-        menuController.StartConnection(_txtNickName.text);//tenta conectar no servidor com o nick salvo
+        txtStatus.text = "CARREGANDO...";//ilustra o status
+        menuController.StartConnection(InputNick.text);//tenta conectar no servidor com o nick salvo
     }
 
     public void CriarSalaBtn()//chamado pelo botao de criar sala
     {
-
-        if (_txtRoomName.text.Length < 3)//se o nick for menor que o minimo
+        if (inputNomeSala.text.Length < 3)//se o nick for menor que o minimo
         {
-            //_uiLog.SetText("Nome de sala inválido, minimo de 3 letras");
+            LogConsole.DefinirTexto("Nome de sala inválido, minimo de 3 letras");
             return;
         }
+        menuController.NewRoomDefinitions(playersSala);
 
-        menuController.CreateRoom(_txtRoomName.text, true);//chama o metodo de criar sala do gamecontroller junto com o nome atribuido
+        menuController.CreateRoom(inputNomeSala.text, true);//chama o metodo de criar sala do gamecontroller junto com o nome atribuido
     }
+
+    public void TooglePlayersMax(int playerMax)
+    {
+        playersSala = (byte)playerMax;
+    }//chamado pelos toggles
+
+    public void ChangeMap(int button)
+    {
+        if (button == 1)//esquerda
+        {
+            mapaNum--;
+            if(mapaNum < 1)
+            {
+                mapaNum = 3;
+            }
+        }
+        else//direita
+        {
+            mapaNum++;
+            if (mapaNum > 3)
+            {
+                mapaNum = 1;
+            }
+        }
+
+        if (mapaNum == 1)
+        {
+            mapImage.color = Color.red;
+            maptxt.text = "florestas";
+        }
+        else if (mapaNum == 2)
+        {
+            mapImage.color = Color.green;
+            maptxt.text = "ilhas";
+        }
+        else if (mapaNum == 3)
+        {
+            mapImage.color = Color.blue;
+            maptxt.text = "montanhas";
+        }
+    }//chamado pela selecao de fase
 
     public void LogaEmSalaBtn(string nomedasala)//chamado pelo botao do prefab de sala ja criada
     {
@@ -72,13 +123,13 @@ public class UiManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("nickname"))
         {
-            _txtNickName.text = PlayerPrefs.GetString("nickname");//puxa do player prefs
+            InputNick.text = PlayerPrefs.GetString("nickname");//puxa do player prefs
         }
     }
 
     private void SalvarNick()//salva o nick
     {
-        PlayerPrefs.SetString("nickname", _txtNickName.text);//manda pro player prefs
+        PlayerPrefs.SetString("nickname", InputNick.text);//manda pro player prefs
     }
 
     #endregion
@@ -86,15 +137,14 @@ public class UiManager : MonoBehaviour
     #region feedback de UI
     public void ToggleLobbyPanel(bool mostrarpainel = true)//chamado para exibir o painel do lobby
     {
-        Debug.Log("[UiController] Painel do Lobby: " + mostrarpainel);
         if (mostrarpainel == true)
         {
-            _panelLobby.SetActive(true);
+            PainelLobby.SetActive(true);
             txtStatus.text = string.Empty;
         }
         else
         {
-            _panelLobby.SetActive(false);
+            PainelLobby.SetActive(false);
         }
     }
 
@@ -111,7 +161,7 @@ public class UiManager : MonoBehaviour
 
     public void ShowServerData(string data)//determina o txt de propriedades do servidor
     {
-        _txtServerData.text = data;
+        TxtServerData.text = data;
     }
 
     public void AtualizarListaSalas(List<RoomInfo> listaSalas)//atualiza a lista de salas quando for chamado
@@ -119,8 +169,8 @@ public class UiManager : MonoBehaviour
         
         foreach (RoomInfo room in listaSalas)
         {
-            //RoomItem roomItem = Instantiate(_prefabRoomItem, _parentRoomItem.position, _parentRoomItem.rotation, _parentRoomItem).GetComponent<RoomItem>();
-            //roomItem.UpdateRoom(_ri.Name, _ri.MaxPlayers, _ri.PlayerCount, this);
+            RoomItem roomItem = Instantiate(PrefabSalaLista, parenteListaSala.position, parenteListaSala.rotation, parenteListaSala).GetComponent<RoomItem>();
+            roomItem.UpdateListaSalas(room.Name, room.MaxPlayers, room.PlayerCount, this);
         }
     }
 

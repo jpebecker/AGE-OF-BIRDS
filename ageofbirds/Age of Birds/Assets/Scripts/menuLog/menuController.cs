@@ -11,6 +11,7 @@ public class menuController : MonoBehaviourPunCallbacks
     [SerializeField] private byte playersporsala = 4;//quantidade maxima de jogadores por sala
     private string versao_aplicativo = "0.1";//versao do aplicativo
     private UiManager uiController;//controlador de botões e interface de jogo
+    [SerializeField] private int mapaDefault = 1;
 
     private void Start()
     {
@@ -41,6 +42,11 @@ public class menuController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void NewRoomDefinitions(byte PlayersSala)
+    {
+        playersporsala = PlayersSala;
+    }
+
     #region PhotonProcedures
 
     public override void OnConnectedToMaster()
@@ -53,7 +59,7 @@ public class menuController : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()//atualiza a UI do lobby e dá feedback ao jogador
     {
         uiController.ToggleLobbyPanel();
-        uiController.PrintLog("entrou no lobby");
+        uiController.PrintLog("Você se conectou ao lobby");
     }
 
     public override void OnJoinedRoom()//chamado quando a sala ja foi criada e carrega a fase
