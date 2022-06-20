@@ -34,11 +34,11 @@ public class menuController : MonoBehaviourPunCallbacks
 
         if (criarsala)//ilustra no console que esta criando
         {
-            uiController.ShowMessage("Creating...");
+            uiController.ShowMessage("Criando...");
         }
         else//ilustra no console que esta joinando
         {
-            uiController.ShowMessage("Joining...");
+            uiController.ShowMessage("Entrando...");
         }
     }
 
@@ -67,7 +67,7 @@ public class menuController : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         {
             uiController.ShowMessage("Entrando...");
-            PhotonNetwork.LoadLevel(1);
+            PhotonNetwork.LoadLevel(2);
         }
     }
 

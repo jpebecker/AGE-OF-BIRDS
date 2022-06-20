@@ -62,9 +62,10 @@ public class UiManager : MonoBehaviour
         if (inputNomeSala.text.Length < 3)//se o nick for menor que o minimo
         {
             LogConsole.DefinirTexto("Nome de sala inválido, minimo de 3 letras");
+            inputNomeSala.textComponent.GetComponent<Text>().text = "Nome inválido";
             return;
         }
-        menuController.NewRoomDefinitions(playersSala);
+        menuController.NewRoomDefinitions(playersSala);//define a nova qtd de players por sala
 
         menuController.CreateRoom(inputNomeSala.text, true);//chama o metodo de criar sala do gamecontroller junto com o nome atribuido
     }
@@ -95,16 +96,19 @@ public class UiManager : MonoBehaviour
 
         if (mapaNum == 1)
         {
+            print(mapaNum);
             mapImage.color = Color.red;
             maptxt.text = "florestas";
         }
         else if (mapaNum == 2)
         {
+            print(mapaNum);
             mapImage.color = Color.green;
             maptxt.text = "ilhas";
         }
         else if (mapaNum == 3)
         {
+            print(mapaNum);
             mapImage.color = Color.blue;
             maptxt.text = "montanhas";
         }
