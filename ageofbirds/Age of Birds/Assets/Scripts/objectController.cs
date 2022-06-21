@@ -12,22 +12,11 @@ public class objectController : MonoBehaviour
     private PhotonView phV;
     private void Start()
     {
+        phV = GetComponent<PhotonView>();
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("[PlayerController]Jogador desconectado");
             return;
-        }
-
-        if (phV.IsMine)//se o jogador controla  o object
-        {
-            //_txtNickName.text = PhotonNetwork.LocalPlayer.NickName;
-            //_team_ = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-        }
-        else//se o jogador Nao controla  o object
-        {
-            Debug.Log("[PlayerController] outro jogador atribuido");
-            //_txtNickName.text = _pv_.Owner.NickName;
-            //_team_ = (int)_pv_.Owner.CustomProperties["Team"];
         }
     }
     private void OnMouseDown()
@@ -44,42 +33,55 @@ public class objectController : MonoBehaviour
 
         if (tipodeobjeto != ObjectType.terreno)//se clicar nos passaros
         {
-            cameraController.instance.followTransform = transform.parent;
+            cameraController.instance.followTransform = transform.parent;//trava a camera neles
         }
 
-        if (tipodeobjeto != ObjectType.passaros && FindObjectOfType<birdCollection>().isSelected == true)//mover os passaros ate ponto X
+        if (tipodeobjeto != ObjectType.passaros)//move o passaro selecionado até o ponto
         {
+            birdCollection aveSelected = new birdCollection();
+            print("terrain click");
+
+            foreach(birdCollection birds in FindObjectsOfType<birdCollection>())//para os que estiverem selecionados
+            {
+                if (birds.isSelected && birds.GetComponent<PhotonView>().IsMine)
+                {
+                    aveSelected = birds;
+                }
+            }
             print("move");
-            FindObjectOfType<birdCollection>().isSelected = false;
-            FindObjectOfType<birdCollection>().MoveBirds(clickPOS);
+            aveSelected.GetComponent<birdCollection>().isSelected = false;
+            aveSelected.GetComponent<birdCollection>().MoveBirds(clickPOS);
+
         }
+
         if (cameraController.instance.followTransform)
         {
             if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)//desativa a ui
             {
+                cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
                 cameraController.instance.followTransform = null;
                 BirdOptions = false;
-                FindObjectOfType<birdCollection>().birdOptions.SetActive(BirdOptions);
+               
 
 
             }
         }
        
     }
-    private void OnMouseOver()
+    private void OnMouseOver()//mouse em cima
     {
         //right click
-        if(Input.GetMouseButtonDown(1) && tipodeobjeto == ObjectType.terreno)
+        if(Input.GetMouseButtonDown(1) && tipodeobjeto == ObjectType.terreno)//right click no terreno
         {
             BirdOptions = false;
-            FindObjectOfType<birdCollection>().birdOptions.SetActive(false);
+            cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(false);
             cameraController.instance.followTransform = null;
         }
 
 
         if(Input.GetMouseButtonDown(1) && tipodeobjeto != ObjectType.terreno)//right click
         {
-            if (phV.IsMine)
+            if (phV.IsMine)//se for do jogador
             {
                 BirdOptions = !BirdOptions;
                 //abrir painel
@@ -89,7 +91,14 @@ public class objectController : MonoBehaviour
                 GetComponent<birdCollection>().isSelected = false;
                 GetComponent<birdCollection>().moving = false;
             }
-           
+            if (!phV.IsMine)//se nao for do jogador
+            {
+                BirdOptions = !BirdOptions;
+                //abrir painel
+                cameraController.instance.followTransform = null;
+                print("open enemie Options");
+            }
+
         }
     }
 }
