@@ -2,7 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 public enum ObjectType
 {
-    terreno, passaros
+    terreno, GROUP, BIRDSPREFAB
 }
 public class objectController : MonoBehaviour
 {
@@ -12,7 +12,17 @@ public class objectController : MonoBehaviour
     private PhotonView phV;
     private void Start()
     {
-        phV = GetComponent<PhotonView>();
+        //atribui o PHOTONVIEW
+        if(tipodeobjeto == ObjectType.BIRDSPREFAB)
+        {
+            phV = GetComponentInParent<PhotonView>();
+        }
+        else
+        {
+            phV = GetComponentInParent<PhotonView>();
+        }
+      
+
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("[PlayerController]Jogador desconectado");
@@ -36,33 +46,29 @@ public class objectController : MonoBehaviour
             cameraController.instance.followTransform = transform.parent;//trava a camera neles
         }
 
-        if (tipodeobjeto != ObjectType.passaros)//move o passaro selecionado até o ponto
+        if (tipodeobjeto == ObjectType.terreno)//move o passaro selecionado até o ponto
         {
-            birdCollection aveSelected = new birdCollection();
             print("terrain click");
 
             foreach(birdCollection birds in FindObjectsOfType<birdCollection>())//para os que estiverem selecionados
             {
                 if (birds.isSelected && birds.GetComponent<PhotonView>().IsMine)
                 {
-                    aveSelected = birds;
+                    print("move");
+                    birds.GetComponent<birdCollection>().isSelected = false;
+                    birds.GetComponent<birdCollection>().MoveBirds(clickPOS);
                 }
             }
-            print("move");
-            aveSelected.GetComponent<birdCollection>().isSelected = false;
-            aveSelected.GetComponent<birdCollection>().MoveBirds(clickPOS);
 
         }
 
         if (cameraController.instance.followTransform)
         {
-            if (tipodeobjeto != ObjectType.passaros && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)//desativa a ui
+            if (tipodeobjeto == ObjectType.terreno && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)//desativa a ui
             {
                 cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
                 cameraController.instance.followTransform = null;
                 BirdOptions = false;
-               
-
 
             }
         }
@@ -83,13 +89,22 @@ public class objectController : MonoBehaviour
         {
             if (phV.IsMine)//se for do jogador
             {
+                if(tipodeobjeto == ObjectType.BIRDSPREFAB)
+                {
+                    GetComponentInParent<birdCollection>().birdOptions.SetActive(BirdOptions);
+                    GetComponentInParent<birdCollection>().isSelected = false;
+                    GetComponentInParent<birdCollection>().moving = false;
+                }
+                else
+                {
+                    GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
+                    GetComponent<birdCollection>().isSelected = false;
+                    GetComponent<birdCollection>().moving = false;
+                }
                 BirdOptions = !BirdOptions;
-                //abrir painel
                 cameraController.instance.followTransform = null;
                 print("open Options");
-                GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
-                GetComponent<birdCollection>().isSelected = false;
-                GetComponent<birdCollection>().moving = false;
+               
             }
             if (!phV.IsMine)//se nao for do jogador
             {
