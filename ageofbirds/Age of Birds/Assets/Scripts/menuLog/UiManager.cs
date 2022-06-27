@@ -32,6 +32,9 @@ public class UiManager : MonoBehaviour
         LogConsole = GetComponent<LogConsole>();
         menuController = GetComponent<menuController>();
 
+        RoomItem roomTesteA = Instantiate(PrefabSalaLista, parenteListaSala.position, parenteListaSala.rotation, parenteListaSala).GetComponent<RoomItem>();
+        roomTesteA.UpdateListaSalas("testeA", 10, 0, this);
+
         CarregarNick();//carrega o nickname salvo
         txtStatus.text = string.Empty;//zera o status 
         painelNick.SetActive(true);//ativa o painel de nickname

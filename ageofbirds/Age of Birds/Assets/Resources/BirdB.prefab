@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9149056408590960826}
   - component: {fileID: 9149056408590960806}
   - component: {fileID: 9149056408590960807}
+  - component: {fileID: 8427856522531125841}
   m_Layer: 0
   m_Name: BirdB
   m_TagString: Untagged
@@ -59,8 +60,10 @@ MonoBehaviour:
   birdPrefab: {fileID: 7416640345450608850, guid: c78883430c9d2b149b275003f772f30c, type: 3}
   birdsSpawned: []
   birdOptions: {fileID: 0}
-  isSelected: 0
+  selectedToMove: 0
+  selectedToAttack: 0
   moving: 0
+  attacking: 0
 --- !u!114 &9149056408590960827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +130,17 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &8427856522531125841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9149056408590960825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa79dfa01bc09914781b8e73a6e1e676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerOptionsPrefab: {fileID: 354510567779359935, guid: 1e7bf4583a169a74d8bf911248fa3f2f, type: 3}
+  EnemieOptionsPrefab: {fileID: 2575274468726731503, guid: fcd3204449b94ad42af7ef168f8d2bfd, type: 3}

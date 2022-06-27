@@ -58,6 +58,12 @@ public class objectController : MonoBehaviour
                     birds.GetComponent<birdCollection>().selectedToMove = false;
                     birds.GetComponent<birdCollection>().MoveBirds(clickPOS);
                 }
+                else if(birds.selectedToAttack && birds.GetComponent<PhotonView>().IsMine)
+                {
+                    print("attackPoint");
+                    birds.GetComponent<birdCollection>().selectedToAttack = false;
+                    birds.GetComponent<birdCollection>().AttackEnemie(clickPOS);
+                }
             }
 
         }
@@ -89,7 +95,10 @@ public class objectController : MonoBehaviour
         {
             if (phV.IsMine)//se for do jogador
             {
-                if(tipodeobjeto == ObjectType.BIRDSPREFAB)
+                BirdOptions = !BirdOptions;
+                cameraController.instance.followTransform = null;
+                print("open Options");
+                if (tipodeobjeto == ObjectType.BIRDSPREFAB)
                 {
                     GetComponentInParent<birdCollection>().birdOptions.SetActive(BirdOptions);
                     GetComponentInParent<birdCollection>().selectedToMove = false;
@@ -101,9 +110,7 @@ public class objectController : MonoBehaviour
                     GetComponent<birdCollection>().selectedToMove = false;
                     GetComponent<birdCollection>().moving = false;
                 }
-                BirdOptions = !BirdOptions;
-                cameraController.instance.followTransform = null;
-                print("open Options");
+               
                
             }
             if (!phV.IsMine)//se nao for do jogador

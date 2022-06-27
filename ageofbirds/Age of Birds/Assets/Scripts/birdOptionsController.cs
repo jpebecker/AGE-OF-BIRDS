@@ -11,7 +11,7 @@ public class birdOptionsController : MonoBehaviour
 
     void Awake()
     {
-        pv = GetComponentInParent<PhotonView>();
+        pv = GetComponent<PhotonView>();
         if (!pv.IsMine)
         {
             birdOptions = Instantiate(EnemieOptionsPrefab, gameObject.transform.position,gameObject.transform.rotation);
@@ -33,11 +33,12 @@ public class birdOptionsController : MonoBehaviour
         options = birdOptions.GetComponentsInChildren<Button>();
         if (!pv.IsMine)//funcoes do botao A do inimigo
         {
-            options[0].onClick.AddListener(GetComponent<birdCollection>().Attack);
+            options[0].onClick.AddListener(delegate { GetComponent<birdCollection>().AttackEnemie(birdOptions.transform.parent.position); });
         }
         else//funcoes do botao A do player
         {
             options[0].onClick.AddListener(GetComponent<birdCollection>().ToggleMove);
+            options[1].onClick.AddListener(GetComponent<birdCollection>().ToggleAttack);
         }
     
     }

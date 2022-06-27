@@ -25,7 +25,7 @@ public class birdCollection : MonoBehaviour
     [SerializeField]private GameObject birdPrefab;
     [SerializeField]private GameObject[] birdsSpawned;
     public GameObject birdOptions;
-    public bool selectedToMove, moving,attacking;
+    public bool selectedToMove, selectedToAttack, moving,attacking;
     private Vector3 target;
 
     void Start()
@@ -52,13 +52,13 @@ public class birdCollection : MonoBehaviour
             {
                 if (attacking)
                 {
-                    print("atacando");
+                    print(gameObject.name + " atacando");
                     moving = false;
                 }
                 else
                 {
                     moving = false;
-                    print("destino");
+                    print(gameObject.name + " chegou no destino");
                 }
 
             }
@@ -79,7 +79,7 @@ public class birdCollection : MonoBehaviour
     {
         if (!moving && !selectedToMove)
         {
-            print("IsSelected");
+            print(gameObject.name + " IsSelected");;
             birdOptions.gameObject.SetActive(false);
             selectedToMove = true;
         }
@@ -88,14 +88,15 @@ public class birdCollection : MonoBehaviour
     {
         if (!moving && !selectedToMove)
         {
-            print("selectedToAttack");
+            print(gameObject.name + " selectedToAttack");
             birdOptions.gameObject.SetActive(false);
-            selectedToMove = true;
+            selectedToAttack = true;
         }
     }
-    public void Attack(Vector3 pos)
+    public void AttackEnemie(Vector3 positionToAttack)//attack from btn
     {
-        MoveBirds(pos);
+        print(gameObject.name + " moving to attack");
+        MoveBirds(positionToAttack);
         attacking = true;
     }
     #endregion

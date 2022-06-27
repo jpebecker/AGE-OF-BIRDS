@@ -29,7 +29,6 @@ public class MultiManager : MonoBehaviour
     {
         canvas.SetActive(true);
         PhotonV = GetComponent<PhotonView>();
-        //_teamController_ = GetComponent<TeamController>();
         //_chatController_ = GetComponent<ChatController>();
     }
 
@@ -73,6 +72,7 @@ public class MultiManager : MonoBehaviour
         //_chatController_._pc = lcBluePlayer.GetComponent<PlayerController>();
         painelAves.SetActive(false);
         SetCustomproperties(1);
+        CreateBirdB();
     }
 
     public void CreateBirdB()//chamado pelo BTN de criar time
