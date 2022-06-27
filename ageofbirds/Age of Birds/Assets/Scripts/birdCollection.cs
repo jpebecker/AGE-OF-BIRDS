@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 public enum Habilities
@@ -24,7 +25,7 @@ public class birdCollection : MonoBehaviour
     [SerializeField]private GameObject birdPrefab;
     [SerializeField]private GameObject[] birdsSpawned;
     public GameObject birdOptions;
-    public bool isSelected, moving;
+    public bool selectedToMove, moving,attacking;
     private Vector3 target;
 
     void Start()
@@ -43,17 +44,32 @@ public class birdCollection : MonoBehaviour
     }
     void Update()
     {
-        birdOptions.transform.rotation = Quaternion.LookRotation(birdOptions.transform.position - Camera.main.transform.position);//clamp a rotacao do canvas de opceos
-
         if (moving)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, specie_speed * Time.deltaTime);
 
             if(transform.position == target)
             {
-                moving = false;
-                print("destino");
+                if (attacking)
+                {
+                    print("atacando");
+                    moving = false;
+                }
+                else
+                {
+                    moving = false;
+                    print("destino");
+                }
+
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (birdOptions.gameObject.activeInHierarchy)
+        {
+            birdOptions.transform.rotation = Quaternion.LookRotation(birdOptions.transform.position - Camera.main.transform.position);//clamp a rotacao do canvas das opcoes
         }
     }
 
@@ -61,12 +77,26 @@ public class birdCollection : MonoBehaviour
     #region BirdOptions
     public void ToggleMove()
     {
-        if (!moving && !isSelected)
+        if (!moving && !selectedToMove)
         {
             print("IsSelected");
             birdOptions.gameObject.SetActive(false);
-            isSelected = true;
+            selectedToMove = true;
         }
+    }
+    public void ToggleAttack()
+    {
+        if (!moving && !selectedToMove)
+        {
+            print("selectedToAttack");
+            birdOptions.gameObject.SetActive(false);
+            selectedToMove = true;
+        }
+    }
+    public void Attack(Vector3 pos)
+    {
+        MoveBirds(pos);
+        attacking = true;
     }
     #endregion
     public void MoveBirds(Vector3 pos)

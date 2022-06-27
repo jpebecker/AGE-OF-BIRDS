@@ -52,10 +52,10 @@ public class objectController : MonoBehaviour
 
             foreach(birdCollection birds in FindObjectsOfType<birdCollection>())//para os que estiverem selecionados
             {
-                if (birds.isSelected && birds.GetComponent<PhotonView>().IsMine)
+                if (birds.selectedToMove && birds.GetComponent<PhotonView>().IsMine)
                 {
                     print("move");
-                    birds.GetComponent<birdCollection>().isSelected = false;
+                    birds.GetComponent<birdCollection>().selectedToMove = false;
                     birds.GetComponent<birdCollection>().MoveBirds(clickPOS);
                 }
             }
@@ -64,7 +64,7 @@ public class objectController : MonoBehaviour
 
         if (cameraController.instance.followTransform)
         {
-            if (tipodeobjeto == ObjectType.terreno && cameraController.instance.followTransform.GetComponent<birdCollection>().isSelected == false)//desativa a ui
+            if (tipodeobjeto == ObjectType.terreno && cameraController.instance.followTransform.GetComponent<birdCollection>().selectedToMove == false)//desativa a ui
             {
                 cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
                 cameraController.instance.followTransform = null;
@@ -81,7 +81,7 @@ public class objectController : MonoBehaviour
         {
             BirdOptions = false;
             cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(false);
-            cameraController.instance.followTransform = null;
+            cameraController.instance.followTransform = null; 
         }
 
 
@@ -92,13 +92,13 @@ public class objectController : MonoBehaviour
                 if(tipodeobjeto == ObjectType.BIRDSPREFAB)
                 {
                     GetComponentInParent<birdCollection>().birdOptions.SetActive(BirdOptions);
-                    GetComponentInParent<birdCollection>().isSelected = false;
+                    GetComponentInParent<birdCollection>().selectedToMove = false;
                     GetComponentInParent<birdCollection>().moving = false;
                 }
                 else
                 {
                     GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
-                    GetComponent<birdCollection>().isSelected = false;
+                    GetComponent<birdCollection>().selectedToMove = false;
                     GetComponent<birdCollection>().moving = false;
                 }
                 BirdOptions = !BirdOptions;

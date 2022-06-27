@@ -67,7 +67,7 @@ public class menuController : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         {
             uiController.ShowMessage("Entrando...");
-            PhotonNetwork.LoadLevel(2);
+            PhotonNetwork.LoadLevel("Multiplayer");
         }
     }
 
