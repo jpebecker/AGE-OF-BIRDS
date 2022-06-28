@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public GameObject HUD_birds;
-
+    [SerializeField] private GameObject tab_panel;
     [SerializeField] private Text specieNumberTXT, repTxt,LvlTxt,StrenghtTxt,SpecieNameTxt,SpecialHabilityTxt;
     void Start()
     {
@@ -14,7 +14,14 @@ public class GameController : MonoBehaviour
     }
     void Update()
     {
-        
+        if (Input.GetButtonDown("tab"))
+        {
+            tab_panel.SetActive(true);
+        }
+        else if(Input.GetButtonUp("tab"))
+        {
+            tab_panel.SetActive(false);
+        }
     }
 
     public void SetHudValues()//valores da HUD

@@ -29,6 +29,7 @@ public class menuController : MonoBehaviourPunCallbacks
     {
         RoomOptions roomOpt = new RoomOptions();
         roomOpt.MaxPlayers = playersporsala;
+        roomOpt.BroadcastPropsChangeToAll = true;
         PhotonNetwork.JoinOrCreateRoom(nomedasala, roomOpt, TypedLobby.Default);//metodo chamado para criar ou dar join
         uiController.ToggleLobbyPanel(false);
 
@@ -68,6 +69,7 @@ public class menuController : MonoBehaviourPunCallbacks
         {
             uiController.ShowMessage("Entrando...");
             PhotonNetwork.LoadLevel("Multiplayer");
+            PhotonNetwork.AutomaticallySyncScene = true;
         }
     }
 
