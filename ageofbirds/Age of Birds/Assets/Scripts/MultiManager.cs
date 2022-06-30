@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
@@ -28,34 +29,53 @@ public class MultiManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private List<PlayerItem> playerItemList = new List<PlayerItem>();
     [SerializeField] private PlayerItem playerItemPrefab;
-    [SerializeField] private Transform playerItemParent;
+    [SerializeField] private Transform playerItemParent1,playerItemParent2;
     private string roomname;
+
+    [SerializeField] private GameObject waitingPanel;
+    private int PlayersProntos;
+    private bool IsReady;
     private void Start()//inicializa a UI e atribui os scripts
     {
         canvas.SetActive(true);
         PhotonV = GetComponent<PhotonView>();
         UpdatePlayersList();
         //_chatController_ = GetComponent<ChatController>();
+
+        if(PhotonNetwork.CurrentRoom.Players.Count < 2)
+        {
+            painelAves.SetActive(false);
+            waitingPanel.SetActive(true);
+        }
+        roomname = PhotonNetwork.CurrentRoom.Name;
+
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 2)//request individual
+        {
+
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))//se apertar ESC chama o pause
         {
-            isPaused = !isPaused;
-            ToggleMenuPause();
+            if (!waitingPanel)
+            {
+                isPaused = !isPaused;
+                ToggleMenuPause();
+            }
+            else
+            {
+                VoltarProMenu();
+            }
+          
         }
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        roomname = PhotonNetwork.CurrentRoom.Name;
-
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 2)//se o jogador formos nós 
-        {
-
-        }
+        
     }
     #region pause e chat
     private void ToggleMenuPause()//ativa o painel de pause
@@ -163,15 +183,58 @@ public class MultiManager : MonoBehaviourPunCallbacks
 
         foreach(KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
-            PlayerItem newItem = Instantiate(playerItemPrefab, playerItemParent);
-            newItem.SetPlayerInfo(player.Value);
+            PlayerItem newItem1 = Instantiate(playerItemPrefab, playerItemParent1);
+            newItem1.SetPlayerInfo(player.Value);
 
-            if(player.Value == PhotonNetwork.LocalPlayer)
+            PlayerItem newItem2 = Instantiate(playerItemPrefab, playerItemParent2);
+            newItem2.SetPlayerInfo(player.Value);
+
+            if (player.Value == PhotonNetwork.LocalPlayer)
             {
-                newItem.LocalPlayerSettings();
+                newItem1.LocalPlayerSettings();
+                newItem2.LocalPlayerSettings();
             }
-            playerItemList.Add(newItem);
+            playerItemList.Add(newItem1);
+            playerItemList.Add(newItem2);
         }
     }
+
+    public void PlayerReady(GameObject text)
+    {
+        IsReady = !IsReady;
+
+        foreach (PlayerItem playerItem in GameObject.FindObjectsOfType<PlayerItem>())
+        {
+            if (playerItem._player == PhotonNetwork.LocalPlayer)
+            {
+                playerItem.SetReady(IsReady);
+            }
+        }
+        if (IsReady)
+        {
+            PlayersProntos++;
+            text.GetComponent<Text>().color = Color.green;
+        }
+        else
+        {
+            text.GetComponent<Text>().color = Color.white;
+            PlayersProntos--;
+        }
+        print(PlayersProntos + "ready");
+        PhotonV.RPC("playersProntos", RpcTarget.AllBufferedViaServer, PlayersProntos);
+    }
+
+    [PunRPC] private void playersProntos(int playerPronts)
+    {
+        this.PlayersProntos = playerPronts;
+        
+
+        if(playerPronts >= 2)
+        {
+            painelAves.SetActive(true);
+            waitingPanel.SetActive(false);
+        }
+    }
+
     #endregion
 }

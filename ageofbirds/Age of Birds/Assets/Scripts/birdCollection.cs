@@ -13,6 +13,9 @@ public class birdCollection : MonoBehaviour
     [Header("Estatisticas Gerais")]
     public int birdsCount;
     public int specieLevel;
+    public float specieLife;
+    public float RangeOfAttack;
+    [SerializeField]private LayerMask birdsMask;
 
     [Header("Estatisticas da Espécie")]
     public string Specie_Name;
@@ -32,6 +35,7 @@ public class birdCollection : MonoBehaviour
     {
         birdsCount = Random.Range(100, 150);
         specieLevel = 1;
+        specieLife = 1000;
 
         for (int i = 0; i < birdsCount / 10; ++i)//spawna passaros pela qtd
         {
@@ -62,6 +66,11 @@ public class birdCollection : MonoBehaviour
                 }
 
             }
+        }
+
+        if (Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y, transform.position.z), RangeOfAttack, birdsMask))
+        {
+            print("Colliding");
         }
     }
 

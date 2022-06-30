@@ -91,12 +91,12 @@ GameObject:
   - component: {fileID: 6589573973181972671}
   - component: {fileID: 6589573973181972670}
   m_Layer: 5
-  m_Name: ping
+  m_Name: text2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6589573973181972669
 RectTransform:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 000ms
+  m_Text: READY
 --- !u!1 &6589573974002546319
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,8 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nick: {fileID: 6589573973093369157}
-  ping: {fileID: 6589573973181972670}
-  birdImage: {fileID: 0}
+  text2: {fileID: 6589573973181972670}
 --- !u!1 &6589573974956910973
 GameObject:
   m_ObjectHideFlags: 0

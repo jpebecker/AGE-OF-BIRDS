@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3167944134955553506}
   - component: {fileID: 3167944134955553505}
   - component: {fileID: 98896328642417083}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BirdA
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -50,6 +50,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   birdsCount: 0
   specieLevel: 0
+  specieLife: 0
+  RangeOfAttack: 200
+  birdsMask:
+    serializedVersion: 2
+    m_Bits: 8
   Specie_Name: Krakatos pilarus
   Specie_strenght: 5
   specie_reprodution: 3

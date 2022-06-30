@@ -67,9 +67,9 @@ public class menuController : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         {
-            uiController.ShowMessage("Entrando...");
-            PhotonNetwork.LoadLevel("Multiplayer");
-            PhotonNetwork.AutomaticallySyncScene = true;
+                uiController.ShowMessage("Entrando...");
+                PhotonNetwork.LoadLevel("Multiplayer");
+                PhotonNetwork.AutomaticallySyncScene = true;       
         }
     }
 
@@ -84,7 +84,7 @@ public class menuController : MonoBehaviourPunCallbacks
         uiController.PrintLog(causa.ToString());
     }
 
-    public override void OnCreateRoomFailed(short codigoderetorno, string causa)//chamado quando o jogador não consegue criar uma sala
+    public override void OnCreateRoomFailed(short codigoderetorno, string causa)//chamado quando o jogador não consegue criar ou logar numa sala
     {
         uiController.ToggleLobbyPanel(false);
         uiController.PrintLog(causa);
@@ -108,6 +108,7 @@ public class menuController : MonoBehaviourPunCallbacks
     public void QuitApp()
     {
         print("quit");
+        PlayerPrefs.DeleteKey("nickname");
         Application.Quit();
     }
 

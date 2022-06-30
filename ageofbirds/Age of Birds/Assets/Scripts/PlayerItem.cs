@@ -6,17 +6,30 @@ using Photon.Realtime;
 public class PlayerItem : MonoBehaviour
 {
     [Header("refs")]
-    [SerializeField] private Text nick, ping;//textos do painel
+    [SerializeField] public Text nick, text2;//textos do painel
 
     ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
-    Player _player;
+    public Player _player;
 
-   public void SetPlayerInfo(Player player)
+    public void SetPlayerInfo(Player player)
     {
         nick.text = player.NickName;
         _player = player;
     }
 
+    public void SetReady(bool playerIsReady)
+    {
+        if (playerIsReady)
+        {
+            text2.gameObject.SetActive(true);
+            text2.text = "READY";
+        }
+        else
+        {
+            text2.gameObject.SetActive(false);
+            text2.text = "";
+        }
+    }
     public void LocalPlayerSettings()
     {
 
