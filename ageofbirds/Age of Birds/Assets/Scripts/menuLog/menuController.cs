@@ -11,7 +11,6 @@ public class menuController : MonoBehaviourPunCallbacks
     [SerializeField] private byte playersporsala = 4;//quantidade maxima de jogadores por sala
     private string versao_aplicativo = "0.1";//versao do aplicativo
     private UiManager uiController;//controlador de botões e interface de jogo
-    [SerializeField] private int mapaDefault = 1;
 
     private void Start()
     {
@@ -67,9 +66,22 @@ public class menuController : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         {
-                uiController.ShowMessage("Entrando...");
-                PhotonNetwork.LoadLevel("Multiplayer");
-                PhotonNetwork.AutomaticallySyncScene = true;       
+            PhotonNetwork.AutomaticallySyncScene = true;
+            uiController.ShowMessage("Entrando...");
+
+            if(uiController.mapaNum == 1)
+            {
+                PhotonNetwork.LoadLevel("florestas");
+            }
+            else if(uiController.mapaNum == 2)
+            {
+                PhotonNetwork.LoadLevel("ilhas");
+            }
+            else if(uiController.mapaNum == 3)
+            {
+                PhotonNetwork.LoadLevel("montanhas");
+            }    
+ 
         }
     }
 
@@ -89,6 +101,7 @@ public class menuController : MonoBehaviourPunCallbacks
         uiController.ToggleLobbyPanel(false);
         uiController.PrintLog(causa);
         uiController.PrintLog(codigoderetorno.ToString());
+        SceneManager.LoadScene(0);
     }
     #endregion
 

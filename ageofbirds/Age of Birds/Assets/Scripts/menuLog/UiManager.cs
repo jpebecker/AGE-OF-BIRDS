@@ -25,7 +25,7 @@ public class UiManager : MonoBehaviour
     private LogConsole LogConsole;//referencia ao script da UI
     private menuController menuController;//referencia ao gamecontroller
     private int tamanhominimonick = 3;//quantidade minima de letras pro nick do jogador
-    private int mapaNum = 1;
+    [HideInInspector]public int mapaNum = 1;
 
     void Start()
     {
