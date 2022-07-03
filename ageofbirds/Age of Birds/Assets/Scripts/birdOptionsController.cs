@@ -42,8 +42,4 @@ public class birdOptionsController : MonoBehaviour
         }
     
     }
-    private void Update()
-    {
-  
-    }
 }

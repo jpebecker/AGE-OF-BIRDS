@@ -229,7 +229,7 @@ public class MultiManager : MonoBehaviourPunCallbacks
         this.PlayersProntos = playerPronts;
         
 
-        if(playerPronts >= 2)
+        if(playerPronts >= 1)
         {
             painelAves.SetActive(true);
             waitingPanel.SetActive(false);
