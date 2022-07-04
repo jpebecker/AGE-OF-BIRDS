@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Photon.Pun;
 
 
@@ -14,8 +15,8 @@ public class birdCollection : MonoBehaviour
     public int birdsCount;
     public int specieLevel;
     public float specieLife;
-    public float RangeOfAttack;
-    [SerializeField]private LayerMask birdsMask;
+    [SerializeField] private float AttackRadius;
+    [SerializeField] private LayerMask AllbirdsMask;
 
     [Header("Estatisticas da Espécie")]
     public string Specie_Name;
@@ -36,6 +37,7 @@ public class birdCollection : MonoBehaviour
         birdsCount = Random.Range(100, 150);
         specieLevel = 1;
         specieLife = 1000;
+        AttackRadius = 20f;
 
         for (int i = 0; i < birdsCount / 10; ++i)//spawna passaros pela qtd
         {
@@ -44,6 +46,8 @@ public class birdCollection : MonoBehaviour
             birds.GetComponent<MeshRenderer>().material.color = corEspecie;
             
         }
+
+        StartCoroutine(FindEnemiesWithDelay(2f));
 
     }
     void Update()
@@ -68,10 +72,7 @@ public class birdCollection : MonoBehaviour
             }
         }
 
-        if (Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y, transform.position.z), RangeOfAttack, birdsMask))
-        {
-            print("Colliding");
-        }
+
     }
 
     private void FixedUpdate()
@@ -81,7 +82,6 @@ public class birdCollection : MonoBehaviour
             birdOptions.transform.rotation = Quaternion.LookRotation(birdOptions.transform.position - Camera.main.transform.position);//clamp a rotacao do canvas das opcoes
         }
     }
-
 
     #region BirdOptions
     public void ToggleMove()
@@ -114,4 +114,43 @@ public class birdCollection : MonoBehaviour
         target = pos;
         moving = true;
     }
+
+
+    #region AttackBirds
+
+    IEnumerator FindEnemiesWithDelay(float cooldown)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(cooldown);
+            FindEnemiesOnRadius();
+        }
+    }
+
+    private void FindEnemiesOnRadius()
+    {
+        Collider[] targets = Physics.OverlapSphere(transform.position, AttackRadius, AllbirdsMask);
+
+        for(int i = 0; i< targets.Length; i++)
+        {
+            Transform targetTransform = targets[i].transform;
+
+            print("contato" + targets[i].gameObject.name);
+        }
+    }
+
+    [CustomEditor(typeof(birdCollection))]
+    public class RadiusView : Editor//classe que desenha o raio de ataque dos birds
+    {
+        private void OnSceneGUI()
+        {
+            birdCollection radius = (birdCollection)target;
+            Handles.color = Color.red;
+            Handles.DrawWireArc(radius.transform.position, Vector3.up, Vector3.forward, 360, radius.AttackRadius);
+        }
+
+    }
+
+    #endregion
+
 }

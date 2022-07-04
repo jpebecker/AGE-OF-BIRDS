@@ -19,7 +19,7 @@ public class cameraController : MonoBehaviour
     public float minZoom, MaxZoom;
     private Quaternion newRotation;
 
-    public bool objectOn;
+    public bool objectOn, invading;
 
     void Start()
     {
@@ -31,7 +31,8 @@ public class cameraController : MonoBehaviour
     }
     void LateUpdate()
     {
-        if(followTransform != null)//acopla ao objeto
+    
+        if (followTransform != null)//acopla ao objeto
         {
             //trava a position
             transform.position = followTransform.position;
@@ -44,9 +45,9 @@ public class cameraController : MonoBehaviour
         }
         else //calcula o movimento normal da camera
         {
+            FindObjectOfType<GameController>().HUD_birds.SetActive(false);
             CalculoDoInputdeMovimento();
             CalculoDoMouse();
-            FindObjectOfType<GameController>().HUD_birds.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))//desacopla do objeto
@@ -209,5 +210,10 @@ public class cameraController : MonoBehaviour
         cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, NewZoom, Time.deltaTime * cameraForce);
     }
 
+    IEnumerator cooldownMove()
+    {
+        yield return new WaitForSeconds(1f);
+        invading = false;
+    }
 
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5448379126884071064}
   - component: {fileID: 1221509833907865848}
   - component: {fileID: 168780781178953668}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: birdPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

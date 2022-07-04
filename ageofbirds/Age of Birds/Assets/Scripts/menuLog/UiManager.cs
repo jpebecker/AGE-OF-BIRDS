@@ -19,6 +19,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private byte playersSala;
     [Header("mapa")]
     [SerializeField] private Image mapImage;
+    [SerializeField] private Sprite[] images;
     [SerializeField] private Text  maptxt;
 
 
@@ -97,19 +98,19 @@ public class UiManager : MonoBehaviour
         if (mapaNum == 1)
         {
             print(mapaNum);
-            mapImage.color = Color.red;
+            mapImage.sprite = images[0];
             maptxt.text = "florestas";
         }
         else if (mapaNum == 2)
         {
             print(mapaNum);
-            mapImage.color = Color.green;
+            mapImage.sprite = images[1];
             maptxt.text = "ilhas";
         }
         else if (mapaNum == 3)
         {
             print(mapaNum);
-            mapImage.color = Color.blue;
+            mapImage.sprite = images[2];
             maptxt.text = "montanhas";
         }
     }//chamado pela selecao de fase

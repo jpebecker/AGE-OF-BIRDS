@@ -15,44 +15,57 @@ public class MultiManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform[] spawnpoints;//array spawnpoints das aves
     [SerializeField] private Transform transformParentNick;//array spawnpoints das aves
     [SerializeField] private GameObject prefabNick;//array spawnpoints das aves
-
     [SerializeField] private GameObject aveA;//prefab jogador azul
     [SerializeField] private GameObject aveB;//prefab jogador vermelho
-    [SerializeField] private GameObject aveC;//prefab jogador vermelho
-    [SerializeField] private GameObject aveD;//prefab jogador vermelho
-    [SerializeField] private GameObject aveE;//prefab jogador vermelho
-
-    private bool HasMaster;
+    [SerializeField] private GameObject aveC;//prefab jogador verde
+    [SerializeField] private GameObject aveD;//prefab jogador amarelo
+    [SerializeField] private GameObject aveE;//prefab jogador rosa
     private PhotonView PhotonV;
+
+    //times
+    private bool HasMaster;
+    private bool IsMaster;
+
     //private ChatController _chatController_;//referencia ao codigo de chat
     private bool isPaused;//bolha de controle de pause
 
     [SerializeField] private List<PlayerItem> playerItemList = new List<PlayerItem>();
     [SerializeField] private PlayerItem playerItemPrefab;
     [SerializeField] private Transform playerItemParent1,playerItemParent2;
-    private string roomname;
 
-    [SerializeField] private GameObject waitingPanel;
+
+    //sala de espera
+    [SerializeField] private GameObject waitingPanel, spectatorPanel, MasterPanel;
+    [SerializeField] private Text roomNameTXT1,roomNameTXT2;
     private int PlayersProntos;
     private bool IsReady;
+
+    //JogoEmAndamento
+    private bool PartidaAtiva;
     private void Start()//inicializa a UI e atribui os scripts
     {
         canvas.SetActive(true);
         PhotonV = GetComponent<PhotonView>();
         UpdatePlayersList();
         //_chatController_ = GetComponent<ChatController>();
+        roomNameTXT1.text = PhotonNetwork.CurrentRoom.Name;
+        roomNameTXT2.text = PhotonNetwork.CurrentRoom.Name;
 
-        if(PhotonNetwork.CurrentRoom.Players.Count < 2)
+        if (PhotonNetwork.CurrentRoom.Players.Count < 2)
         {
             painelAves.SetActive(false);
             waitingPanel.SetActive(true);
         }
-        roomname = PhotonNetwork.CurrentRoom.Name;
 
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 2)//request individual
+        if (PartidaAtiva)//se a partida ja esta em andamento ele nao deixa o jogador controlar nada
         {
-
+            waitingPanel.SetActive(false);
+            MasterPanel.SetActive(false);
+            spectatorPanel.SetActive(true);
+            GetComponent<objectController>().enabled = false;
         }
+
+
     }
 
     private void Update()
@@ -198,6 +211,9 @@ public class MultiManager : MonoBehaviourPunCallbacks
             playerItemList.Add(newItem2);
         }
     }
+    #endregion
+
+    #region iniciodejogo
 
     public void PlayerReady(GameObject text)
     {
@@ -224,16 +240,37 @@ public class MultiManager : MonoBehaviourPunCallbacks
         PhotonV.RPC("playersProntos", RpcTarget.AllBufferedViaServer, PlayersProntos);
     }
 
-    [PunRPC] private void playersProntos(int playerPronts)
-    {
-        this.PlayersProntos = playerPronts;
-        
 
-        if(playerPronts >= 1)
+    [PunRPC]private void playersProntos(int playerProntos)
+    {
+        this.PlayersProntos = playerProntos;
+
+        if (playerProntos >= 1)//Começa o jogo
         {
-            painelAves.SetActive(true);
+            PhotonV.RPC("GenerateTeams", RpcTarget.AllBufferedViaServer);
             waitingPanel.SetActive(false);
         }
+    }
+
+    [PunRPC] private void GenerateTeams()
+    {
+        print("sorteando Times");
+
+        Player[] sortearLista = PhotonNetwork.PlayerList;
+        if(this.PhotonV.Owner.ActorNumber == sortearLista[Random.Range(0, sortearLista.Length)].ActorNumber)
+        {
+            print("PlayerIsMaster");
+            this.MasterPanel.SetActive(true);
+            this.IsMaster = true;
+        }
+        else
+        {
+            print("PlayerIsBirds");
+            this.painelAves.SetActive(true);
+        }
+        
+        HasMaster = true;
+        PartidaAtiva = true;
     }
 
     #endregion

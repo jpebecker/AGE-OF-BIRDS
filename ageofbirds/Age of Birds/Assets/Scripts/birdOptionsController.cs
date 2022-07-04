@@ -22,7 +22,7 @@ public class birdOptionsController : MonoBehaviour
         {
             birdOptions = Instantiate(PlayerOptionsPrefab, gameObject.transform.position,gameObject.transform.rotation);
             GetComponent<birdCollection>().birdOptions = birdOptions;
-            birdOptions.transform.parent = gameObject.transform;
+            birdOptions.transform.SetParent(gameObject.transform);
             print("player");
         }
      
