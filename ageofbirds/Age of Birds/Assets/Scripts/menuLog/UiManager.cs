@@ -7,8 +7,8 @@ using Photon.Realtime;
 public class UiManager : MonoBehaviour
 {
     [Header("multiplayerLobby")]
-    [SerializeField] private Text txtStatus;//txt de status 
-    [SerializeField] private GameObject painelNick;//painel que faz o nick do jogador
+    [SerializeField] private Text txtStatus, txtNickLobby;//txt de status 
+    [SerializeField] private GameObject painelNick, painelTutorial;//painel que faz o nick do jogador
     [SerializeField] private InputField InputNick;//input que le o nick que o jogador digita
     [SerializeField] private GameObject PainelLobby;//painel do lobby que se exibe apos logar
     [SerializeField] private Text TxtServerData;//exibe as configuracoes do servidor como a region/versao/max players
@@ -35,15 +35,19 @@ public class UiManager : MonoBehaviour
 
         CarregarNick();//carrega o nickname salvo
         txtStatus.text = string.Empty;//zera o status 
-        painelNick.SetActive(true);//ativa o painel de nickname
     }
 
     #region Nick e NomedaSala -- Criar e Entrar
-    public void NicknameBtn()//chamado pelo btn q confirma o nick
+    public void NicknameBtn()//chamado pelo CONNECT e o INPUTNICK
     {
         if (PlayerPrefs.HasKey("nickname"))
         {
             painelNick.SetActive(false);//fecha o painel de nick
+        }
+        if (PlayerPrefs.HasKey("T") == false)
+        {
+            painelTutorial.SetActive(true);
+            return;
         }
         if (InputNick.text.Length < tamanhominimonick)//se o nick digitado no input field tiver menos letras que o minimo
         {
@@ -51,11 +55,12 @@ public class UiManager : MonoBehaviour
             return;
         }
 
-        SalvarNick();//salva o nickname
-        painelNick.SetActive(false);//fecha o painel de nick
-        LogConsole.DefinirTexto(string.Empty);
-        txtStatus.text = "CARREGANDO...";//ilustra o status
-        menuController.StartConnection(InputNick.text);//tenta conectar no servidor com o nick salvo
+            SalvarNick();//salva o nickname
+            painelNick.SetActive(false);//fecha o painel de nick
+            LogConsole.DefinirTexto(string.Empty);
+            txtStatus.text = "CARREGANDO...";//ilustra o status
+            menuController.StartConnection(InputNick.text);//tenta conectar no servidor com o nick salvo
+            txtNickLobby.text = PlayerPrefs.GetString("nickname");
     }
 
     public void CriarSalaBtn()//chamado pelo botao de criar sala
@@ -135,6 +140,11 @@ public class UiManager : MonoBehaviour
     private void SalvarNick()//salva o nick
     {
         PlayerPrefs.SetString("nickname", InputNick.text);//manda pro player prefs
+    }
+
+    public void Tutorial()
+    {
+        PlayerPrefs.SetInt("T", 1);
     }
 
     #endregion

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using Photon.Pun;
 
 
@@ -137,18 +136,6 @@ public class birdCollection : MonoBehaviour
 
             print("contato" + targets[i].gameObject.name);
         }
-    }
-
-    [CustomEditor(typeof(birdCollection))]
-    public class RadiusView : Editor//classe que desenha o raio de ataque dos birds
-    {
-        private void OnSceneGUI()
-        {
-            birdCollection radius = (birdCollection)target;
-            Handles.color = Color.red;
-            Handles.DrawWireArc(radius.transform.position, Vector3.up, Vector3.forward, 360, radius.AttackRadius);
-        }
-
     }
 
     #endregion
