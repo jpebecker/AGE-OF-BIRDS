@@ -120,8 +120,6 @@ public class menuController : MonoBehaviourPunCallbacks
     }
     public void QuitApp()
     {
-        print("quit");
-        PlayerPrefs.DeleteKey("nickname");
         Application.Quit();
     }
 

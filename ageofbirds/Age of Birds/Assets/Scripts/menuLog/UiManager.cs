@@ -40,13 +40,10 @@ public class UiManager : MonoBehaviour
     #region Nick e NomedaSala -- Criar e Entrar
     public void NicknameBtn()//chamado pelo CONNECT e o INPUTNICK
     {
-        if (PlayerPrefs.HasKey("nickname"))
-        {
-            painelNick.SetActive(false);//fecha o painel de nick
-        }
         if (PlayerPrefs.HasKey("T") == false)
         {
             painelTutorial.SetActive(true);
+            print("openTutorial");
             return;
         }
         if (InputNick.text.Length < tamanhominimonick)//se o nick digitado no input field tiver menos letras que o minimo
