@@ -62,7 +62,13 @@ public class MultiManager : MonoBehaviourPunCallbacks
             waitingPanel.SetActive(false);
             MasterPanel.SetActive(false);
             spectatorPanel.SetActive(true);
-            GetComponent<objectController>().enabled = false;
+
+            objectController[] objs = FindObjectsOfType<objectController>();
+            
+            foreach(objectController controllers in objs)
+            {
+                controllers.CanControl = false;
+            }
         }
 
 
@@ -218,12 +224,15 @@ public class MultiManager : MonoBehaviourPunCallbacks
     public void PlayerReady(GameObject text)
     {
         IsReady = !IsReady;
-
         foreach (PlayerItem playerItem in GameObject.FindObjectsOfType<PlayerItem>())
         {
             if (playerItem._player == PhotonNetwork.LocalPlayer)
             {
                 playerItem.SetReady(IsReady);
+            }
+            else
+            {
+                playerItem.SetReady((bool)playerItem._player.CustomProperties["isready"]);
             }
         }
         if (IsReady)
@@ -244,8 +253,8 @@ public class MultiManager : MonoBehaviourPunCallbacks
     [PunRPC]private void playersProntos(int playerProntos)
     {
         this.PlayersProntos = playerProntos;
-
-        if (playerProntos >= 1)//Começa o jogo
+    
+        if (playerProntos >= 2)//Começa o jogo
         {
             PhotonV.RPC("GenerateTeams", RpcTarget.AllBufferedViaServer);
             waitingPanel.SetActive(false);
@@ -269,7 +278,6 @@ public class MultiManager : MonoBehaviourPunCallbacks
             this.painelAves.SetActive(true);
         }
         
-        HasMaster = true;
         PartidaAtiva = true;
     }
 

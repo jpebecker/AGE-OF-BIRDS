@@ -10,6 +10,7 @@ public class objectController : MonoBehaviour
     [HideInInspector]public bool BirdOptions;
     private Vector3 clickPOS;
     private PhotonView phV;
+    [HideInInspector] public bool CanControl = true;
     private void Start()
     {
         //atribui o PHOTONVIEW
@@ -31,40 +32,44 @@ public class objectController : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        //coleta o ponto que foi clicado
-        Vector3 mouse = Input.mousePosition;
-        Ray castPoint = Camera.main.ScreenPointToRay(mouse);
-        RaycastHit hit;
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
+        if (CanControl)
         {
-            clickPOS = hit.point;
-        }
-
-
-        if (tipodeobjeto != ObjectType.terreno)//se clicar nos passaros
-        {
-            cameraController.instance.followTransform = transform.parent;//trava a camera neles
-        }
-
-        if (tipodeobjeto == ObjectType.terreno)//move o passaro selecionado até o ponto
-        {
-            print("terrain click");
-
-            foreach(birdCollection birds in FindObjectsOfType<birdCollection>())//para os que estiverem selecionados
+            //coleta o ponto que foi clicado
+            Vector3 mouse = Input.mousePosition;
+            Ray castPoint = Camera.main.ScreenPointToRay(mouse);
+            RaycastHit hit;
+            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
             {
-                if (birds.selectedToMove && birds.GetComponent<PhotonView>().IsMine)
+                clickPOS = hit.point;
+            }
+
+
+            if (tipodeobjeto != ObjectType.terreno)//se clicar nos passaros
+            {
+                cameraController.instance.followTransform = transform.parent;//trava a camera neles
+            }
+
+            if (tipodeobjeto == ObjectType.terreno)//move o passaro selecionado até o ponto
+            {
+                print("terrain click");
+
+                foreach (birdCollection birds in FindObjectsOfType<birdCollection>())//para os que estiverem selecionados
                 {
-                    print("move");
-                    birds.GetComponent<birdCollection>().selectedToMove = false;
-                    birds.GetComponent<birdCollection>().MoveBirds(clickPOS);
-                }
-                else if(birds.selectedToAttack && birds.GetComponent<PhotonView>().IsMine)
-                {
-                    print("attackPoint");
-                    birds.GetComponent<birdCollection>().selectedToAttack = false;
-                    birds.GetComponent<birdCollection>().AttackEnemie(clickPOS);
+                    if (birds.selectedToMove && birds.GetComponent<PhotonView>().IsMine)
+                    {
+                        print("move");
+                        birds.GetComponent<birdCollection>().selectedToMove = false;
+                        birds.GetComponent<birdCollection>().MoveBirds(clickPOS);
+                    }
+                    else if (birds.selectedToAttack && birds.GetComponent<PhotonView>().IsMine)
+                    {
+                        print("attackPoint");
+                        birds.GetComponent<birdCollection>().selectedToAttack = false;
+                        birds.GetComponent<birdCollection>().AttackEnemie(clickPOS);
+                    }
                 }
             }
+        
 
         }
 
@@ -82,45 +87,50 @@ public class objectController : MonoBehaviour
     }
     private void OnMouseOver()//mouse em cima
     {
-        //right click
-        if(Input.GetMouseButtonDown(1) && tipodeobjeto == ObjectType.terreno)//right click no terreno
+        if (CanControl)
         {
-            BirdOptions = false;
-            cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(false);
-            cameraController.instance.followTransform = null; 
-        }
-
-
-        if(Input.GetMouseButtonDown(1) && tipodeobjeto != ObjectType.terreno)//right click
-        {
-            if (phV.IsMine)//se for do jogador
+            //right click
+            if (Input.GetMouseButtonDown(1) && tipodeobjeto == ObjectType.terreno)//right click no terreno
             {
-                BirdOptions = !BirdOptions;
+                BirdOptions = false;
+                cameraController.instance.followTransform.GetComponent<birdCollection>().birdOptions.SetActive(false);
                 cameraController.instance.followTransform = null;
-                print("open Options");
-                if (tipodeobjeto == ObjectType.BIRDSPREFAB)
-                {
-                    GetComponentInParent<birdCollection>().birdOptions.SetActive(BirdOptions);
-                    GetComponentInParent<birdCollection>().selectedToMove = false;
-                    GetComponentInParent<birdCollection>().moving = false;
-                }
-                else
-                {
-                    GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
-                    GetComponent<birdCollection>().selectedToMove = false;
-                    GetComponent<birdCollection>().moving = false;
-                }
-               
-               
-            }
-            if (!phV.IsMine)//se nao for do jogador
-            {
-                BirdOptions = !BirdOptions;
-                //abrir painel
-                cameraController.instance.followTransform = null;
-                print("open enemie Options");
             }
 
+
+            if (Input.GetMouseButtonDown(1) && tipodeobjeto != ObjectType.terreno)//right click
+            {
+                if (phV.IsMine)//se for do jogador
+                {
+                    BirdOptions = !BirdOptions;
+                    cameraController.instance.followTransform = null;
+                    print("open Options");
+                    if (tipodeobjeto == ObjectType.BIRDSPREFAB)
+                    {
+                        GetComponentInParent<birdCollection>().birdOptions.SetActive(BirdOptions);
+                        GetComponentInParent<birdCollection>().selectedToMove = false;
+                        GetComponentInParent<birdCollection>().moving = false;
+                    }
+                    else
+                    {
+                        GetComponent<birdCollection>().birdOptions.SetActive(BirdOptions);
+                        GetComponent<birdCollection>().selectedToMove = false;
+                        GetComponent<birdCollection>().moving = false;
+                    }
+
+
+                }
+                if (!phV.IsMine)//se nao for do jogador
+                {
+                    BirdOptions = !BirdOptions;
+                    //abrir painel
+                    cameraController.instance.followTransform = null;
+                    print("open enemie Options");
+                }
+
+            }
+
         }
+       
     }
 }
