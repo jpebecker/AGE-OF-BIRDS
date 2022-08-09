@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tipodeobjeto: 1
   BirdOptions: 0
+  CanControl: 1
 --- !u!65 &9149056408590960826
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -35,6 +35,9 @@ public class UiManager : MonoBehaviour
 
         CarregarNick();//carrega o nickname salvo
         txtStatus.text = string.Empty;//zera o status 
+
+        RoomItem roomItem = Instantiate(PrefabSalaLista, parenteListaSala.position, parenteListaSala.rotation, parenteListaSala).GetComponent<RoomItem>();
+        roomItem.UpdateListaSalas("salaTeste", 4, 0, this);
     }
 
     #region Nick e NomedaSala -- Criar e Entrar

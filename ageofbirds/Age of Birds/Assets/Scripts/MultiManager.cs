@@ -55,6 +55,7 @@ public class MultiManager : MonoBehaviourPunCallbacks
         {
             painelAves.SetActive(false);
             waitingPanel.SetActive(true);
+           
         }
 
         if (PartidaAtiva)//se a partida ja esta em andamento ele nao deixa o jogador controlar nada
@@ -127,7 +128,6 @@ public class MultiManager : MonoBehaviourPunCallbacks
         //_chatController_._pc = lcBluePlayer.GetComponent<PlayerController>();
         painelAves.SetActive(false);
         SetCustomproperties(1);
-        CreateBirdB();
     }
 
     public void CreateBirdB()//chamado pelo BTN de criar time
@@ -254,7 +254,7 @@ public class MultiManager : MonoBehaviourPunCallbacks
     {
         this.PlayersProntos = playerProntos;
     
-        if (playerProntos >= 2)//Começa o jogo
+        if (playerProntos >= 1)//Começa o jogo
         {
             PhotonV.RPC("GenerateTeams", RpcTarget.AllBufferedViaServer);
             waitingPanel.SetActive(false);
@@ -268,14 +268,15 @@ public class MultiManager : MonoBehaviourPunCallbacks
         Player[] sortearLista = PhotonNetwork.PlayerList;
         if(this.PhotonV.Owner.ActorNumber == sortearLista[Random.Range(0, sortearLista.Length)].ActorNumber)
         {
-            print("PlayerIsMaster");
-            this.MasterPanel.SetActive(true);
-            this.IsMaster = true;
+            print("PlayerIsBirds");
+            this.painelAves.SetActive(true);
+           
         }
         else
         {
-            print("PlayerIsBirds");
-            this.painelAves.SetActive(true);
+            print("PlayerIsMaster");
+            this.MasterPanel.SetActive(true);
+            this.IsMaster = true;
         }
         
         PartidaAtiva = true;

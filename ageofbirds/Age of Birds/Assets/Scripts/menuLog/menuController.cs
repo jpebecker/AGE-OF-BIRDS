@@ -120,6 +120,7 @@ public class menuController : MonoBehaviourPunCallbacks
     }
     public void QuitApp()
     {
+        PlayerPrefs.DeleteAll();
         Application.Quit();
     }
 

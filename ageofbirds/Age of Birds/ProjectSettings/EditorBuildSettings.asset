@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ilhas.unity
     guid: 2b724516200c86940af8dcfcfc74aaf1
+  - enabled: 1
+    path: Assets/Scenes/florestas.unity
+    guid: 61ba0f0d001178740917d7ed2f96ffb2
   m_configObjects: {}
