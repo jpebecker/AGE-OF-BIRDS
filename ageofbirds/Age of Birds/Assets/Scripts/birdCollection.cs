@@ -14,6 +14,7 @@ public class birdCollection : MonoBehaviour
     public int birdsCount;
     public int specieLevel;
     public float specieLife;
+    public float ReprodutionDelay;
     [SerializeField] private float AttackRadius;
     [SerializeField] private LayerMask AllbirdsMask;
 
@@ -30,27 +31,24 @@ public class birdCollection : MonoBehaviour
     public GameObject birdOptions;
     public bool selectedToMove, selectedToAttack, moving,attacking;
     private Vector3 target;
-
+    private float TimerReproduzir;
+    List<GameObject> birdObjectList = new List<GameObject>();
     void Start()
     {
-        birdsCount = Random.Range(100, 150);
+        birdsCount = 100; //todos os jogadores recebem a mesma qtd de passaros inicial
         specieLevel = 1;
         specieLife = 1000;
         AttackRadius = 20f;
+        ReprodutionDelay = 1.5f;
+        RefreshVisualBirds();
 
-        for (int i = 0; i < birdsCount / 10; ++i)//spawna passaros pela qtd
-        {
-            GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i,5), transform.position.y, transform.position.z + Random.Range(i,5)),Quaternion.identity); // spawna aves rotacionando elas
-            birds.transform.parent = transform;
-            birds.GetComponent<MeshRenderer>().material.color = corEspecie;
-            
-        }
+
 
         StartCoroutine(FindEnemiesWithDelay(2f));
 
     }
     void Update()
-    {
+    { 
         if (moving)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, specie_speed * Time.deltaTime);
@@ -71,14 +69,78 @@ public class birdCollection : MonoBehaviour
             }
         }
 
+        TimerReproduzir += Time.deltaTime;
 
+        if(TimerReproduzir >= ReprodutionDelay/15)
+        {
+            TimerReproduzir = 0;
+            birdsCount += (5 * specieLevel);
+            RefreshVisualBirds();
+        }
     }
 
+    private void RefreshVisualBirds()
+    {
+        if (birdsCount <= 100)
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i,i+5), transform.position.y, transform.position.z + Random.Range(i, i + 5)), Quaternion.identity); // spawna aves rotacionando elas
+                birds.transform.parent = transform;
+                birdObjectList.Add(birds);
+                birds.GetComponent<MeshRenderer>().material.color = corEspecie;
+            }
+        }
+        else if(birdsCount > 100 && birdsCount <= 500)
+        {
+            /*
+            GameObject[] array = birdObjectList.ToArray();
+            foreach(GameObject birds in array)
+            {
+                Destroy(birds);
+                birdObjectList.Remove(birds);
+            }
+            */
+            for (int i = 0; i < 10; i++)
+            {
+                GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i, i + 5), transform.position.y, transform.position.z + Random.Range(i, i + 5)), Quaternion.identity); // spawna aves rotacionando elas
+                birds.transform.parent = transform;
+                birdObjectList.Add(birds);
+                birds.GetComponent<MeshRenderer>().material.color = corEspecie;
+            }
+
+        }
+        else if (birdsCount > 500 && birdsCount <= 100)
+        {
+            /*
+            GameObject[] array = birdObjectList.ToArray();
+            foreach(GameObject birds in array)
+            {
+                Destroy(birds);
+                birdObjectList.Remove(birds);
+            }
+            */
+            for (int i = 0; i < 20; i++)
+            {
+                GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i, i + 5), transform.position.y, transform.position.z + Random.Range(i, i + 5)), Quaternion.identity); // spawna aves rotacionando elas
+                birds.transform.parent = transform;
+                birdObjectList.Add(birds);
+                birds.GetComponent<MeshRenderer>().material.color = corEspecie;
+            }
+
+        }
+        else
+        {
+
+        }
+
+    }
     private void FixedUpdate()
     {
         if (birdOptions.gameObject.activeInHierarchy)
         {
             birdOptions.transform.rotation = Quaternion.LookRotation(birdOptions.transform.position - Camera.main.transform.position);//clamp a rotacao do canvas das opcoes
+            
         }
     }
 
