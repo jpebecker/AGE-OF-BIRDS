@@ -36,7 +36,7 @@ public class MultiManager : MonoBehaviourPunCallbacks
 
     //sala de espera
     [SerializeField] private GameObject waitingPanel, spectatorPanel, MasterPanel;
-    [SerializeField] private Text roomNameTXT1,roomNameTXT2;
+    [SerializeField] private Text roomNameTXT1,roomNameTXT2, FPStxt;
     private int PlayersProntos;
     private bool IsReady;
 

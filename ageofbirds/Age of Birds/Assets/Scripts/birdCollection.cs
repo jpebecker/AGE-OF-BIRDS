@@ -42,8 +42,6 @@ public class birdCollection : MonoBehaviour
         ReprodutionDelay = 1.5f;
         RefreshVisualBirds();
 
-
-
         StartCoroutine(FindEnemiesWithDelay(2f));
 
     }
