@@ -79,59 +79,7 @@ public class birdCollection : MonoBehaviour
 
     private void RefreshVisualBirds()
     {
-        if (birdsCount <= 100)
-        {
-            for(int i = 0; i < 5; i++)
-            {
-                GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i,i+5), transform.position.y, transform.position.z + Random.Range(i, i + 5)), Quaternion.identity); // spawna aves rotacionando elas
-                birds.transform.parent = transform;
-                birdObjectList.Add(birds);
-                birds.GetComponent<MeshRenderer>().material.color = corEspecie;
-            }
-        }
-        else if(birdsCount > 100 && birdsCount <= 500)
-        {
-            /*
-            GameObject[] array = birdObjectList.ToArray();
-            foreach(GameObject birds in array)
-            {
-                Destroy(birds);
-                birdObjectList.Remove(birds);
-            }
-            */
-            for (int i = 0; i < 10; i++)
-            {
-                GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i, i + 5), transform.position.y, transform.position.z + Random.Range(i, i + 5)), Quaternion.identity); // spawna aves rotacionando elas
-                birds.transform.parent = transform;
-                birdObjectList.Add(birds);
-                birds.GetComponent<MeshRenderer>().material.color = corEspecie;
-            }
-
-        }
-        else if (birdsCount > 500 && birdsCount <= 100)
-        {
-            /*
-            GameObject[] array = birdObjectList.ToArray();
-            foreach(GameObject birds in array)
-            {
-                Destroy(birds);
-                birdObjectList.Remove(birds);
-            }
-            */
-            for (int i = 0; i < 20; i++)
-            {
-                GameObject birds = Instantiate(birdPrefab, new Vector3(transform.position.x + Random.Range(i, i + 5), transform.position.y, transform.position.z + Random.Range(i, i + 5)), Quaternion.identity); // spawna aves rotacionando elas
-                birds.transform.parent = transform;
-                birdObjectList.Add(birds);
-                birds.GetComponent<MeshRenderer>().material.color = corEspecie;
-            }
-
-        }
-        else
-        {
-
-        }
-
+        print("newSpawn");
     }
     private void FixedUpdate()
     {

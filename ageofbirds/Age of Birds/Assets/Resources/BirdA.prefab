@@ -51,6 +51,7 @@ MonoBehaviour:
   birdsCount: 0
   specieLevel: 0
   specieLife: 0
+  ReprodutionDelay: 0
   AttackRadius: 0
   AllbirdsMask:
     serializedVersion: 2

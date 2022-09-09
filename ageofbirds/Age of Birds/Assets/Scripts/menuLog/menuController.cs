@@ -55,6 +55,12 @@ public class menuController : MonoBehaviourPunCallbacks
         {
             toggleFullscreen.isOn = true;
         }
+
+        if (PlayerPrefs.HasKey("sfxVolume"))
+        {
+            sliderSfx.value = PlayerPrefs.GetInt("sfxVolume");
+            SoundEffectVolume(sliderSfx.value);
+        }
     }
 
     private void Update()
