@@ -49,7 +49,7 @@ public class UiManager : MonoBehaviour
             print("openTutorial");
             return;
         }
-        if (InputNick.text.Length < tamanhominimonick)//se o nick digitado no input field tiver menos letras que o minimo
+        if (InputNick.text.Length < tamanhominimonick || InputNick.text.Length > 10)//se o nick digitado no input field tiver menos letras que o minimo
         {
             LogConsole.DefinirTexto("Nickname inválido, minimo de " + tamanhominimonick);
             return;
