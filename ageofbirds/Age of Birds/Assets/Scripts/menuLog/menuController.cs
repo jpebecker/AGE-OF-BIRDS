@@ -17,10 +17,21 @@ public class menuController : MonoBehaviourPunCallbacks
     [SerializeField] private Toggle toggleMusic,toggleFullscreen,toggleFps;
     [SerializeField] private Slider sliderMusic, sliderSfx;
     [SerializeField] private Text txtFPS;
+
+    [SerializeField] private GameObject painelLinguagem;
     private float deltaTime;
     private void Start()
     {
         uiController = GetComponent<UiManager>();
+
+        if (PlayerPrefs.HasKey("language"))
+        {
+            painelLinguagem.SetActive(false);
+        }
+        else
+        {
+            painelLinguagem.SetActive(true);
+        }
 
         if (PlayerPrefs.HasKey("music"))
         {
@@ -45,7 +56,6 @@ public class menuController : MonoBehaviourPunCallbacks
             sliderMusic.value = 5;
             MusicVolume(sliderMusic.value);
         }
-
         if (!PlayerPrefs.HasKey("Fps"))
         {
             txtFPS.gameObject.SetActive(false);
@@ -55,7 +65,6 @@ public class menuController : MonoBehaviourPunCallbacks
         {
             toggleFullscreen.isOn = true;
         }
-
         if (PlayerPrefs.HasKey("sfxVolume"))
         {
             sliderSfx.value = PlayerPrefs.GetInt("sfxVolume");
