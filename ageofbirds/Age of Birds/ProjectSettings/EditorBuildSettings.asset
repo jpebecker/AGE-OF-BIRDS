@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 93d35db1cf365394bb593245a993b0bb
+  - enabled: 1
+    path: Assets/Scenes/jogoOffline.unity
+    guid: d85124f81141b7942a49711e7199dc53
   m_configObjects: {}
