@@ -2281,7 +2281,10 @@ MonoBehaviour:
   birdLevel: 1
   Xp: 0
   life: 100
+  increaseRate: 5
   reprodutionSpeed: 2
+  levelTxt: {fileID: 960784475}
+  NickTxt: {fileID: 1651676171}
 --- !u!61 &1799893047
 BoxCollider2D:
   m_ObjectHideFlags: 0

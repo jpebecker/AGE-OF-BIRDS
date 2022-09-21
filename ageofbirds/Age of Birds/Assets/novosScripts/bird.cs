@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class bird : MonoBehaviour
 {
@@ -10,13 +11,18 @@ public class bird : MonoBehaviour
     public float birdLevel = 1;
     public float Xp = 0;
     public float life = 100;
+    public float increaseRate;
     public float reprodutionSpeed = 2;//em segundos
+    [Header("UI")]
+    public Text levelTxt;
+    public Text NickTxt;
 
     private Vector3 target;
     private float timerReprodution;
     void Start()
     {
         target = transform.position;
+        levelTxt.text = "Level " + birdLevel.ToString();
     }
     void Update()
     {
@@ -32,7 +38,12 @@ public class bird : MonoBehaviour
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
         {
             birdLevel += 1;
+            levelTxt.text = "Level " + birdLevel.ToString();
         }
+
+
+        //altera o tamanho com base na populacao
+        transform.localScale = new Vector3(birdPopulation / (birdLevel * 100), birdPopulation / (birdLevel * 100), birdPopulation / (birdLevel * 100));
 
 
         #region Movement
