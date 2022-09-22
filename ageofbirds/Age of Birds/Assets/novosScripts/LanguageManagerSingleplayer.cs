@@ -7,7 +7,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
 {
     [Header("Painel Times")]
     public Text timePassaros;
-    public Text timeNatureza;
+    public Text timeNatureza,legendaSlider;
 
     private void Start()
     {
@@ -19,11 +19,13 @@ public class LanguageManagerSingleplayer : MonoBehaviour
         {
             timePassaros.text = "BIRDS";
             timeNatureza.text = "NATURE";
+            legendaSlider.text = "SURVIVE THE MOST";
         }
         else
         {
             timePassaros.text = "Pássaros";
             timeNatureza.text = "Natureza";
+            legendaSlider.text = "sobreviva pela maior quantidade de tempo";
         }
     }
 }
