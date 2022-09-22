@@ -13,26 +13,35 @@ public class bird : MonoBehaviour
     public float life = 100;
     public float increaseRate;
     public float reprodutionSpeed = 2;//em segundos
+    public float Water, Bushes;//porcentagem
     [Header("UI")]
     public Text levelTxt;
     public Text NickTxt;
-    public Color transparency;
+    public Slider bushSlider, waterSlider;
 
     private Vector3 target;
     private float timerReprodution;
+    private bool IsGettingDamage;
     void Start()
     {
+        IsGettingDamage = false;
         target = transform.position;
         levelTxt.text = "Level " + birdLevel.ToString();
+        Water = 100;
+        Bushes = 100;
     }
     void Update()
     {
         timerReprodution += Time.deltaTime;
+        Water -= (0.1f * birdLevel) * Time.deltaTime;
+        Bushes -= (0.1f * birdLevel) * Time.deltaTime;
         if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
         {
             timerReprodution = 0;
             birdPopulation += birdLevel * Random.Range(3,5);
             Xp += birdLevel / Random.Range(8,10);
+            Water -= birdLevel;
+            Bushes -= birdLevel;
         }
 
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
@@ -42,6 +51,22 @@ public class bird : MonoBehaviour
             levelTxt.text = "Level " + birdLevel.ToString();
         }
 
+        if (IsGettingDamage)
+        {
+            life -= 50 * Time.deltaTime;
+            if(life <= 0)
+            {
+                FindObjectOfType<NewGameController>().GameOver();
+            }
+        }
+
+        if(Water <=1 || Bushes <= 1)
+        {
+            FindObjectOfType<NewGameController>().GameOver();
+        }
+
+        bushSlider.value = Bushes;
+        waterSlider.value = Water;
 
         //altera o tamanho com base na populacao
 
@@ -129,7 +154,7 @@ public class bird : MonoBehaviour
                 col.gameObject.GetComponent<coletaveis>().IsInactive = false;
                 break;
             case "damage":
-
+                IsGettingDamage = true;
                 break;
         }
 
@@ -144,6 +169,7 @@ public class bird : MonoBehaviour
                 if(col.gameObject.transform.localScale.x >=2 && col.gameObject.transform.localScale.y >= 2 && col.gameObject.transform.localScale.z >= 2)
                 {
                     col.gameObject.transform.localScale -= new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 1 * Time.deltaTime);
+                    Water += birdLevel * Time.deltaTime;
                 }
              
                 break;
@@ -151,10 +177,10 @@ public class bird : MonoBehaviour
                 if (col.gameObject.transform.localScale.x >= 2 && col.gameObject.transform.localScale.y >= 2 && col.gameObject.transform.localScale.z >= 2)
                 {
                     col.gameObject.transform.localScale -= new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 1 * Time.deltaTime);
+                    Bushes += birdLevel * Time.deltaTime;
                 }
                 break;
             case "damage":
-                life -= 50 * Time.deltaTime;
                 break;
         }
     }
@@ -178,7 +204,7 @@ public class bird : MonoBehaviour
                 }
                 break;
             case "damage":
-                print("dano");
+                IsGettingDamage = false;
                 break;
         }
     }

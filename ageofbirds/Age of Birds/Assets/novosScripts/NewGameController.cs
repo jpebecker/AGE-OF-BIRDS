@@ -7,9 +7,8 @@ public class NewGameController : MonoBehaviour
 {
     [Header("paineis")]
     [SerializeField] private GameObject painelTimes;
-    [SerializeField] private GameObject controlBirds,controlNature;
+    [SerializeField] private GameObject controlBirds,controlNature,gameOverPanel;
     [SerializeField] private Slider sliderBirds,sliderNature;
-
     private bool TimerIsActive;
     
     void Start()
@@ -21,6 +20,16 @@ public class NewGameController : MonoBehaviour
         if (Input.GetButtonDown("Cancel"))
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        if (TimerIsActive)
+        {
+            sliderBirds.value -= Time.deltaTime;
+        }
+
+        if(sliderBirds.value <= 0)
+        {
+            GameOver();
         }
     }
 
@@ -44,11 +53,17 @@ public class NewGameController : MonoBehaviour
     {
         if (mission == 0)//bird
         {
-          
+            TimerIsActive = true;
         }
         else//nature
         {
           
         }
+    }
+
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 }
