@@ -16,6 +16,7 @@ public class bird : MonoBehaviour
     [Header("UI")]
     public Text levelTxt;
     public Text NickTxt;
+    public Color transparency;
 
     private Vector3 target;
     private float timerReprodution;
@@ -32,19 +33,17 @@ public class bird : MonoBehaviour
             timerReprodution = 0;
             birdPopulation += birdLevel * Random.Range(3,5);
             Xp += birdLevel / Random.Range(8,10);
-            life = birdPopulation * birdLevel;
         }
 
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
         {
             birdLevel += 1;
+            UpdateLevel();
             levelTxt.text = "Level " + birdLevel.ToString();
         }
 
 
         //altera o tamanho com base na populacao
-        transform.localScale = new Vector3(birdPopulation / (birdLevel * 100), birdPopulation / (birdLevel * 100), birdPopulation / (birdLevel * 100));
-
 
         #region Movement
         if (Input.GetMouseButtonDown(1))//rightclick
@@ -82,35 +81,107 @@ public class bird : MonoBehaviour
         switch (birdLevel)
         {
             case 3:
-                reprodutionSpeed = 1.9f;
+                reprodutionSpeed = 1.95f;
                 break;
             case 5:
-                reprodutionSpeed = 1.7f;
+                reprodutionSpeed = 1.9f;
                 break;
             case 10:
-                reprodutionSpeed = 1.5f;
+                reprodutionSpeed = 1.8f;
                 break;
             case 12:
-                reprodutionSpeed = 1.35f;
+                reprodutionSpeed = 1.7f;
                 break;
             case 16:
-                reprodutionSpeed = 1.25f;
+                reprodutionSpeed = 1.6f;
                 break;
             case 20:
-                reprodutionSpeed = 1.1f;
+                reprodutionSpeed = 1.5f;
                 break;
             case 24:
-                reprodutionSpeed = 1f;
+                reprodutionSpeed = 1.4f;
                 break;
             case 30:
-                reprodutionSpeed = 0.8f;
+                reprodutionSpeed = 1.3f;
                 break;
             case 35:
-                reprodutionSpeed = 0.7f;
+                reprodutionSpeed = 1.25f;
                 break;
             case 40:
-                reprodutionSpeed = 0.5f;
+                reprodutionSpeed = 1f;
                 break;
         }
     }
+
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        col.GetComponent<SpriteRenderer>().color = new Color(col.GetComponent<SpriteRenderer>().color.r, col.GetComponent<SpriteRenderer>().color.g, col.GetComponent<SpriteRenderer>().color.b, .5f);
+
+        switch (col.gameObject.tag)
+        {
+            case "water":
+                print("water");
+                col.gameObject.GetComponent<coletaveis>().IsInactive = false;
+                break;
+            case "folhas":
+                print("bush");
+                col.gameObject.GetComponent<coletaveis>().IsInactive = false;
+                break;
+            case "damage":
+
+                break;
+        }
+
+
+    }
+
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        switch (col.gameObject.tag)
+        {
+            case "water":
+                if(col.gameObject.transform.localScale.x >=2 && col.gameObject.transform.localScale.y >= 2 && col.gameObject.transform.localScale.z >= 2)
+                {
+                    col.gameObject.transform.localScale -= new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 1 * Time.deltaTime);
+                }
+             
+                break;
+            case "folhas":
+                if (col.gameObject.transform.localScale.x >= 2 && col.gameObject.transform.localScale.y >= 2 && col.gameObject.transform.localScale.z >= 2)
+                {
+                    col.gameObject.transform.localScale -= new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 1 * Time.deltaTime);
+                }
+                break;
+            case "damage":
+                life -= 50 * Time.deltaTime;
+                break;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        col.GetComponent<SpriteRenderer>().color = new Color(col.GetComponent<SpriteRenderer>().color.r, col.GetComponent<SpriteRenderer>().color.g, col.GetComponent<SpriteRenderer>().color.b, 1);
+
+        switch (col.gameObject.tag)
+        {
+            case "water":
+                if (col.gameObject.transform.localScale.x <= 2 && col.gameObject.transform.localScale.y <= 2 && col.gameObject.transform.localScale.z <= 2)
+                {
+                    col.gameObject.GetComponent<coletaveis>().IsInactive = true;
+                }
+                
+                break;
+            case "folhas":
+                if (col.gameObject.transform.localScale.x <= 2 && col.gameObject.transform.localScale.y <= 2 && col.gameObject.transform.localScale.z <= 2)
+                {
+                    col.gameObject.GetComponent<coletaveis>().IsInactive = true;
+                }
+                break;
+            case "damage":
+                print("dano");
+                break;
+        }
+    }
+
+
 }

@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 420160445}
   m_Layer: 0
   m_Name: damage
-  m_TagString: Untagged
+  m_TagString: damage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -857,9 +857,10 @@ GameObject:
   - component: {fileID: 853337983}
   - component: {fileID: 853337982}
   - component: {fileID: 853337981}
+  - component: {fileID: 853337984}
   m_Layer: 0
   m_Name: bushes
-  m_TagString: Untagged
+  m_TagString: folhas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -945,6 +946,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &853337984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853337980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c970ba55b019a434aab517d32232cd30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsInactive: 0
 --- !u!1 &859865901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,9 +1605,10 @@ GameObject:
   - component: {fileID: 1464829508}
   - component: {fileID: 1464829507}
   - component: {fileID: 1464829506}
+  - component: {fileID: 1464829509}
   m_Layer: 0
   m_Name: water
-  m_TagString: Untagged
+  m_TagString: water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1679,6 +1694,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1464829509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464829505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c970ba55b019a434aab517d32232cd30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsInactive: 0
 --- !u!1 &1473545091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,6 +2219,7 @@ GameObject:
   - component: {fileID: 1799893044}
   - component: {fileID: 1799893047}
   - component: {fileID: 1799893046}
+  - component: {fileID: 1799893048}
   m_Layer: 0
   m_Name: bird
   m_TagString: Untagged
@@ -2285,6 +2314,7 @@ MonoBehaviour:
   reprodutionSpeed: 2
   levelTxt: {fileID: 960784475}
   NickTxt: {fileID: 1651676171}
+  transparency: {r: 0, g: 0, b: 0, a: 0}
 --- !u!61 &1799893047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2311,6 +2341,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32}
   m_EdgeRadius: 0
+--- !u!50 &1799893048
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799893043}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1902198782
 GameObject:
   m_ObjectHideFlags: 0
