@@ -19,7 +19,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
         {
             timePassaros.text = "BIRDS";
             timeNatureza.text = "NATURE";
-            legendaSlider.text = "SURVIVE THE MOST";
+            legendaSlider.text = "SURVIVE";
         }
         else
         {

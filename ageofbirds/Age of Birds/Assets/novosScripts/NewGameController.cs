@@ -7,7 +7,7 @@ public class NewGameController : MonoBehaviour
 {
     [Header("paineis")]
     [SerializeField] private GameObject painelTimes;
-    [SerializeField] private GameObject controlBirds,controlNature,gameOverPanel;
+    [SerializeField] private GameObject controlBirds,controlNature,gameOverPanel,winPanel;
     [SerializeField] private Slider sliderBirds,sliderNature;
     private bool TimerIsActive;
     
@@ -29,7 +29,7 @@ public class NewGameController : MonoBehaviour
 
         if(sliderBirds.value <= 0)
         {
-            GameOver();
+            
         }
     }
 
@@ -64,6 +64,11 @@ public class NewGameController : MonoBehaviour
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void Win()
+    {
+        winPanel.SetActive(true);
         Time.timeScale = 0;
     }
 }
