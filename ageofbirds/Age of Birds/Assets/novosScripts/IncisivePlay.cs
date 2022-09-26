@@ -11,7 +11,7 @@ public class IncisivePlay : MonoBehaviour
     [Header("Configs")]
     public bool isPlaying = false;
     public TypeOfEvent eventoPosicionar;
-    public GameController tornadoPrefab, fireStormPrefab;
+    public GameObject tornadoPrefab, fireStormPrefab;
     private void Update()
     {
         if (Input.GetMouseButtonDown(1) && isPlaying)//rightclick
@@ -19,10 +19,11 @@ public class IncisivePlay : MonoBehaviour
             switch (eventoPosicionar)
             {
                 case TypeOfEvent.Tornado:
-
+                    print("positionTOrnado");
+              
                     break;
                 case TypeOfEvent.Firestorm:
-
+                    print("positionFirestorm");
                     break;
             }
         }
