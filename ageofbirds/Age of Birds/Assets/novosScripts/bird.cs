@@ -14,6 +14,7 @@ public class bird : MonoBehaviour
     public float increaseRate;
     public float reprodutionSpeed = 2;//em segundos
     public float Water, Bushes;//porcentagem
+    public bool IsPlaying = false;
     [Header("UI")]
     public Text levelTxt;
     public Text NickTxt;
@@ -64,6 +65,7 @@ public class bird : MonoBehaviour
             FindObjectOfType<NewGameController>().GameOver();
         }
 
+       
         #region Sliders
         if (Bushes > bushSlider.maxValue)
         {
@@ -95,7 +97,7 @@ public class bird : MonoBehaviour
         #endregion
 
         #region Movement
-        if (Input.GetMouseButtonDown(1))//rightclick
+        if (Input.GetMouseButtonDown(1) && IsPlaying)//rightclick
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
@@ -105,6 +107,8 @@ public class bird : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
 
         #endregion
+
+        transform.localScale += new Vector3(birdPopulation/100, birdPopulation/ 100, birdPopulation/100) * Time.deltaTime;
     }
 
     void direcaoClique()

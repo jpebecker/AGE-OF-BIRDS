@@ -9,6 +9,10 @@ public class NewGameController : MonoBehaviour
     [SerializeField] private GameObject painelTimes;
     [SerializeField] private GameObject controlBirds,controlNature,gameOverPanel,winPanel;
     [SerializeField] private Slider sliderBirds,sliderNature;
+
+    [Header("Codes")]
+    [SerializeField] private bird passaro;
+    [SerializeField] private IncisivePlay nature;
     private bool TimerIsActive;
     
     void Start()
@@ -39,12 +43,14 @@ public class NewGameController : MonoBehaviour
         {
             controlBirds.SetActive(true);
             TimerIsActive = true;
+            passaro.IsPlaying = true;
             StartSingleplayerMission(0);
         }
         else//nature
         {
             controlNature.SetActive(true);
             TimerIsActive = true;
+            nature.isPlaying = true;
             StartSingleplayerMission(1);
         }
     }
