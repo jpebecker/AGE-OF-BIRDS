@@ -37,8 +37,8 @@ public class bird : MonoBehaviour
     void Update()
     {
         timerReprodution += Time.deltaTime;
-        Water -= (0.2f * birdLevel) * Time.deltaTime;
-        Bushes -= (0.2f * birdLevel) * Time.deltaTime;
+        Water -= (0.1f * birdLevel) * Time.deltaTime;
+        Bushes -= (0.1f * birdLevel) * Time.deltaTime;
         if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
         {
             timerReprodution = 0;

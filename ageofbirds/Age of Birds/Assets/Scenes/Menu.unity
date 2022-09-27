@@ -2418,6 +2418,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1334752245}
+        m_TargetAssemblyTypeName: menuController, Assembly-CSharp
+        m_MethodName: Disconnect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &270156530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7658,7 +7670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c956769f0f21246b584257c6f9a240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playersporsala: 4
   mix: {fileID: 24100000, guid: db4cc775d2ffa0746b4fcdd28df9a290, type: 2}
   toggleMusic: {fileID: 635274110}
   toggleFullscreen: {fileID: 1422707997}

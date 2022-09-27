@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.UI;
 
 public class NewGameController : MonoBehaviour
@@ -9,6 +10,8 @@ public class NewGameController : MonoBehaviour
     [SerializeField] private GameObject painelTimes;
     [SerializeField] private GameObject controlBirds,controlNature,gameOverPanel,winPanel;
     [SerializeField] private Slider sliderBirds,sliderNature;
+    [SerializeField] private Text winText, gameoverText;
+    private int Team;
 
     [Header("Codes")]
     [SerializeField] private bird passaro;
@@ -23,22 +26,29 @@ public class NewGameController : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
-            Photon.Pun.PhotonNetwork.Disconnect();
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            Exit();
         }
 
         if (TimerIsActive)
         {
             sliderBirds.value -= Time.deltaTime;
+            sliderNature.value -= Time.deltaTime;
         }
 
-        if(sliderBirds.value <= 0)
+        if(sliderBirds.value <= 0)//birds
         {
-            
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Win();
+            }
+            else
+            {
+                GameOver();
+            }
         }
     }
 
-    public void ChooseTeamSinglePlayer(int team)
+    private void ChooseTeamSinglePlayer(int team)
     {
         if(team == 0)//bird
         {
@@ -58,10 +68,21 @@ public class NewGameController : MonoBehaviour
     {
         gameOverPanel.SetActive(true);
         Time.timeScale = 0;
+        string nome = Photon.Pun.PhotonNetwork.CurrentRoom.GetPlayer(2).NickName;
+        gameoverText.text = nome + " ganhou o jogo";
     }
-    public void Win()
+    private void Win()
     {
         winPanel.SetActive(true);
         Time.timeScale = 0;
+        string nome = Photon.Pun.PhotonNetwork.CurrentRoom.GetPlayer(2).NickName;
+        winText.text = nome + " perdeu o jogo";
+
+    }
+
+    public void Exit()
+    {
+        Photon.Pun.PhotonNetwork.Disconnect();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }

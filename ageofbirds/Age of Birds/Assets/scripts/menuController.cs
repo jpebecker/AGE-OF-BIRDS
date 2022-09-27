@@ -8,13 +8,10 @@ using UnityEngine.SceneManagement;
 public class menuController : MonoBehaviour
 {
     [Header("Configs")]
-    [SerializeField] private byte playersporsala = 4;//quantidade maxima de jogadores por sala
-    private string versao_aplicativo = "0.1";//versao do aplicativo
     [SerializeField] private AudioMixer mix;
     [SerializeField] private Toggle toggleMusic,toggleFullscreen,toggleFps;
     [SerializeField] private Slider sliderMusic, sliderSfx;
     [SerializeField] private Text txtFPS;
-
     [SerializeField] private GameObject painelLinguagem;
     private float deltaTime;
     private void Start()
@@ -91,6 +88,10 @@ public class menuController : MonoBehaviour
     {
         print("singleplayer");
         SceneManager.LoadScene(1);
+    }
+    public void Disconnect()
+    {
+        Photon.Pun.PhotonNetwork.Disconnect();
     }
     public void QuitApp()
     {
