@@ -45,26 +45,12 @@ public class NewGameController : MonoBehaviour
             controlBirds.SetActive(true);
             TimerIsActive = true;
             passaro.IsPlaying = true;
-            StartSingleplayerMission(0);
         }
         else//nature
         {
             controlNature.SetActive(true);
             TimerIsActive = true;
             nature.isPlaying = true;
-            StartSingleplayerMission(1);
-        }
-    }
-
-    public void StartSingleplayerMission(int mission)
-    {
-        if (mission == 0)//bird
-        {
-            TimerIsActive = true;
-        }
-        else//nature
-        {
-          
         }
     }
 

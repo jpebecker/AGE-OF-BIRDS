@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public enum TypeOfEvent
@@ -14,9 +15,21 @@ public class IncisivePlay : MonoBehaviour
     public TypeOfEvent eventoPosicionar;
     public GameObject tornadoPrefab, fireStormPrefab;
     private PhotonView view;
+    private float DelayToSpawn=5f;
+    private float timer;
+    public Slider sliderDelay;
+
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+        sliderDelay.maxValue = DelayToSpawn;
+        timer = DelayToSpawn;
+    }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine)//rightclick
+        timer += Time.deltaTime;
+        sliderDelay.value = timer;
+        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn)//rightclick
         {
             switch (eventoPosicionar)
             {
@@ -29,6 +42,8 @@ public class IncisivePlay : MonoBehaviour
                     objeto.transform.position = new Vector3(objeto.transform.position.x, objeto.transform.position.y, 0);
                     break;
             }
+
+            timer = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && view.IsMine)
