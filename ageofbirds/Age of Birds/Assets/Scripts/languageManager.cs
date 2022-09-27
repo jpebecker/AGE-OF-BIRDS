@@ -13,7 +13,7 @@ public class languageManager : MonoBehaviour
     public Text options, sair, online, offline;
     [Header("Aba Options")]
     public Text language;
-    public Text voltar1, voltar2, voltar3, voltar4,voltar5, fullscreen, sfxvolume, musicvolume,music, languagetitle, english, portuguese;
+    public Text voltar1, voltar2, voltar3, voltar4,voltar5,voltar6, fullscreen,criarSala, sfxvolume, musicvolume,music, languagetitle, english, portuguese, joinSala, salaName1,salaName2,nickname;
     private int lingua;
 
     private void Start()
@@ -61,13 +61,19 @@ public class languageManager : MonoBehaviour
             voltar3.text = "BACK";
             voltar4.text = "BACK";
             voltar5.text = "BACK";
+            voltar6.text = "BACK";
             fullscreen.text = "fullscreen";
+            criarSala.text = "Create Room";
+            joinSala.text = "Join Room";
             sfxvolume.text = "Sound Effects Volume";
             musicvolume.text = "Music Volume";
             music.text = "Music";
             languagetitle.text = "Game Language:";
             english.text = "English";
             portuguese.text = "Portuguese";
+            salaName1.text = "Room name...";
+            salaName2.text = "Room name...";
+            nickname.text = "Nickname...";
         }
         else
         {
@@ -82,13 +88,19 @@ public class languageManager : MonoBehaviour
             voltar3.text = "Voltar";
             voltar4.text = "Voltar";
             voltar5.text = "Voltar";
+            voltar6.text = "Voltar";
             fullscreen.text = "Tela cheia";
+            criarSala.text = "Criar sala";
+            joinSala.text = "Entrar em sala";
             sfxvolume.text = "Volume de efeitos sonoros";
             musicvolume.text = "Volume da música";
             music.text = "Música";
             languagetitle.text = "Linguagem de jogo:";
             english.text = "Inglês";
             portuguese.text = "Português";
+            salaName1.text = "Nome da sala...";
+            salaName2.text = "Nome da sala...";
+            nickname.text = "Apelido...";
         }
     }
     public void Confirm()

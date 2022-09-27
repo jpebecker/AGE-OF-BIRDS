@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.UI;
 
 public class bird : MonoBehaviour
@@ -23,8 +24,10 @@ public class bird : MonoBehaviour
     private Vector3 target;
     private float timerReprodution;
     private bool IsGettingDamage;
+    private PhotonView view;
     void Start()
     {
+        view = GetComponent<PhotonView>();
         IsGettingDamage = false;
         target = transform.position;
         levelTxt.text = "Level " + birdLevel.ToString();
@@ -34,13 +37,13 @@ public class bird : MonoBehaviour
     void Update()
     {
         timerReprodution += Time.deltaTime;
-        Water -= (0.1f * birdLevel) * Time.deltaTime;
-        Bushes -= (0.1f * birdLevel) * Time.deltaTime;
+        Water -= (0.2f * birdLevel) * Time.deltaTime;
+        Bushes -= (0.2f * birdLevel) * Time.deltaTime;
         if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
         {
             timerReprodution = 0;
             birdPopulation += birdLevel * Random.Range(3,5);
-            Xp += birdLevel / Random.Range(8,10);
+            Xp += birdLevel + birdLevel / Random.Range(3, 8);
         }
 
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
@@ -97,7 +100,7 @@ public class bird : MonoBehaviour
         #endregion
 
         #region Movement
-        if (Input.GetMouseButtonDown(1) && IsPlaying)//rightclick
+        if (Input.GetMouseButtonDown(1) && IsPlaying && view.IsMine)//rightclick
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
@@ -108,7 +111,10 @@ public class bird : MonoBehaviour
 
         #endregion
 
-        transform.localScale += new Vector3(birdPopulation/100, birdPopulation/ 100, birdPopulation/100) * Time.deltaTime;
+        if(transform.localScale.x < 10)
+        {
+            transform.localScale += new Vector3(birdPopulation / 100, birdPopulation / 100, birdPopulation / 100) * Time.deltaTime / 2;
+        }
     }
 
     void direcaoClique()

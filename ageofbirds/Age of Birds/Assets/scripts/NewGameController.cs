@@ -23,6 +23,7 @@ public class NewGameController : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
+            Photon.Pun.PhotonNetwork.Disconnect();
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
 

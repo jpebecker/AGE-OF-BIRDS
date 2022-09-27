@@ -6,6 +6,10 @@ public class coletaveis : MonoBehaviour
 {
     public bool IsInactive = false;
 
+    public void Start()
+    {
+        Destroy(gameObject,10f);
+    }
     private void Update()
     {
         if (IsInactive && gameObject.transform.localScale.x <= 5 && gameObject.transform.localScale.y <= 5 && gameObject.transform.localScale.z <=5)
