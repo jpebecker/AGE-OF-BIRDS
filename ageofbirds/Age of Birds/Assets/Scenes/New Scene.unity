@@ -419,7 +419,7 @@ MonoBehaviour:
   controlBirds: {fileID: 1906037966}
   controlNature: {fileID: 1412049901}
   gameOverPanel: {fileID: 595613502}
-  winPanel: {fileID: 0}
+  winPanel: {fileID: 81652192}
   sliderBirds: {fileID: 1283517220}
   sliderNature: {fileID: 1902198784}
   winText: {fileID: 477458726}

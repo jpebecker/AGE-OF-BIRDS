@@ -24,7 +24,7 @@ public class bird : MonoBehaviour
     private Vector3 target;
     private float timerReprodution;
     private bool IsGettingDamage;
-    private PhotonView view;
+    [HideInInspector]public PhotonView view;
     void Start()
     {
         view = GetComponent<PhotonView>();
@@ -43,11 +43,12 @@ public class bird : MonoBehaviour
         {
             timerReprodution = 0;
             birdPopulation += birdLevel * Random.Range(3,5);
-            Xp += birdLevel + birdLevel / Random.Range(3, 8);
+            Xp += birdLevel + Random.Range(3, 8);
         }
 
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
         {
+            Xp = 0;
             birdLevel += 1;
             life += 50;
             UpdateLevel();
@@ -104,7 +105,7 @@ public class bird : MonoBehaviour
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
-            direcaoClique();
+            //direcaoClique();
         }
 
         transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
@@ -130,11 +131,6 @@ public class bird : MonoBehaviour
 
         transform.up -= direction;
     }
-    private void OnMouseDown()
-    {
-        print("click");
-    }
-
     void UpdateLevel()
     {
         switch (birdLevel)
@@ -203,7 +199,7 @@ public class bird : MonoBehaviour
                 if(col.gameObject.transform.localScale.x >=2 && col.gameObject.transform.localScale.y >= 2 && col.gameObject.transform.localScale.z >= 2)
                 {
                     col.gameObject.transform.localScale -= new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 1 * Time.deltaTime);
-                    Water += 5 * Time.deltaTime;
+                    Water += birdLevel * 5 * Time.deltaTime;
                     waterSlider.value = Water;
                 }
              
@@ -212,7 +208,7 @@ public class bird : MonoBehaviour
                 if (col.gameObject.transform.localScale.x >= 2 && col.gameObject.transform.localScale.y >= 2 && col.gameObject.transform.localScale.z >= 2)
                 {
                     col.gameObject.transform.localScale -= new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 1 * Time.deltaTime);
-                    Bushes += 5 * Time.deltaTime;
+                    Bushes += birdLevel * 5 * Time.deltaTime;
                     bushSlider.value = Bushes;
                 }
                 break;
@@ -245,5 +241,10 @@ public class bird : MonoBehaviour
         }
     }
 
+   
+     [PunRPC]private void birdName(string name)
+    {
+        NickTxt.text = name;
+    }
 
 }

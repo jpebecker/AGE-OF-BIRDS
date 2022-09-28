@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.UI;
 
 public class NewGameController : MonoBehaviour
@@ -55,6 +56,7 @@ public class NewGameController : MonoBehaviour
             controlBirds.SetActive(true);
             TimerIsActive = true;
             passaro.IsPlaying = true;
+            passaro.view.RPC("birdName",RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
         }
         else//nature
         {
@@ -85,4 +87,6 @@ public class NewGameController : MonoBehaviour
         Photon.Pun.PhotonNetwork.Disconnect();
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
+
+    
 }
