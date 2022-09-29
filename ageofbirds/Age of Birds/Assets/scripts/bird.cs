@@ -50,7 +50,7 @@ public class bird : MonoBehaviour
         {
             Xp = 0;
             birdLevel += 1;
-            life += 50;
+            life += 5 * birdLevel;
             UpdateLevel();
             levelTxt.text = "Level " + birdLevel.ToString();
         }
