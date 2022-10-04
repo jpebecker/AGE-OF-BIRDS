@@ -25,9 +25,14 @@ public class bird : MonoBehaviour
     private float timerReprodution;
     private bool IsGettingDamage;
     [HideInInspector]public PhotonView view;
-    void Start()
+
+    private void Awake()
     {
         view = GetComponent<PhotonView>();
+    }
+    void Start()
+    {
+        
         IsGettingDamage = false;
         target = transform.position;
         levelTxt.text = "Level " + birdLevel.ToString();
@@ -58,18 +63,25 @@ public class bird : MonoBehaviour
         if (IsGettingDamage)
         {
             life -= 50 * Time.deltaTime;
-            if(life <= 0)
+            if(life <= 0)//bird died
             {
-                FindObjectOfType<NewGameController>().GameOver();
+                FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All,1);
+                FindObjectOfType<NewGameController>().GameOver(0);
             }
         }
 
         if(Water <=1 || Bushes <= 1)
         {
-            FindObjectOfType<NewGameController>().GameOver();
+            FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
+            FindObjectOfType<NewGameController>().GameOver(0);
         }
 
-       
+        if(FindObjectOfType<NewGameController>().sliderBirds.value <= 0)//se a contagem zerar
+        {
+            FindObjectOfType<NewGameController>().view.RPC("GameOver", RpcTarget.All, 1);
+            FindObjectOfType<NewGameController>().Win(0);
+        }
+
         #region Sliders
         if (Bushes > bushSlider.maxValue)
         {
@@ -244,6 +256,7 @@ public class bird : MonoBehaviour
    
      [PunRPC]private void birdName(string name)
     {
+        gameObject.SetActive(true);
         NickTxt.text = name;
     }
 

@@ -42,6 +42,9 @@ MonoBehaviour:
   - playersProntos
   - GenerateTeams
   - birdName
+  - GameOver
+  - Win
+  - Nick
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

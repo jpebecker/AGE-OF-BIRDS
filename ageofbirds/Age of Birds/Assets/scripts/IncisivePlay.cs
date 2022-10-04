@@ -35,7 +35,7 @@ public class IncisivePlay : MonoBehaviour
             {
                 case TypeOfEvent.Tornado:
                     GameObject obj = PhotonNetwork.Instantiate(tornadoPrefab.name,Camera.main.ScreenToWorldPoint(Input.mousePosition),Quaternion.identity);
-                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 0);
+                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 0);                 
                     break;
                 case TypeOfEvent.Firestorm:
                     GameObject objeto = PhotonNetwork.Instantiate(fireStormPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);

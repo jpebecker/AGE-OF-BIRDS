@@ -7,7 +7,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
 {
     [Header("Painel Times")]
     public Text timePassaros;
-    public Text timeNatureza,subtitlePassaro,subtitleNature,objective1Passaro,objective2Passaro,objective1Nature,objective2Nature,legendaSlider,legendaSlider2,venceu1,venceu2,derrota1,derrota2,sair1,sair2;
+    public Text timeNatureza,subtitlePassaro,subtitleNature,objective1Passaro,objective2Passaro,objective1Nature,objective2Nature,legendaSlider,legendaSlider2,venceu1,venceu2,derrota1,derrota2,sair1,sair2, txtWait;
 
     private string nickName;
 
@@ -36,6 +36,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             objective2Passaro.text = "AVOID:";
             objective1Nature.text = "PLACE IT:";
             objective2Nature.text = "DESTROY:";
+            txtWait.text = "Waiting for players";
         }
         else
         {
@@ -55,6 +56,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             objective2Passaro.text = "Evite:";
             objective1Nature.text = "Posicione:";
             objective2Nature.text = "Destrua:";
+            txtWait.text = "Aguardando jogadores";
         }
     }
 }
