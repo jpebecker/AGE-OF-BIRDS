@@ -29,7 +29,7 @@ public class IncisivePlay : MonoBehaviour
     {
         timer += Time.deltaTime;
         sliderDelay.value = timer;
-        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn)//rightclick
+        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && PhotonNetwork.IsConnected)//rightclick
         {
             switch (eventoPosicionar)
             {
@@ -46,11 +46,11 @@ public class IncisivePlay : MonoBehaviour
             timer = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && view.IsMine)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && view.IsMine)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Firestorm;
         }

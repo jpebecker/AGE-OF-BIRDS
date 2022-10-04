@@ -39,39 +39,62 @@ public class NewGameController : MonoBehaviour
             sliderNature.value -= Time.deltaTime;
         }
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        if (PhotonNetwork.IsConnected)
         {
-            birdBtn.interactable = false;
-            natureBtn.interactable = false;
-            txtWait.gameObject.SetActive(true);
+            if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
+            {
+                birdBtn.interactable = false;
+                natureBtn.interactable = false;
+                txtWait.gameObject.SetActive(true);
+            }
+            else
+            {
+                birdBtn.interactable = true;
+                natureBtn.interactable = true;
+                txtWait.gameObject.SetActive(false);
+            }
         }
-        else
-        {
-            birdBtn.interactable = true;
-            natureBtn.interactable = true;
-            txtWait.gameObject.SetActive(false);
-        }
+     
 
     }
 
     private void ChooseTeamSinglePlayer(int team)
     {
-        if (team == 0)//bird
+        if (PhotonNetwork.IsConnected)
         {
-            controlBirds.SetActive(true);
-            TimerIsActive = true;
-            passaro.IsPlaying = true;
-            passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
-            FindObjectOfType<camera>().player = passaro.gameObject.transform;
-            view.RPC("Nick", RpcTarget.AllBuffered, 0, PhotonNetwork.NickName.ToString());
+            if (team == 0)//bird
+            {
+                controlBirds.SetActive(true);
+                TimerIsActive = true;
+                passaro.IsPlaying = true;
+                passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
+                FindObjectOfType<camera>().player = passaro.gameObject.transform;
+                view.RPC("Nick", RpcTarget.AllBuffered, 0, PhotonNetwork.NickName.ToString());
+            }
+            else//nature
+            {
+                controlNature.SetActive(true);
+                TimerIsActive = true;
+                nature.isPlaying = true;
+                view.RPC("Nick", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName.ToString());
+            }
         }
-        else//nature
+        else
         {
-            controlNature.SetActive(true);
-            TimerIsActive = true;
-            nature.isPlaying = true;
-            view.RPC("Nick", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName.ToString());
+            if (team == 0)//bird
+            {
+                controlBirds.SetActive(true);
+                TimerIsActive = true;
+                passaro.IsPlaying = true;
+            }
+            else//nature
+            {
+                controlNature.SetActive(true);
+                TimerIsActive = true;
+                nature.isPlaying = true;
+            }
         }
+       
     }
 
     [PunRPC]
