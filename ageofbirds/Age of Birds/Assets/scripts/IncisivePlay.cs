@@ -45,12 +45,39 @@ public class IncisivePlay : MonoBehaviour
 
             timer = 0;
         }
+        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && !PhotonNetwork.IsConnected)//rightclick
+        {
+            switch (eventoPosicionar)
+            {
+                case TypeOfEvent.Tornado:
+                    GameObject obj = Instantiate(tornadoPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 0);
+                    break;
+                case TypeOfEvent.Firestorm:
+                    GameObject objeto = Instantiate(fireStormPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+                    objeto.transform.position = new Vector3(objeto.transform.position.x, objeto.transform.position.y, 0);
+                    break;
+            }
+
+            timer = 0;
+        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2) && view.IsMine && PhotonNetwork.IsConnected)
+        {
+            eventoPosicionar = TypeOfEvent.Firestorm;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !PhotonNetwork.IsConnected)
+        {
+            eventoPosicionar = TypeOfEvent.Tornado;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Firestorm;
         }
