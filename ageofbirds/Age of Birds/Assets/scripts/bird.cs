@@ -63,23 +63,44 @@ public class bird : MonoBehaviour
         if (IsGettingDamage)
         {
             life -= 50 * Time.deltaTime;
-            if(life <= 0)//bird died
+            if(life <= 0 && PhotonNetwork.IsConnected)//bird died
             {
                 FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All,1);
+                FindObjectOfType<NewGameController>().GameOver(0);
+            }
+            else if(life <= 0 && !PhotonNetwork.IsConnected)
+            {
                 FindObjectOfType<NewGameController>().GameOver(0);
             }
         }
 
         if(Water <=1 || Bushes <= 1)
         {
-            FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
-            FindObjectOfType<NewGameController>().GameOver(0);
+            if (!PhotonNetwork.IsConnected)
+            {
+                FindObjectOfType<NewGameController>().GameOver(0);
+            }
+            else
+            {
+                FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
+                FindObjectOfType<NewGameController>().GameOver(0);
+            }
+
         }
 
         if(FindObjectOfType<NewGameController>().sliderBirds.value <= 0)//se a contagem zerar
         {
-            FindObjectOfType<NewGameController>().view.RPC("GameOver", RpcTarget.All, 1);
-            FindObjectOfType<NewGameController>().Win(0);
+           
+            if (PhotonNetwork.IsConnected)
+            {
+                FindObjectOfType<NewGameController>().view.RPC("GameOver", RpcTarget.All, 1);
+                FindObjectOfType<NewGameController>().Win(0);
+            }
+            else
+            {
+                FindObjectOfType<NewGameController>().Win(0);
+            }
+
         }
 
         #region Sliders
@@ -119,6 +140,7 @@ public class bird : MonoBehaviour
             target.z = transform.position.z;
             //direcaoClique();
         }
+        
 
         transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
 

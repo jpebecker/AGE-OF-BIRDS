@@ -18,6 +18,8 @@ public class IncisivePlay : MonoBehaviour
     private float DelayToSpawn=5f;
     private float timer;
     public Slider sliderDelay;
+    [SerializeField]private Image fillSlider,tornadoimage,fireImage;
+    public Color tornadoColor, fireColor;
 
     private void Start()
     {
@@ -29,7 +31,14 @@ public class IncisivePlay : MonoBehaviour
     {
         timer += Time.deltaTime;
         sliderDelay.value = timer;
-        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && PhotonNetwork.IsConnected)//rightclick
+
+        if (timer < DelayToSpawn)
+        {
+            tornadoimage.color = Color.grey;
+            fireImage.color = Color.grey;
+        }
+
+        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && PhotonNetwork.IsConnected)//rightclick connected
         {
             switch (eventoPosicionar)
             {
@@ -45,7 +54,7 @@ public class IncisivePlay : MonoBehaviour
 
             timer = 0;
         }
-        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && !PhotonNetwork.IsConnected)//rightclick
+        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && !PhotonNetwork.IsConnected)//rightclick offline
         {
             switch (eventoPosicionar)
             {
@@ -65,21 +74,25 @@ public class IncisivePlay : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
+            fillSlider.color = tornadoColor;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Firestorm;
+            fillSlider.color = fireColor;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && !PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
+            fillSlider.color = tornadoColor;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && !PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Firestorm;
+            fillSlider.color = fireColor;
         }
     }
 

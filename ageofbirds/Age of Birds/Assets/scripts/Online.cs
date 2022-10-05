@@ -30,22 +30,23 @@ public class Online : MonoBehaviourPunCallbacks
                 createInput.text = "incorreto";
             }
                 
-        }
+        }//nome de sala menor ou maior que o permitido
         else
         {
-            if(nickInput.text.Length < 3 || nickInput.text.Length > 12)
+            if(nickInput.text.Length < 3 || nickInput.text.Length > 12)//nickname menor ou maior que o permitido
             {
                 if (PlayerPrefs.GetInt("language") == 1)
                 {
-                    createInput.text = "incorrect";
+                    nickInput.text = "incorrect";
                 }
                 else
                 {
-                    createInput.text = "incorreto";
+                    nickInput.text = "incorreto";
                 }
             }
-            else
+            else//cria a sala
             {
+                PlayerPrefs.SetString("nickPlayer", nickInput.text);
                 PhotonNetwork.NickName = nickInput.text;
                 PhotonNetwork.CreateRoom(createInput.text);
             }
@@ -87,16 +88,20 @@ public class Online : MonoBehaviourPunCallbacks
         }
       
     }
-
     public override void OnConnectedToMaster()
     {
         print("connected");
+        if (PlayerPrefs.HasKey("nickPlayer"))
+        {
+            nickInput.text = PlayerPrefs.GetString("nickPlayer");
+        }
         painelLoading.SetActive(false);
         //PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
+      
         print("Onlobby");
     }
 
