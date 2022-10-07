@@ -12,7 +12,7 @@ public class NewGameController : MonoBehaviour
     [SerializeField] private GameObject controlBirds, controlNature, gameOverPanel, winPanel;
     [SerializeField] public Slider sliderBirds, sliderNature;
     [SerializeField] private Button birdBtn, natureBtn;
-    [SerializeField] private Text winText, gameoverText, txtWait;
+    [SerializeField] private Text winText, gameoverText, txtWait, txtRoomName;
     private string birdNickname, natureNickname;
     [HideInInspector] public PhotonView view;
 
@@ -46,6 +46,15 @@ public class NewGameController : MonoBehaviour
                 birdBtn.interactable = false;
                 natureBtn.interactable = false;
                 txtWait.gameObject.SetActive(true);
+                if (PlayerPrefs.GetInt("language") == 1)//ingles
+                {
+                    txtRoomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;
+                }
+                else//portugues
+                {
+                    txtRoomName.text = "Sala: " + PhotonNetwork.CurrentRoom.Name;
+                }
+               
             }
             else
             {
@@ -102,15 +111,31 @@ public class NewGameController : MonoBehaviour
     {
         if (whoWins == 0)//birds Lose
         {
+            if (PlayerPrefs.GetInt("language") == 1)//ingles
+            {
+                gameoverText.text = natureNickname + " won the match";
+            }
+            else//portugues
+            {
+                gameoverText.text = natureNickname + " ganhou o jogo";
+            }
             gameOverPanel.SetActive(true);
             Time.timeScale = 0;
-            gameoverText.text = natureNickname + " ganhou o jogo";
+
         }
         else//nature lose
         {
+            if (PlayerPrefs.GetInt("language") == 1)//ingles
+            {
+                gameoverText.text = birdNickname + " won the match";
+            }
+            else//portugues
+            {
+                gameoverText.text = birdNickname + " ganhou o jogo";
+            }
             gameOverPanel.SetActive(true);
             Time.timeScale = 0;
-            gameoverText.text = birdNickname + " ganhou o jogo";
+
         }
        
     }
@@ -119,15 +144,33 @@ public class NewGameController : MonoBehaviour
     {
         if (whoWins == 0)//birds Win
         {
+            if (PlayerPrefs.GetInt("language") == 1)
+            {
+                winText.text = natureNickname + " lost the match";
+            }
+            else
+            {
+                winText.text = natureNickname + " perdeu o jogo";
+            }
             winPanel.SetActive(true);
             Time.timeScale = 0;
-            winText.text = natureNickname + " perdeu o jogo";
+            
         }
         else
         {
+            if (PlayerPrefs.GetInt("language") == 1)
+            {
+                winText.text = birdNickname + " lost the match";
+            }
+            else
+            {
+                winText.text = birdNickname + " perdeu o jogo";
+            }
+
+
             winPanel.SetActive(true);
             Time.timeScale = 0;
-            winText.text = birdNickname + " perdeu o jogo";
+
         }
        
 

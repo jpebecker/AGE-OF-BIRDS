@@ -36,7 +36,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             objective2Passaro.text = "AVOID:";
             objective1Nature.text = "PLACE IT:";
             objective2Nature.text = "DESTROY:";
-            txtWait.text = "Waiting for players";
+            txtWait.text = "Waiting for players...";
         }
         else
         {
@@ -56,7 +56,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             objective2Passaro.text = "Evite:";
             objective1Nature.text = "Posicione:";
             objective2Nature.text = "Destrua:";
-            txtWait.text = "Aguardando jogadores";
+            txtWait.text = "Aguardando jogadores...";
         }
     }
 }

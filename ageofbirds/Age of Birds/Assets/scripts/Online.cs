@@ -10,12 +10,20 @@ public class Online : MonoBehaviourPunCallbacks
     public InputField createInput;
     public InputField joinInput;
     public InputField nickInput;
-    public GameObject painelLoading;
+    public GameObject painelLoading,painelCarregando;
     public void Connect()
     {
       PhotonNetwork.GameVersion = "0.1";
       PhotonNetwork.ConnectUsingSettings();
-      painelLoading.SetActive(true);
+        if (PlayerPrefs.GetInt("language") == 1)
+        {
+            painelLoading.SetActive(true);
+        }
+        else
+        {
+            painelCarregando.SetActive(true);
+        }
+    
     }
     public void CreateSala()
     {
@@ -95,7 +103,16 @@ public class Online : MonoBehaviourPunCallbacks
         {
             nickInput.text = PlayerPrefs.GetString("nickPlayer");
         }
-        painelLoading.SetActive(false);
+
+        if (PlayerPrefs.GetInt("language") == 1)
+        {
+            painelLoading.SetActive(false);
+        }
+        else
+        {
+            painelCarregando.SetActive(false);
+        }
+            
         //PhotonNetwork.JoinLobby();
     }
 
