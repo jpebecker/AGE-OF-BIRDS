@@ -12,6 +12,8 @@ public class spawner : MonoBehaviour
 
     public float xMin,xMan;
     public float yMin,yMan;
+
+    public bool Offline = false;
     void Update()
     {
         StartWait -= Time.deltaTime;

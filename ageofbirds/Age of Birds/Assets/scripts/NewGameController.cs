@@ -32,6 +32,7 @@ public class NewGameController : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+
         if (Input.GetButtonDown("Cancel"))
         {
             //Exit();
@@ -104,12 +105,16 @@ public class NewGameController : MonoBehaviour
                 controlBirds.SetActive(true);
                 TimerIsActive = true;
                 passaro.IsPlaying = true;
+                FindObjectOfType<spawner>().Offline = true;
+
             }
             else//nature
             {
                 controlNature.SetActive(true);
                 TimerIsActive = true;
                 nature.isPlaying = true;
+                passaro.IsPlaying = false;
+                passaro.gameObject.SetActive(true);
             }
         }
        

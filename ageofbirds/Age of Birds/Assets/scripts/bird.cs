@@ -25,6 +25,11 @@ public class bird : MonoBehaviour
     private float timerReprodution;
     private bool IsGettingDamage;
     [HideInInspector]public PhotonView view;
+    private Camera cam;
+    private float Targetzoom;
+    private float zoomFactor = 2;
+    private float zoomLerpSpeed = 10;
+
 
     private void Awake()
     {
@@ -32,7 +37,11 @@ public class bird : MonoBehaviour
     }
     void Start()
     {
-        
+        cam = Camera.main;
+        Targetzoom = cam.orthographicSize;
+
+
+
         IsGettingDamage = false;
         target = transform.position;
         levelTxt.text = "Level " + birdLevel.ToString();
@@ -54,6 +63,7 @@ public class bird : MonoBehaviour
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
         {
             Xp = 0;
+            cam.orthographicSize += 0.5f;
             birdLevel += 1;
             life += 5 * birdLevel;
             UpdateLevel();
@@ -146,10 +156,19 @@ public class bird : MonoBehaviour
 
         #endregion
 
-        if(transform.localScale.x < 10)
+        if(transform.localScale.x < 20)
         {
             transform.localScale += new Vector3(birdPopulation / 100, birdPopulation / 100, birdPopulation / 100) * Time.deltaTime / 2;
         }
+
+
+
+        /*
+        Targetzoom += transform.localScale.x * zoomFactor;
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, Targetzoom, Time.deltaTime);
+        */
+
+
     }
 
     void direcaoClique()
@@ -201,7 +220,6 @@ public class bird : MonoBehaviour
                 break;
         }
     }
-
 
     private void OnTriggerEnter2D(Collider2D col)
     {
