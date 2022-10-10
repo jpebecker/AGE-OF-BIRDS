@@ -8,7 +8,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
     [Header("Painel Times")]
     public Text timePassaros;
     public Text timeNatureza,subtitlePassaro,subtitleNature,objective1Passaro,objective2Passaro,objective1Nature,objective2Nature,legendaSlider,legendaSlider2,venceu1,venceu2,derrota1,derrota2,sair1,sair2, txtWait;
-    public Text sairMessage, sim, nao;
+    public Text sairMessage, sim, nao, practice1,practice2,practice3,practice4,exit1,exit2,frasepracticewin,frasepracticefail;
 
     private string nickName;
 
@@ -41,6 +41,14 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             sairMessage.text = "Are you sure you want to leave?";
             sim.text = "YES";
             nao.text = "NO";
+            practice1.text = "PRACTICE FINISHED";
+            practice2.text = "PRACTICE FINISHED";
+            practice3.text = "PRACTICE FAILED";
+            practice4.text = "PRACTICE FAILED";
+            exit1.text = "EXIT";
+            exit2.text = "EXIT";
+            frasepracticefail.text = "You didn´t completed the objective";
+            frasepracticewin.text = "You completed the objective";
         }
         else
         {
@@ -64,6 +72,14 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             sairMessage.text = "Você tem certeza que deseja sair?";
             sim.text = "SIM";
             nao.text = "NÃO";
+            practice1.text = "TREINO CONCLUÍDO";
+            practice2.text = "TREINO CONCLUÍDO";
+            practice3.text = "FIM DE TREINO";
+            practice4.text = "FIM DE TREINO";
+            exit1.text = "SAIR";
+            exit2.text = "SAIR";
+            frasepracticefail.text = "Você falhou ao completar o objetivo";
+            frasepracticewin.text = "Você completou o objetivo";
         }
     }
 }
