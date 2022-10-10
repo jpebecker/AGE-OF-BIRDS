@@ -9,7 +9,7 @@ public class NewGameController : MonoBehaviour
 {
     [Header("paineis")]
     [SerializeField] private GameObject painelTimes;
-    [SerializeField] private GameObject controlBirds, controlNature, gameOverPanel, winPanel;
+    [SerializeField] private GameObject controlBirds, controlNature, gameOverPanel, winPanel, exitPanel;
     [SerializeField] public Slider sliderBirds, sliderNature;
     [SerializeField] private Button birdBtn, natureBtn;
     [SerializeField] private Text winText, gameoverText, txtWait, txtRoomName;
@@ -28,9 +28,18 @@ public class NewGameController : MonoBehaviour
     }
     void Update()
     {
+        if (!exitPanel.activeInHierarchy && !PhotonNetwork.IsConnected)
+        {
+            Time.timeScale = 1;
+        }
         if (Input.GetButtonDown("Cancel"))
         {
-            Exit();
+            //Exit();
+            if (!PhotonNetwork.IsConnected)
+            {
+                Time.timeScale = 0;
+            }
+            exitPanel.SetActive(true);
         }
 
         if (TimerIsActive)

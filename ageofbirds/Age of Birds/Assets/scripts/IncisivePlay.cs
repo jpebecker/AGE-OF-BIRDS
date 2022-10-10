@@ -37,6 +37,13 @@ public class IncisivePlay : MonoBehaviour
             tornadoimage.color = Color.grey;
             fireImage.color = Color.grey;
         }
+        else
+        {
+            tornadoimage.color = Color.white;
+            fireImage.color = Color.white;
+        }
+
+        #region posicionaraoclique
 
         if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && PhotonNetwork.IsConnected)//rightclick connected
         {
@@ -71,29 +78,39 @@ public class IncisivePlay : MonoBehaviour
             timer = 0;
         }
 
+        #endregion
+
+        #region teclas de selecao
+
         if (Input.GetKeyDown(KeyCode.Alpha1) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
             fillSlider.color = tornadoColor;
+            //tornadoimage.color = Color.yellow;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && view.IsMine && PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Firestorm;
             fillSlider.color = fireColor;
+            //fireImage.color = Color.yellow;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && !PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
             fillSlider.color = tornadoColor;
+            //tornadoimage.color = Color.yellow;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && !PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Firestorm;
             fillSlider.color = fireColor;
+            //fireImage.color = Color.yellow;
         }
+
+        #endregion
     }
 
 }

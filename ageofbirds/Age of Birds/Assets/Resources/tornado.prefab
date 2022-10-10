@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: -5324168204463363016}
   - component: {fileID: -8235557813073740035}
   m_Layer: 0
-  m_Name: damage 1
+  m_Name: tornado
   m_TagString: damage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,4 +237,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInactive: 0
-  type: 1
+  type: 2

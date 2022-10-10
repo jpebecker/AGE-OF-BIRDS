@@ -30,7 +30,7 @@ public class languageManager : MonoBehaviour
     }
     public void GameIngles()
     {
-        title.text = "Game Language:";
+        title.text = "Game Language";
         ingles.text = "English";
         portugues.text = "Portuguese";
         confirmar.text = "CONFIRM";
@@ -39,7 +39,7 @@ public class languageManager : MonoBehaviour
     }
     public void GamePortugues()
     {
-        title.text = "Linguagem do jogo:";
+        title.text = "Linguagem do jogo";
         ingles.text = "Inglês";
         portugues.text = "Português";
         confirmar.text = "CONFIRMAR";
