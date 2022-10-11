@@ -6,21 +6,20 @@ using Photon.Pun;
 
 public enum TypeOfEvent
 {
-    Tornado,Firestorm,
+    Tornado,Firestorm,Predator
 }
 public class IncisivePlay : MonoBehaviour
 {
     [Header("Configs")]
     public bool isPlaying = false;
     public TypeOfEvent eventoPosicionar;
-    public GameObject tornadoPrefab, fireStormPrefab;
+    public GameObject tornadoPrefab, fireStormPrefab,predatorPrefab;
     private PhotonView view;
     private float DelayToSpawn=5f;
     private float timer;
     public Slider sliderDelay;
-    [SerializeField]private Image fillSlider,tornadoimage,fireImage;
-    public Color tornadoColor, fireColor;
-
+    [SerializeField]private Image fillSlider,tornadoimage,fireImage,predatorImage;
+    public Color tornadoColor, fireColor, predatorColor;
     private void Start()
     {
         view = GetComponent<PhotonView>();
@@ -36,11 +35,13 @@ public class IncisivePlay : MonoBehaviour
         {
             tornadoimage.color = Color.grey;
             fireImage.color = Color.grey;
+            predatorImage.color = Color.grey;
         }
         else
         {
             tornadoimage.color = Color.white;
             fireImage.color = Color.white;
+            predatorImage.color = Color.white;
         }
 
         #region posicionaraoclique
@@ -57,6 +58,11 @@ public class IncisivePlay : MonoBehaviour
                     GameObject objeto = PhotonNetwork.Instantiate(fireStormPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
                     objeto.transform.position = new Vector3(objeto.transform.position.x, objeto.transform.position.y, 0);
                     break;
+                case TypeOfEvent.Predator:
+                    GameObject predator = PhotonNetwork.Instantiate(predatorPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+                    predator.transform.position = new Vector3(predator.transform.position.x, predator.transform.position.y, 0);
+                    break;
+
             }
 
             timer = 0;
@@ -72,6 +78,10 @@ public class IncisivePlay : MonoBehaviour
                 case TypeOfEvent.Firestorm:
                     GameObject objeto = Instantiate(fireStormPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
                     objeto.transform.position = new Vector3(objeto.transform.position.x, objeto.transform.position.y, 0);
+                    break;
+                case TypeOfEvent.Predator:
+                    GameObject predator = Instantiate(predatorPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+                    predator.transform.position = new Vector3(predator.transform.position.x, predator.transform.position.y, 0);
                     break;
             }
 
@@ -96,6 +106,13 @@ public class IncisivePlay : MonoBehaviour
             //fireImage.color = Color.yellow;
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3) && view.IsMine && PhotonNetwork.IsConnected)
+        {
+            eventoPosicionar = TypeOfEvent.Predator;
+            fillSlider.color = predatorColor;
+            //fireImage.color = Color.yellow;
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1) && !PhotonNetwork.IsConnected)
         {
             eventoPosicionar = TypeOfEvent.Tornado;
@@ -110,6 +127,12 @@ public class IncisivePlay : MonoBehaviour
             //fireImage.color = Color.yellow;
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !PhotonNetwork.IsConnected)
+        {
+            eventoPosicionar = TypeOfEvent.Predator;
+            fillSlider.color = predatorColor;
+            //fireImage.color = Color.yellow;
+        }
         #endregion
     }
 

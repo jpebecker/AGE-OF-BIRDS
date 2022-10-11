@@ -27,9 +27,6 @@ public class bird : MonoBehaviour
     [HideInInspector]public PhotonView view;
     private Camera cam;
     private float Targetzoom;
-    private float zoomFactor = 2;
-    private float zoomLerpSpeed = 10;
-
 
     private void Awake()
     {
@@ -51,8 +48,8 @@ public class bird : MonoBehaviour
     void Update()
     {
         timerReprodution += Time.deltaTime;
-        Water -= (0.1f * birdLevel) * Time.deltaTime;
-        Bushes -= (0.1f * birdLevel) * Time.deltaTime;
+        Water -= (1f * birdLevel) * Time.deltaTime;
+        Bushes -= (1f * birdLevel) * Time.deltaTime;
         if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
         {
             timerReprodution = 0;
@@ -63,7 +60,6 @@ public class bird : MonoBehaviour
         if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
         {
             Xp = 0;
-            cam.orthographicSize += 0.5f;
             birdLevel += 1;
             life += 5 * birdLevel;
             UpdateLevel();
@@ -80,7 +76,14 @@ public class bird : MonoBehaviour
             }
             else if(life <= 0 && !PhotonNetwork.IsConnected)
             {
-                FindObjectOfType<NewGameController>().GameOver(0);
+                if (IsPlaying)
+                {
+                    FindObjectOfType<NewGameController>().GameOver(0);
+                }
+                else
+                {
+                    FindObjectOfType<NewGameController>().Win(0);
+                }
             }
         }
 
@@ -88,7 +91,15 @@ public class bird : MonoBehaviour
         {
             if (!PhotonNetwork.IsConnected)
             {
-                FindObjectOfType<NewGameController>().GameOver(0);
+                if (IsPlaying)
+                {
+                    FindObjectOfType<NewGameController>().GameOver(0);
+                }
+                else
+                {
+                    FindObjectOfType<NewGameController>().Win(0);
+                }
+                
             }
             else
             {
@@ -108,7 +119,14 @@ public class bird : MonoBehaviour
             }
             else
             {
-                FindObjectOfType<NewGameController>().Win(0);
+                if (IsPlaying)
+                {
+                    FindObjectOfType<NewGameController>().Win(0);
+                }
+                else
+                {
+                    FindObjectOfType<NewGameController>().GameOver(0);
+                }
             }
 
         }
@@ -158,17 +176,13 @@ public class bird : MonoBehaviour
 
         if(transform.localScale.x < 20)
         {
-            transform.localScale += new Vector3(birdPopulation / 100, birdPopulation / 100, birdPopulation / 100) * Time.deltaTime / 2;
+            transform.localScale += new Vector3(birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel)) * Time.deltaTime;
         }
-
-
 
         /*
         Targetzoom += transform.localScale.x * zoomFactor;
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, Targetzoom, Time.deltaTime);
         */
-
-
     }
 
     void direcaoClique()
@@ -190,15 +204,21 @@ public class bird : MonoBehaviour
         {
             case 3:
                 reprodutionSpeed = 1.95f;
+                cam.orthographicSize += 1.2f;
                 break;
             case 5:
                 reprodutionSpeed = 1.9f;
+                cam.orthographicSize += 1.5f;
+                movementSpeed += 3;
                 break;
             case 10:
                 reprodutionSpeed = 1.8f;
+                cam.orthographicSize += 2f;
                 break;
             case 12:
                 reprodutionSpeed = 1.7f;
+                cam.orthographicSize += 1.5f;
+                movementSpeed += 5;
                 break;
             case 16:
                 reprodutionSpeed = 1.6f;
@@ -293,7 +313,6 @@ public class bird : MonoBehaviour
         }
     }
 
-   
      [PunRPC]private void birdName(string name)
     {
         gameObject.SetActive(true);

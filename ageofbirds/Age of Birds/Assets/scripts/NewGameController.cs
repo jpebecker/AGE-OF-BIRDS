@@ -104,6 +104,7 @@ public class NewGameController : MonoBehaviour
             {
                 controlBirds.SetActive(true);
                 TimerIsActive = true;
+                passaro.gameObject.SetActive(true);
                 passaro.IsPlaying = true;
                 FindObjectOfType<spawner>().Offline = true;
 
