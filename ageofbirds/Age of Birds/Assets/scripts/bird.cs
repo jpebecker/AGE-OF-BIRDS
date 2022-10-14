@@ -16,6 +16,7 @@ public class bird : MonoBehaviour
     public float reprodutionSpeed = 2;//em segundos
     public float Water, Bushes;//porcentagem
     public bool IsPlaying = false;
+    public Transform[] directions;
     [Header("UI")]
     public Text levelTxt;
     public Text NickTxt;
@@ -44,145 +45,213 @@ public class bird : MonoBehaviour
         levelTxt.text = "Level " + birdLevel.ToString();
         Water = 100;
         Bushes = 100;
+
+        if (!IsPlaying && !PhotonNetwork.IsConnected)
+        {
+            switch (Random.Range(0, 3))
+            {
+                case 0:
+
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+            }
+        }
     }
     void Update()
     {
-        timerReprodution += Time.deltaTime;
-        Water -= (1f * birdLevel) * Time.deltaTime;
-        Bushes -= (1f * birdLevel) * Time.deltaTime;
-        if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
+        if (IsPlaying)
         {
-            timerReprodution = 0;
-            birdPopulation += birdLevel * Random.Range(3,5);
-            Xp += birdLevel + Random.Range(3, 8);
-        }
-
-        if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
-        {
-            Xp = 0;
-            birdLevel += 1;
-            life += 5 * birdLevel;
-            UpdateLevel();
-            levelTxt.text = "Level " + birdLevel.ToString();
-        }
-
-        if (IsGettingDamage)
-        {
-            life -= 50 * Time.deltaTime;
-            if(life <= 0 && PhotonNetwork.IsConnected)//bird died
+            timerReprodution += Time.deltaTime;
+            Water -= (1f * birdLevel) * Time.deltaTime;
+            Bushes -= (1f * birdLevel) * Time.deltaTime;
+            if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
             {
-                FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All,1);
-                FindObjectOfType<NewGameController>().GameOver(0);
+                timerReprodution = 0;
+                birdPopulation += birdLevel * Random.Range(3, 5);
+                Xp += birdLevel + Random.Range(3, 8);
             }
-            else if(life <= 0 && !PhotonNetwork.IsConnected)
+
+            if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
             {
-                if (IsPlaying)
+                Xp = 0;
+                birdLevel += 1;
+                life += 5 * birdLevel;
+                UpdateLevel();
+                levelTxt.text = "Level " + birdLevel.ToString();
+            }
+
+            if (IsGettingDamage)
+            {
+                life -= 50 * Time.deltaTime;
+                if (life <= 0 && PhotonNetwork.IsConnected)//bird died
                 {
+                    FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
                     FindObjectOfType<NewGameController>().GameOver(0);
+                }
+                else if (life <= 0 && !PhotonNetwork.IsConnected)
+                {
+                    if (IsPlaying)
+                    {
+                        FindObjectOfType<NewGameController>().GameOver(0);
+                    }
+                    else
+                    {
+                        FindObjectOfType<NewGameController>().Win(0);
+                    }
+                }
+            }
+
+            if (Water <= 1 || Bushes <= 1)
+            {
+                if (!PhotonNetwork.IsConnected)
+                {
+                    if (IsPlaying)
+                    {
+                        FindObjectOfType<NewGameController>().GameOver(0);
+                    }
+                    else
+                    {
+                        FindObjectOfType<NewGameController>().Win(0);
+                    }
+
                 }
                 else
                 {
-                    FindObjectOfType<NewGameController>().Win(0);
-                }
-            }
-        }
-
-        if(Water <=1 || Bushes <= 1)
-        {
-            if (!PhotonNetwork.IsConnected)
-            {
-                if (IsPlaying)
-                {
+                    FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
                     FindObjectOfType<NewGameController>().GameOver(0);
+                }
+
+            }
+
+            if (FindObjectOfType<NewGameController>().sliderBirds.value <= 0)//se a contagem zerar
+            {
+
+                if (PhotonNetwork.IsConnected)
+                {
+                    FindObjectOfType<NewGameController>().view.RPC("GameOver", RpcTarget.All, 1);
+                    FindObjectOfType<NewGameController>().Win(0);
                 }
                 else
                 {
-                    FindObjectOfType<NewGameController>().Win(0);
+                    if (IsPlaying)
+                    {
+                        FindObjectOfType<NewGameController>().Win(0);
+                    }
+                    else
+                    {
+                        FindObjectOfType<NewGameController>().GameOver(0);
+                    }
                 }
-                
+
+            }
+
+            #region Sliders
+            if (Bushes > bushSlider.maxValue)
+            {
+                bushSlider.maxValue = Bushes;
+                bushSlider.value = Bushes;
             }
             else
             {
-                FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
-                FindObjectOfType<NewGameController>().GameOver(0);
+                bushSlider.value = Bushes;
             }
-
-        }
-
-        if(FindObjectOfType<NewGameController>().sliderBirds.value <= 0)//se a contagem zerar
-        {
-           
-            if (PhotonNetwork.IsConnected)
+            if (Water > waterSlider.maxValue)
             {
-                FindObjectOfType<NewGameController>().view.RPC("GameOver", RpcTarget.All, 1);
-                FindObjectOfType<NewGameController>().Win(0);
+                waterSlider.maxValue = Water;
+                waterSlider.value = Water;
             }
             else
             {
-                if (IsPlaying)
+                waterSlider.value = Water;
+            }
+            if (life > lifeSlider.maxValue)
+            {
+                lifeSlider.maxValue = life;
+                lifeSlider.value = life;
+            }
+            else
+            {
+                lifeSlider.value = life;
+            }
+            #endregion
+
+            #region Movement
+            if (Input.GetMouseButtonDown(1) && IsPlaying && view.IsMine)//rightclick
+            {
+                target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                target.z = transform.position.z;
+                //direcaoClique();
+            }
+
+
+            transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
+
+            #endregion
+
+            if (transform.localScale.x < 20)
+            {
+                transform.localScale += new Vector3(birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel)) * Time.deltaTime;
+            }
+        }
+        else if(!IsPlaying && !PhotonNetwork.IsConnected)//SE FOR UM BOT
+        {
+            timerReprodution += Time.deltaTime;
+            waterSlider.gameObject.SetActive(false);
+            bushSlider.gameObject.SetActive(false);
+
+            if (timerReprodution >= reprodutionSpeed)//REPRODUZIU
+            {
+                timerReprodution = 0;
+                birdPopulation += birdLevel * Random.Range(3, 5);
+                Xp += birdLevel + Random.Range(3, 8);
+            }
+
+            if (Xp >= birdLevel * 5)//SUBIU DE NIVEL
+            {
+                Xp = 0;
+                birdLevel += 1;
+                life += 5 * birdLevel;
+                UpdateLevel();
+                levelTxt.text = "Level " + birdLevel.ToString();
+            }
+
+            if (IsGettingDamage)
+            {
+                life -= 50 * Time.deltaTime;
+                if (life <= 0)
                 {
-                    FindObjectOfType<NewGameController>().Win(0);
-                }
-                else
-                {
-                    FindObjectOfType<NewGameController>().GameOver(0);
+                  FindObjectOfType<NewGameController>().Win(0);
                 }
             }
 
+            #region Sliders
+            if (life > lifeSlider.maxValue)
+            {
+                lifeSlider.maxValue = life;
+                lifeSlider.value = life;
+            }
+            else
+            {
+                lifeSlider.value = life;
+            }
+            #endregion
+
+            transform.position += Vector3.forward * Time.deltaTime * movementSpeed;
+
+            if (transform.localScale.x < 20)
+            {
+                transform.localScale += new Vector3(birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel)) * Time.deltaTime;
+            }
         }
 
-        #region Sliders
-        if (Bushes > bushSlider.maxValue)
-        {
-            bushSlider.maxValue = Bushes;
-            bushSlider.value = Bushes;
-        }
-        else
-        {
-            bushSlider.value = Bushes;
-        }
-        if (Water > waterSlider.maxValue)
-        {
-            waterSlider.maxValue = Water;
-            waterSlider.value = Water;
-        }
-        else
-        {
-            waterSlider.value = Water;
-        }
-        if (life > lifeSlider.maxValue)
-        {
-            lifeSlider.maxValue = life;
-            lifeSlider.value = life;
-        }
-        else
-        {
-            lifeSlider.value = life;
-        }
-        #endregion
-
-        #region Movement
-        if (Input.GetMouseButtonDown(1) && IsPlaying && view.IsMine)//rightclick
-        {
-            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            target.z = transform.position.z;
-            //direcaoClique();
-        }
-        
-
-        transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
-
-        #endregion
-
-        if(transform.localScale.x < 20)
-        {
-            transform.localScale += new Vector3(birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel), birdPopulation / (100 * birdLevel)) * Time.deltaTime;
-        }
-
-        /*
-        Targetzoom += transform.localScale.x * zoomFactor;
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, Targetzoom, Time.deltaTime);
-        */
     }
 
     void direcaoClique()

@@ -55,7 +55,7 @@ public class coletaveis : MonoBehaviour
 
         if(type == 3)//predador
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.position, Random.Range(4, 7) * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.position, Random.Range(3, 6) * Time.deltaTime);
         }
         
     }

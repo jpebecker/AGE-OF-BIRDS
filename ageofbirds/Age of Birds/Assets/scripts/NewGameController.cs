@@ -157,6 +157,7 @@ public class NewGameController : MonoBehaviour
         }
         else
         {
+            Time.timeScale = 0;
             practiceFail.SetActive(true);
         }
 
@@ -201,6 +202,7 @@ public class NewGameController : MonoBehaviour
         }
         else
         {
+            Time.timeScale = 0;
             practiceWin.SetActive(true);
         }
     }
@@ -221,6 +223,7 @@ public class NewGameController : MonoBehaviour
     }
     public void Exit()
     {
+        Time.timeScale = 1;
         Photon.Pun.PhotonNetwork.Disconnect();
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }

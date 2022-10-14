@@ -6,9 +6,12 @@ using Photon.Pun;
 public class spawner : MonoBehaviour
 {
     public GameObject[] points;
+    public GameObject[] armadilhapoints;
+    public GameObject[] armadilhas;
     public GameObject water, bushes;
     public float DelayToNextSpawn = 1f;
-    public float StartWait = 0.2f;
+    public float spawnColectable = 0.3f;
+    public float spawnArmadilha = 2;
 
     public float xMin,xMan;
     public float yMin,yMan;
@@ -16,11 +19,17 @@ public class spawner : MonoBehaviour
     public bool Offline = false;
     void Update()
     {
-        StartWait -= Time.deltaTime;
-        if(StartWait <= 0)
+        spawnColectable -= Time.deltaTime;
+        spawnArmadilha -= Time.deltaTime;
+        if(spawnColectable <= 0)
         {
             Spawn();
-            StartWait = DelayToNextSpawn;
+            spawnColectable = DelayToNextSpawn;
+        }
+        if (spawnArmadilha <= 0 && !PhotonNetwork.IsConnected)
+        {
+            SpawnArmadilha();
+            spawnArmadilha = 6;
         }
     }
 
@@ -60,5 +69,12 @@ public class spawner : MonoBehaviour
        
 
        
+    }
+
+    public void SpawnArmadilha()
+    {
+        Vector2 pos3 = new Vector2(Random.Range(xMin, xMan), Random.Range(yMin, yMan));
+        GameObject SpawnPoint3 = armadilhapoints[Random.Range(0, armadilhapoints.Length)];
+        Instantiate(armadilhas[Random.Range(0, armadilhas.Length)], SpawnPoint3.transform.position, Quaternion.identity);
     }
 }
