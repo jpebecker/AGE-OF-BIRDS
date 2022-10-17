@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class Online : MonoBehaviourPunCallbacks
 {
@@ -56,7 +57,11 @@ public class Online : MonoBehaviourPunCallbacks
             {
                 PlayerPrefs.SetString("nickPlayer", nickInput.text);
                 PhotonNetwork.NickName = nickInput.text;
-                PhotonNetwork.CreateRoom(createInput.text);
+
+                RoomOptions roomOptions = new RoomOptions();
+                roomOptions.MaxPlayers = 2;
+
+                PhotonNetwork.CreateRoom(createInput.text, roomOptions,null);
             }
 
         }
