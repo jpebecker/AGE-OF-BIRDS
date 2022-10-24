@@ -28,6 +28,10 @@ public class bird : MonoBehaviour
     [HideInInspector]public PhotonView view;
     private Camera cam;
     private float Targetzoom;
+
+
+    //offline
+    private float TimerDirection;
     private int Direction;
     private void Awake()
     {
@@ -204,6 +208,7 @@ public class bird : MonoBehaviour
         else if(!IsPlaying && !PhotonNetwork.IsConnected)//SE FOR UM BOT
         {
             timerReprodution += Time.deltaTime;
+            TimerDirection += Time.deltaTime;
             waterSlider.gameObject.SetActive(false);
             bushSlider.gameObject.SetActive(false);
 
@@ -244,19 +249,46 @@ public class bird : MonoBehaviour
             }
             #endregion
 
-
-            if (Direction == 1)
+            #region movementBot
+            if (TimerDirection > 5)
             {
-                transform.position -= Vector3.up * Time.deltaTime * movementSpeed;
-                transform.position -= Vector3.right * Time.deltaTime * movementSpeed;
-            }
-            else
-            {
-                transform.position += Vector3.up * Time.deltaTime * movementSpeed;
-                transform.position += Vector3.right * Time.deltaTime * movementSpeed;
+              Direction =  Random.Range(0, 7);
+              TimerDirection = 0;
             }
 
-        
+            switch (Direction)
+            {
+                case 0:
+                    transform.position += Vector3.up * Time.deltaTime * movementSpeed;
+                    break;
+                case 1:
+                    transform.position -= Vector3.up * Time.deltaTime * (movementSpeed/2);
+                    transform.position -= Vector3.right * Time.deltaTime * (movementSpeed/2);
+                    break;
+                case 2:
+                    transform.position += Vector3.right * Time.deltaTime * movementSpeed;
+                    break;
+                case 3:
+                    transform.position += Vector3.up * Time.deltaTime * (movementSpeed / 2);
+                    transform.position += Vector3.right * Time.deltaTime * (movementSpeed / 2);
+                    break;
+                case 4:
+                    transform.position -= Vector3.right * Time.deltaTime * movementSpeed;
+                    break;
+                case 5:
+                    transform.position -= Vector3.up * Time.deltaTime * movementSpeed;
+                    break;
+                case 6:
+                    transform.position += Vector3.up * Time.deltaTime * (movementSpeed / 2);
+                    transform.position -= Vector3.right * Time.deltaTime * (movementSpeed / 2);
+                    break;
+                case 7:
+                    transform.position -= Vector3.up * Time.deltaTime * (movementSpeed / 2);
+                    transform.position += Vector3.right * Time.deltaTime * (movementSpeed / 2);
+                    break;
+
+            }
+            #endregion
 
             if (transform.localScale.x < 20)
             {

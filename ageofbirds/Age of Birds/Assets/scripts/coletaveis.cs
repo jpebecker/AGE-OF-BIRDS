@@ -16,7 +16,7 @@ public class coletaveis : MonoBehaviour
         {
             Destroy(gameObject, 10f);
         }
-        else
+        else//armadilhas
         {
             Destroy(gameObject, 20f);
         }
@@ -40,6 +40,12 @@ public class coletaveis : MonoBehaviour
         if(type == 1)//fire
         {
             gameObject.transform.localScale += new Vector3(0.25f * Time.deltaTime, 0.25f * Time.deltaTime, 0.25f * Time.deltaTime);
+
+            if(gameObject.transform.localScale.x > 5)
+            {
+
+            }
+
         }
 
         if(type == 2)//tornado
