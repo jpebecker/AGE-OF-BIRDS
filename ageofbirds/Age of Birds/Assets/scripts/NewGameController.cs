@@ -83,18 +83,12 @@ public class NewGameController : MonoBehaviour
         {
             if (team == 0)//bird
             {
-                controlBirds.SetActive(true);
-                TimerIsActive = true;
-                passaro.IsPlaying = true;
                 passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 FindObjectOfType<camera>().player = passaro.gameObject.transform;
                 view.RPC("Nick", RpcTarget.AllBuffered, 0, PhotonNetwork.NickName.ToString());
             }
             else//nature
             {
-                controlNature.SetActive(true);
-                TimerIsActive = true;
-                nature.isPlaying = true;
                 view.RPC("Nick", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName.ToString());
             }
         }
@@ -161,7 +155,7 @@ public class NewGameController : MonoBehaviour
             practiceFail.SetActive(true);
         }
 
-        
+        //Juan
        
     }
     [PunRPC]
@@ -208,17 +202,29 @@ public class NewGameController : MonoBehaviour
     }
 
     [PunRPC]
-    private void Nick(int team, string nick)
+    public void Nick(int team, string nick)
     {
-        if (team == 0)
+        if (team == 0 && natureBtn.interactable == true)
         {
             birdBtn.interactable = false;
             birdNickname = nick;
         }
-        else
+        else if(team == 1 && birdBtn.interactable == true)
         {
             natureBtn.interactable = false;
             natureNickname = nick;
+        }
+        else if(team == 0 && natureBtn.interactable == false)
+        {
+            controlBirds.SetActive(true);
+            TimerIsActive = true;
+            passaro.IsPlaying = true;
+        }
+        else if(team == 1 && birdBtn.interactable == false)
+        {
+            controlNature.SetActive(true);
+            TimerIsActive = true;
+            nature.isPlaying = true;
         }
     }
     public void Exit()
