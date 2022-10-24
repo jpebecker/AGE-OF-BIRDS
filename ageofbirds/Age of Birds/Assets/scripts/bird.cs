@@ -28,7 +28,7 @@ public class bird : MonoBehaviour
     [HideInInspector]public PhotonView view;
     private Camera cam;
     private float Targetzoom;
-
+    private int Direction;
     private void Awake()
     {
         view = GetComponent<PhotonView>();
@@ -48,19 +48,19 @@ public class bird : MonoBehaviour
 
         if (!IsPlaying && !PhotonNetwork.IsConnected)
         {
-            switch (Random.Range(0, 3))
+            switch (Random.Range(0, 3))//direction
             {
                 case 0:
-
+                    Direction = 1;
                     break;
                 case 1:
-
+                    Direction = 2;
                     break;
                 case 2:
-
+                    Direction = 1;
                     break;
                 case 3:
-
+                    Direction = 2;
                     break;
             }
         }
@@ -244,7 +244,19 @@ public class bird : MonoBehaviour
             }
             #endregion
 
-            transform.position += Vector3.forward * Time.deltaTime * movementSpeed;
+
+            if (Direction == 1)
+            {
+                transform.position -= Vector3.up * Time.deltaTime * movementSpeed;
+                transform.position -= Vector3.right * Time.deltaTime * movementSpeed;
+            }
+            else
+            {
+                transform.position += Vector3.up * Time.deltaTime * movementSpeed;
+                transform.position += Vector3.right * Time.deltaTime * movementSpeed;
+            }
+
+        
 
             if (transform.localScale.x < 20)
             {

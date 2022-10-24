@@ -624,6 +624,7 @@ MonoBehaviour:
   Water: 0
   Bushes: 0
   IsPlaying: 0
+  directions: []
   levelTxt: {fileID: 3263851207648282384}
   NickTxt: {fileID: 3263851206391233344}
   bushSlider: {fileID: 3263851206001168921}
