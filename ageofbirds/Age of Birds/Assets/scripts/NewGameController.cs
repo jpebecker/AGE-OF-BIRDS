@@ -77,7 +77,7 @@ public class NewGameController : MonoBehaviour
 
     }
 
-    private void ChooseTeamSinglePlayer(int team)
+    public void ChooseTeamSinglePlayer(int team)
     {
         if (PhotonNetwork.IsConnected)
         {
@@ -219,12 +219,26 @@ public class NewGameController : MonoBehaviour
             controlBirds.SetActive(true);
             TimerIsActive = true;
             passaro.IsPlaying = true;
+            painelTimes.SetActive(false);
         }
         else if(team == 1 && birdBtn.interactable == false)
         {
             controlNature.SetActive(true);
             TimerIsActive = true;
             nature.isPlaying = true;
+            painelTimes.SetActive(false);
+        }
+    }
+
+    [PunRPC]private void ButtonOff(int Button)
+    {
+        if(Button == 0)//bird
+        {
+            birdBtn.interactable = false;
+        }
+        else
+        {
+            natureBtn.interactable = false;
         }
     }
     public void Exit()

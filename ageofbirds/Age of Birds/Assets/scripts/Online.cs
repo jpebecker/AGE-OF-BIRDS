@@ -11,6 +11,7 @@ public class Online : MonoBehaviourPunCallbacks
     public InputField createInput;
     public InputField joinInput;
     public InputField nickInput;
+    public GameObject loadingObject, failObject;
     public GameObject painelLoading,painelCarregando;
     public void Connect()
     {
@@ -73,11 +74,11 @@ public class Online : MonoBehaviourPunCallbacks
         {
             if (PlayerPrefs.GetInt("language") == 1)
             {
-                createInput.text = "incorrect";
+                joinInput.text = "incorrect";
             }
             else
             {
-                createInput.text = "incorreto";
+                joinInput.text = "incorreto";
             }
         }
         else
@@ -86,11 +87,11 @@ public class Online : MonoBehaviourPunCallbacks
             {
                 if (PlayerPrefs.GetInt("language") == 1)
                 {
-                    createInput.text = "incorrect";
+                    nickInput.text = "incorrect";
                 }
                 else
                 {
-                    createInput.text = "incorreto";
+                    nickInput.text = "incorreto";
                 }
             }
             else
@@ -100,6 +101,28 @@ public class Online : MonoBehaviourPunCallbacks
             }
         }
       
+    }
+
+    public void FindRoom()
+    {
+        if (nickInput.text.Length < 3 || nickInput.text.Length > 12)
+        {
+            if (PlayerPrefs.GetInt("language") == 1)
+            {
+                nickInput.text = "incorrect";
+            }
+            else
+            {
+                nickInput.text = "incorreto";
+            }
+        }
+        else
+        {
+            PhotonNetwork.NickName = nickInput.text;
+            failObject.SetActive(false);
+            loadingObject.SetActive(true);
+            PhotonNetwork.JoinRandomRoom();
+        }
     }
     public override void OnConnectedToMaster()
     {
@@ -130,5 +153,11 @@ public class Online : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel(1);
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)//quando nao acha sala
+    {
+        loadingObject.SetActive(false);
+        failObject.SetActive(true);
     }
 }
