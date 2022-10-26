@@ -101,6 +101,7 @@ public class NewGameController : MonoBehaviour
                 passaro.gameObject.SetActive(true);
                 passaro.IsPlaying = true;
                 FindObjectOfType<spawner>().Offline = true;
+                painelTimes.SetActive(false);
 
             }
             else//nature
@@ -110,6 +111,7 @@ public class NewGameController : MonoBehaviour
                 nature.isPlaying = true;
                 passaro.IsPlaying = false;
                 passaro.gameObject.SetActive(true);
+                painelTimes.SetActive(false);
             }
         }
        

@@ -324,14 +324,18 @@ public class bird : MonoBehaviour
                 cam.orthographicSize += 1.5f;
                 movementSpeed += 3;
                 break;
-            case 10:
+            case 7:
                 reprodutionSpeed = 1.8f;
-                cam.orthographicSize += 2f;
+                cam.orthographicSize += 1.7f;
+                break;
+            case 10:
+                reprodutionSpeed = 1.7f;
+                cam.orthographicSize += 1.7f;
+                movementSpeed += 2.5f;
                 break;
             case 12:
-                reprodutionSpeed = 1.7f;
-                cam.orthographicSize += 1.5f;
-                movementSpeed += 5;
+                cam.orthographicSize += 1.7f;
+                movementSpeed += 1.5f;
                 break;
             case 16:
                 reprodutionSpeed = 1.6f;

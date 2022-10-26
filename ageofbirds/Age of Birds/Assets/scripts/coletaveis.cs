@@ -41,9 +41,9 @@ public class coletaveis : MonoBehaviour
         {
             gameObject.transform.localScale += new Vector3(0.25f * Time.deltaTime, 0.25f * Time.deltaTime, 0.25f * Time.deltaTime);
 
-            if(gameObject.transform.localScale.x > 5)
+            if(gameObject.transform.localScale.x > 6)
             {
-
+                
             }
 
         }
@@ -56,7 +56,8 @@ public class coletaveis : MonoBehaviour
 
             transform.position = centro + borda;
 
-            gameObject.transform.localScale += new Vector3(0.2f * Time.deltaTime, 0.2f * Time.deltaTime, 0.2f * Time.deltaTime);
+            gameObject.transform.localScale += new Vector3(0.4f * Time.deltaTime, 0.4f * Time.deltaTime, 0.4f * Time.deltaTime);
+
         }
 
         if(type == 3)//predador
