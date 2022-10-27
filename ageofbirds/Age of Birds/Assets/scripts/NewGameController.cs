@@ -9,10 +9,10 @@ public class NewGameController : MonoBehaviour
 {
     [Header("paineis")]
     [SerializeField] private GameObject painelTimes;
-    [SerializeField] private GameObject controlBirds, controlNature, gameOverPanel, winPanel, exitPanel,practiceWin,practiceFail;
+    [SerializeField] private GameObject controlBirds, controlNature, gameOverPanel, winPanel, exitPanel,practiceWin,practiceFail,waitPanel,waitPanel2;
     [SerializeField] public Slider sliderBirds, sliderNature;
     [SerializeField] private Button birdBtn, natureBtn;
-    [SerializeField] private Text winText, gameoverText, txtWait, txtRoomName;
+    [SerializeField] private Text winText, gameoverText, txtRoomName;
     private string birdNickname, natureNickname;
     [HideInInspector] public PhotonView view;
 
@@ -53,9 +53,9 @@ public class NewGameController : MonoBehaviour
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
             {
-                birdBtn.interactable = false;
-                natureBtn.interactable = false;
-                txtWait.gameObject.SetActive(true);
+                //birdBtn.interactable = false;
+                //natureBtn.interactable = false;
+                waitPanel.gameObject.SetActive(true);
                 if (PlayerPrefs.GetInt("language") == 1)//ingles
                 {
                     txtRoomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;
@@ -68,9 +68,9 @@ public class NewGameController : MonoBehaviour
             }
             else
             {
-                birdBtn.interactable = true;
-                natureBtn.interactable = true;
-                txtWait.gameObject.SetActive(false);
+                //birdBtn.interactable = true;
+                //natureBtn.interactable = true;
+                waitPanel.gameObject.SetActive(false);
             }
         }
      
@@ -86,10 +86,14 @@ public class NewGameController : MonoBehaviour
                 passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 FindObjectOfType<camera>().player = passaro.gameObject.transform;
                 view.RPC("Nick", RpcTarget.AllBuffered, 0, PhotonNetwork.NickName.ToString());
+                natureBtn.interactable = false;
+                waitPanel2.gameObject.SetActive(true);
             }
             else//nature
             {
                 view.RPC("Nick", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName.ToString());
+                birdBtn.interactable = false;
+                waitPanel2.gameObject.SetActive(true);
             }
         }
         else
@@ -208,16 +212,20 @@ public class NewGameController : MonoBehaviour
     {
         if (team == 0 && natureBtn.interactable == true)
         {
+            print("bird selected");
             birdBtn.interactable = false;
+         
             birdNickname = nick;
         }
         else if(team == 1 && birdBtn.interactable == true)
         {
+            print("nature selected");
             natureBtn.interactable = false;
             natureNickname = nick;
         }
         else if(team == 0 && natureBtn.interactable == false)
         {
+            print("bird activate");
             controlBirds.SetActive(true);
             TimerIsActive = true;
             passaro.IsPlaying = true;
@@ -225,22 +233,11 @@ public class NewGameController : MonoBehaviour
         }
         else if(team == 1 && birdBtn.interactable == false)
         {
+            print("nature activate");
             controlNature.SetActive(true);
             TimerIsActive = true;
             nature.isPlaying = true;
             painelTimes.SetActive(false);
-        }
-    }
-
-    [PunRPC]private void ButtonOff(int Button)
-    {
-        if(Button == 0)//bird
-        {
-            birdBtn.interactable = false;
-        }
-        else
-        {
-            natureBtn.interactable = false;
         }
     }
     public void Exit()

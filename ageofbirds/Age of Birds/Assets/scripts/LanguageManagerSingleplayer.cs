@@ -8,7 +8,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
     [Header("Painel Times")]
     public Text timePassaros;
     public Text timeNatureza,subtitlePassaro,subtitleNature,objective1Passaro,objective2Passaro,objective1Nature,objective2Nature,legendaSlider,legendaSlider2,venceu1,venceu2,derrota1,derrota2,sair1,sair2, txtWait;
-    public Text sairMessage, sim, nao, practice1,practice2,practice3,practice4,exit1,exit2,frasepracticewin,frasepracticefail;
+    public Text sairMessage, sim, nao, practice1,practice2,practice3,practice4,exit1,exit2,frasepracticewin,frasepracticefail,aguardeJogador;
 
     private string nickName;
 
@@ -49,6 +49,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             exit2.text = "EXIT";
             frasepracticefail.text = "You didn´t completed the objective";
             frasepracticewin.text = "You completed the objective";
+            aguardeJogador.text = "WAIT FOR THE OTHER PLAYER";
         }
         else
         {
@@ -80,6 +81,7 @@ public class LanguageManagerSingleplayer : MonoBehaviour
             exit2.text = "SAIR";
             frasepracticefail.text = "Você falhou ao completar o objetivo";
             frasepracticewin.text = "Você completou o objetivo";
+            aguardeJogador.text = "Espere o outro jogador";
         }
     }
 }
