@@ -214,13 +214,14 @@ public class NewGameController : MonoBehaviour
         {
             print("bird selected");
             birdBtn.interactable = false;
-         
+            controlBirds.SetActive(true);
             birdNickname = nick;
         }
         else if(team == 1 && birdBtn.interactable == true)
         {
             print("nature selected");
             natureBtn.interactable = false;
+            controlNature.SetActive(true);
             natureNickname = nick;
         }
         else if(team == 0 && natureBtn.interactable == false)
@@ -229,7 +230,9 @@ public class NewGameController : MonoBehaviour
             controlBirds.SetActive(true);
             TimerIsActive = true;
             passaro.IsPlaying = true;
+            waitPanel2.SetActive(false);
             painelTimes.SetActive(false);
+            passaro.gameObject.SetActive(true);
         }
         else if(team == 1 && birdBtn.interactable == false)
         {
@@ -237,7 +240,9 @@ public class NewGameController : MonoBehaviour
             controlNature.SetActive(true);
             TimerIsActive = true;
             nature.isPlaying = true;
+            waitPanel2.SetActive(false);
             painelTimes.SetActive(false);
+            passaro.gameObject.SetActive(true);
         }
     }
     public void Exit()
