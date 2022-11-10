@@ -47,6 +47,11 @@ public class NewGameController : MonoBehaviour
         {
             sliderBirds.value -= Time.deltaTime;
             sliderNature.value -= Time.deltaTime;
+
+            if (PhotonNetwork.CurrentRoom.PlayerCount < 2)//alguem saiu
+            {
+
+            }
         }
 
         if (PhotonNetwork.IsConnected)
