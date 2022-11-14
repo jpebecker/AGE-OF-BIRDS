@@ -43,14 +43,16 @@ public class NewGameController : MonoBehaviour
             exitPanel.SetActive(true);
         }
 
-        if (TimerIsActive)
+        if (TimerIsActive)//jogo ativo
         {
             sliderBirds.value -= Time.deltaTime;
             sliderNature.value -= Time.deltaTime;
 
             if (PhotonNetwork.CurrentRoom.PlayerCount < 2)//alguem saiu
             {
-
+                print("player left");
+                winPanel.SetActive(true);
+                Time.timeScale = 0;
             }
         }
 
