@@ -262,15 +262,15 @@ public class bird : MonoBehaviour
                     transform.position += Vector3.up * Time.deltaTime * movementSpeed;
                     break;
                 case 1:
-                    transform.position -= Vector3.up * Time.deltaTime * (movementSpeed/2);
-                    transform.position -= Vector3.right * Time.deltaTime * (movementSpeed/2);
+                    transform.position -= Vector3.up * Time.deltaTime * movementSpeed;
+                    transform.position -= Vector3.right * Time.deltaTime * movementSpeed;
                     break;
                 case 2:
                     transform.position += Vector3.right * Time.deltaTime * movementSpeed;
                     break;
                 case 3:
-                    transform.position += Vector3.up * Time.deltaTime * (movementSpeed / 2);
-                    transform.position += Vector3.right * Time.deltaTime * (movementSpeed / 2);
+                    transform.position += Vector3.up * Time.deltaTime * movementSpeed;
+                    transform.position += Vector3.right * Time.deltaTime * movementSpeed;
                     break;
                 case 4:
                     transform.position -= Vector3.right * Time.deltaTime * movementSpeed;
@@ -279,12 +279,12 @@ public class bird : MonoBehaviour
                     transform.position -= Vector3.up * Time.deltaTime * movementSpeed;
                     break;
                 case 6:
-                    transform.position += Vector3.up * Time.deltaTime * (movementSpeed / 2);
-                    transform.position -= Vector3.right * Time.deltaTime * (movementSpeed / 2);
+                    transform.position += Vector3.up * Time.deltaTime * movementSpeed;
+                    transform.position -= Vector3.right * Time.deltaTime * movementSpeed;
                     break;
                 case 7:
-                    transform.position -= Vector3.up * Time.deltaTime * (movementSpeed / 2);
-                    transform.position += Vector3.right * Time.deltaTime * (movementSpeed / 2);
+                    transform.position -= Vector3.up * Time.deltaTime * movementSpeed;
+                    transform.position += Vector3.right * Time.deltaTime * movementSpeed;
                     break;
 
             }

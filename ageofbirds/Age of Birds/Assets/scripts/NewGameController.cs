@@ -47,13 +47,6 @@ public class NewGameController : MonoBehaviour
         {
             sliderBirds.value -= Time.deltaTime;
             sliderNature.value -= Time.deltaTime;
-
-            if (PhotonNetwork.CurrentRoom.PlayerCount < 2)//alguem saiu
-            {
-                print("player left");
-                winPanel.SetActive(true);
-                Time.timeScale = 0;
-            }
         }
 
         if (PhotonNetwork.IsConnected)
@@ -70,6 +63,13 @@ public class NewGameController : MonoBehaviour
                 else//portugues
                 {
                     txtRoomName.text = "Sala: " + PhotonNetwork.CurrentRoom.Name;
+                }
+
+                if (TimerIsActive)
+                {
+                    print("player left");
+                    winPanel.SetActive(true);
+                    Time.timeScale = 0;
                 }
                
             }
@@ -95,12 +95,14 @@ public class NewGameController : MonoBehaviour
                 view.RPC("Nick", RpcTarget.AllBuffered, 0, PhotonNetwork.NickName.ToString());
                 natureBtn.interactable = false;
                 waitPanel2.gameObject.SetActive(true);
+                controlBirds.SetActive(true);
             }
             else//nature
             {
                 view.RPC("Nick", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName.ToString());
                 birdBtn.interactable = false;
                 waitPanel2.gameObject.SetActive(true);
+                controlNature.SetActive(true);
             }
         }
         else
@@ -221,20 +223,20 @@ public class NewGameController : MonoBehaviour
         {
             print("bird selected");
             birdBtn.interactable = false;
-            controlBirds.SetActive(true);
+            //controlBirds.SetActive(true);
             birdNickname = nick;
         }
         else if(team == 1 && birdBtn.interactable == true)
         {
             print("nature selected");
             natureBtn.interactable = false;
-            controlNature.SetActive(true);
+            //controlNature.SetActive(true);
             natureNickname = nick;
         }
         else if(team == 0 && natureBtn.interactable == false)
         {
             print("bird activate");
-            controlBirds.SetActive(true);
+            //controlBirds.SetActive(true);
             TimerIsActive = true;
             passaro.IsPlaying = true;
             waitPanel2.SetActive(false);
@@ -244,7 +246,7 @@ public class NewGameController : MonoBehaviour
         else if(team == 1 && birdBtn.interactable == false)
         {
             print("nature activate");
-            controlNature.SetActive(true);
+            //controlNature.SetActive(true);
             TimerIsActive = true;
             nature.isPlaying = true;
             waitPanel2.SetActive(false);
