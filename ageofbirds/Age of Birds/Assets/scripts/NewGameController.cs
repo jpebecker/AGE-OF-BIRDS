@@ -20,6 +20,7 @@ public class NewGameController : MonoBehaviour
     [SerializeField] private bird passaro;
     [SerializeField] private IncisivePlay nature;
     private bool TimerIsActive;
+    private int Team;
 
     void Start()
     {
@@ -90,19 +91,20 @@ public class NewGameController : MonoBehaviour
         {
             if (team == 0)//bird
             {
+                Team = 0;
                 passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 FindObjectOfType<camera>().player = passaro.gameObject.transform;
-                view.RPC("Nick", RpcTarget.AllBuffered, 0, PhotonNetwork.NickName.ToString());
-                natureBtn.interactable = false;
+                view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
+                view.RPC("BtnSwitch", RpcTarget.AllBuffered, 0);
                 waitPanel2.gameObject.SetActive(true);
-                controlBirds.SetActive(true);
+             
             }
             else//nature
             {
-                view.RPC("Nick", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName.ToString());
-                birdBtn.interactable = false;
+                Team = 1;
+                view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 waitPanel2.gameObject.SetActive(true);
-                controlNature.SetActive(true);
+                view.RPC("BtnSwitch", RpcTarget.AllBuffered, 1);
             }
         }
         else
@@ -217,42 +219,62 @@ public class NewGameController : MonoBehaviour
     }
 
     [PunRPC]
-    public void Nick(int team, string nick)
+    public void BtnSwitch(int btn)
     {
-        if (team == 0 && natureBtn.interactable == true)
+        if(btn == 0)
         {
-            print("bird selected");
             birdBtn.interactable = false;
-            //controlBirds.SetActive(true);
-            birdNickname = nick;
         }
-        else if(team == 1 && birdBtn.interactable == true)
+        else
         {
-            print("nature selected");
             natureBtn.interactable = false;
-            //controlNature.SetActive(true);
-            natureNickname = nick;
         }
-        else if(team == 0 && natureBtn.interactable == false)
+    }
+
+
+    [PunRPC]
+    public void Nick(string nick)
+    {
+
+        /*
+        if(Team == 0)//bird
         {
-            print("bird activate");
-            //controlBirds.SetActive(true);
-            TimerIsActive = true;
-            passaro.IsPlaying = true;
-            waitPanel2.SetActive(false);
-            painelTimes.SetActive(false);
-            passaro.gameObject.SetActive(true);
+            if(natureBtn.interactable == true)//botao oposto ativo
+            {
+                print("bird selected");
+                birdBtn.interactable = false;
+                birdNickname = nick;
+            }
+            else//jogo ativo
+            {
+                print("bird activate");
+                GetComponent<NewGameController>().controlBirds.SetActive(true);
+                TimerIsActive = true;
+                passaro.IsPlaying = true;
+                waitPanel2.SetActive(false);
+                painelTimes.SetActive(false);
+                passaro.gameObject.SetActive(true);
+            }
         }
-        else if(team == 1 && birdBtn.interactable == false)
+        else if(Team == 1)//nature
         {
-            print("nature activate");
-            //controlNature.SetActive(true);
-            TimerIsActive = true;
-            nature.isPlaying = true;
-            waitPanel2.SetActive(false);
-            painelTimes.SetActive(false);
-            passaro.gameObject.SetActive(true);
-        }
+            if(birdBtn.interactable == true)
+            {
+                print("nature selected");
+                natureBtn.interactable = false;
+                natureNickname = nick;
+            }
+            else
+            {
+                print("nature activate");
+                GetComponent<NewGameController>().controlNature.SetActive(true);
+                TimerIsActive = true;
+                nature.isPlaying = true;
+                waitPanel2.SetActive(false);
+                painelTimes.SetActive(false);
+                passaro.gameObject.SetActive(true);
+            }
+        }*/
     }
     public void Exit()
     {
