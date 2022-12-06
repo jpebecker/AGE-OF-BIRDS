@@ -94,7 +94,7 @@ public class NewGameController : MonoBehaviour
                 Team = 0;
                 passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 FindObjectOfType<camera>().player = passaro.gameObject.transform;
-                view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
+                //view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 view.RPC("BtnSwitch", RpcTarget.AllBuffered, 0);
                 waitPanel2.gameObject.SetActive(true);
              
@@ -102,7 +102,7 @@ public class NewGameController : MonoBehaviour
             else//nature
             {
                 Team = 1;
-                view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
+                //view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 waitPanel2.gameObject.SetActive(true);
                 view.RPC("BtnSwitch", RpcTarget.AllBuffered, 1);
             }
@@ -132,6 +132,20 @@ public class NewGameController : MonoBehaviour
        
     }
 
+
+    private void TriggerControls()
+    {
+        if(Team == 0)
+        {
+            controlBirds.SetActive(true);
+            passaro.IsPlaying = true;
+        }
+        else
+        {
+            controlNature.SetActive(true);
+            nature.isPlaying = true;
+        }
+    }
     [PunRPC]
     public void GameOver(int whoWins)
     {
@@ -223,11 +237,38 @@ public class NewGameController : MonoBehaviour
     {
         if(btn == 0)
         {
-            birdBtn.interactable = false;
+            if (natureBtn.interactable)
+            {
+                birdBtn.interactable = false;
+                birdNickname = PhotonNetwork.NickName.ToString();
+            }
+            else
+            {
+                print("start");
+                waitPanel2.SetActive(false);
+                painelTimes.SetActive(false);
+                TriggerControls();
+                TimerIsActive = true;
+                passaro.gameObject.SetActive(true);
+            }
+        
         }
         else
         {
-            natureBtn.interactable = false;
+            if (birdBtn.interactable)
+            {
+                natureBtn.interactable = false;
+                natureNickname = PhotonNetwork.NickName.ToString();
+            }
+            else
+            {
+                print("start");
+                waitPanel2.SetActive(false);
+                painelTimes.SetActive(false);
+                TriggerControls();
+                TimerIsActive = true;
+            }
+           
         }
     }
 
