@@ -97,18 +97,17 @@ public class bird : MonoBehaviour
                 life -= 50 * Time.deltaTime;
                 if (life <= 0 && PhotonNetwork.IsConnected)//bird died
                 {
-                    FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
-                    FindObjectOfType<NewGameController>().GameOver(0);
+                    FindObjectOfType<NewGameController>().view.RPC("EndMatch", RpcTarget.All, 1);//nature ganha
                 }
                 else if (life <= 0 && !PhotonNetwork.IsConnected)
                 {
                     if (IsPlaying)
                     {
-                        FindObjectOfType<NewGameController>().GameOver(0);
+                        FindObjectOfType<NewGameController>().GameOver();
                     }
                     else
                     {
-                        FindObjectOfType<NewGameController>().Win(0);
+                        FindObjectOfType<NewGameController>().Win();
                     }
                 }
             }
@@ -119,18 +118,17 @@ public class bird : MonoBehaviour
                 {
                     if (IsPlaying)
                     {
-                        FindObjectOfType<NewGameController>().GameOver(0);
+                        FindObjectOfType<NewGameController>().GameOver();
                     }
                     else
                     {
-                        FindObjectOfType<NewGameController>().Win(0);
+                        FindObjectOfType<NewGameController>().Win();
                     }
 
                 }
                 else
                 {
-                    FindObjectOfType<NewGameController>().view.RPC("Win", RpcTarget.All, 1);
-                    FindObjectOfType<NewGameController>().GameOver(0);
+                    FindObjectOfType<NewGameController>().view.RPC("EndMatch", RpcTarget.All, 1);//nature ganha
                 }
 
             }
@@ -140,18 +138,17 @@ public class bird : MonoBehaviour
 
                 if (PhotonNetwork.IsConnected)
                 {
-                    FindObjectOfType<NewGameController>().view.RPC("GameOver", RpcTarget.All, 1);
-                    FindObjectOfType<NewGameController>().Win(0);
+                    FindObjectOfType<NewGameController>().view.RPC("EndMatch", RpcTarget.All, 0);//bird ganha
                 }
                 else
                 {
                     if (IsPlaying)
                     {
-                        FindObjectOfType<NewGameController>().Win(0);
+                        FindObjectOfType<NewGameController>().Win();
                     }
                     else
                     {
-                        FindObjectOfType<NewGameController>().GameOver(0);
+                        FindObjectOfType<NewGameController>().GameOver();
                     }
                 }
 
@@ -233,7 +230,7 @@ public class bird : MonoBehaviour
                 life -= 50 * Time.deltaTime;
                 if (life <= 0)
                 {
-                  FindObjectOfType<NewGameController>().Win(0);
+                  FindObjectOfType<NewGameController>().Win();
                 }
             }
 

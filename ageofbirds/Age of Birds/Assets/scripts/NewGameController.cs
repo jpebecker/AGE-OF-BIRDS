@@ -94,7 +94,6 @@ public class NewGameController : MonoBehaviour
                 Team = 0;
                 passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 FindObjectOfType<camera>().player = passaro.gameObject.transform;
-                //view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 view.RPC("BtnSwitch", RpcTarget.AllBuffered, 0);
                 waitPanel2.gameObject.SetActive(true);
              
@@ -102,7 +101,6 @@ public class NewGameController : MonoBehaviour
             else//nature
             {
                 Team = 1;
-                //view.RPC("Nick", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 waitPanel2.gameObject.SetActive(true);
                 view.RPC("BtnSwitch", RpcTarget.AllBuffered, 1);
             }
@@ -146,55 +144,18 @@ public class NewGameController : MonoBehaviour
             nature.isPlaying = true;
         }
     }
-    [PunRPC]
-    public void GameOver(int whoWins)
+    public void GameOver()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            if (whoWins == 0)//birds Lose
-            {
-                if (PlayerPrefs.GetInt("language") == 1)//ingles
-                {
-                    gameoverText.text = natureNickname + " won the match";
-                }
-                else//portugues
-                {
-                    gameoverText.text = natureNickname + " ganhou o jogo";
-                }
-                gameOverPanel.SetActive(true);
-                Time.timeScale = 0;
-
-            }
-            else//nature lose
-            {
-                if (PlayerPrefs.GetInt("language") == 1)//ingles
-                {
-                    gameoverText.text = birdNickname + " won the match";
-                }
-                else//portugues
-                {
-                    gameoverText.text = birdNickname + " ganhou o jogo";
-                }
-                gameOverPanel.SetActive(true);
-                Time.timeScale = 0;
-
-            }
-        }
-        else
-        {
-            Time.timeScale = 0;
-            practiceFail.SetActive(true);
-        }
-
-        //Juan
-       
+       Time.timeScale = 0;
+       practiceFail.SetActive(true);
     }
+
     [PunRPC]
-    public void Win(int whoWins)
+    public void EndMatch(int win)
     {
-        if (PhotonNetwork.IsConnected)
+        if(win == 0)//bird ganhou
         {
-            if (whoWins == 0)//birds Win
+            if(Team == 0)//se for bird
             {
                 if (PlayerPrefs.GetInt("language") == 1)
                 {
@@ -206,9 +167,37 @@ public class NewGameController : MonoBehaviour
                 }
                 winPanel.SetActive(true);
                 Time.timeScale = 0;
-
             }
-            else
+            else//se for nature
+            {
+                if (PlayerPrefs.GetInt("language") == 1)//ingles
+                {
+                    gameoverText.text = birdNickname + " won the match";
+                }
+                else//portugues
+                {
+                    gameoverText.text = birdNickname + " ganhou o jogo";
+                }
+                gameOverPanel.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
+        else//bird perdeu
+        {
+            if (Team == 0)//se for bird
+            {
+                if (PlayerPrefs.GetInt("language") == 1)//ingles
+                {
+                    gameoverText.text = natureNickname + " won the match";
+                }
+                else//portugues
+                {
+                    gameoverText.text = natureNickname + " ganhou o jogo";
+                }
+                gameOverPanel.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else//se for nature
             {
                 if (PlayerPrefs.GetInt("language") == 1)
                 {
@@ -218,18 +207,16 @@ public class NewGameController : MonoBehaviour
                 {
                     winText.text = birdNickname + " perdeu o jogo";
                 }
-
-
                 winPanel.SetActive(true);
                 Time.timeScale = 0;
-
             }
         }
-        else
-        {
-            Time.timeScale = 0;
-            practiceWin.SetActive(true);
-        }
+    }
+
+    public void Win()
+    {
+       Time.timeScale = 0;
+       practiceWin.SetActive(true); 
     }
 
     [PunRPC]
@@ -272,51 +259,6 @@ public class NewGameController : MonoBehaviour
         }
     }
 
-
-    [PunRPC]
-    public void Nick(string nick)
-    {
-
-        /*
-        if(Team == 0)//bird
-        {
-            if(natureBtn.interactable == true)//botao oposto ativo
-            {
-                print("bird selected");
-                birdBtn.interactable = false;
-                birdNickname = nick;
-            }
-            else//jogo ativo
-            {
-                print("bird activate");
-                GetComponent<NewGameController>().controlBirds.SetActive(true);
-                TimerIsActive = true;
-                passaro.IsPlaying = true;
-                waitPanel2.SetActive(false);
-                painelTimes.SetActive(false);
-                passaro.gameObject.SetActive(true);
-            }
-        }
-        else if(Team == 1)//nature
-        {
-            if(birdBtn.interactable == true)
-            {
-                print("nature selected");
-                natureBtn.interactable = false;
-                natureNickname = nick;
-            }
-            else
-            {
-                print("nature activate");
-                GetComponent<NewGameController>().controlNature.SetActive(true);
-                TimerIsActive = true;
-                nature.isPlaying = true;
-                waitPanel2.SetActive(false);
-                painelTimes.SetActive(false);
-                passaro.gameObject.SetActive(true);
-            }
-        }*/
-    }
     public void Exit()
     {
         Time.timeScale = 1;
