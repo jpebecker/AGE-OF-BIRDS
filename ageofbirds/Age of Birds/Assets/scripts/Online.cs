@@ -96,6 +96,7 @@ public class Online : MonoBehaviourPunCallbacks
             }
             else
             {
+                PlayerPrefs.SetString("nickPlayer", nickInput.text);
                 PhotonNetwork.NickName = nickInput.text;
                 PhotonNetwork.JoinRoom(joinInput.text);
             }
@@ -118,6 +119,7 @@ public class Online : MonoBehaviourPunCallbacks
         }
         else
         {
+            PlayerPrefs.SetString("nickPlayer", nickInput.text);
             PhotonNetwork.NickName = nickInput.text;
             failObject.SetActive(false);
             loadingObject.SetActive(true);

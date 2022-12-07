@@ -41,9 +41,6 @@ public class bird : MonoBehaviour
     {
         cam = Camera.main;
         Targetzoom = cam.orthographicSize;
-
-
-
         IsGettingDamage = false;
         target = transform.position;
         levelTxt.text = "Level " + birdLevel.ToString();
@@ -185,15 +182,14 @@ public class bird : MonoBehaviour
             #endregion
 
             #region Movement
-            if (Input.GetMouseButtonDown(1) && IsPlaying && view.IsMine)//rightclick
+            if (Input.GetMouseButtonDown(1) && IsPlaying)//rightclick
             {
                 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 target.z = transform.position.z;
                 //direcaoClique();
             }
 
-
-            transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
+            move();
 
             #endregion
 
@@ -355,6 +351,10 @@ public class bird : MonoBehaviour
         }
     }
 
+    private void move()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
+    }
     private void OnTriggerEnter2D(Collider2D col)
     {
         col.GetComponent<SpriteRenderer>().color = new Color(col.GetComponent<SpriteRenderer>().color.r, col.GetComponent<SpriteRenderer>().color.g, col.GetComponent<SpriteRenderer>().color.b, .5f);

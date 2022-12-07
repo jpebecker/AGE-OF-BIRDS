@@ -2821,8 +2821,8 @@ GameObject:
   - component: {fileID: 542617399}
   - component: {fileID: 542617398}
   - component: {fileID: 542617401}
-  - component: {fileID: 542617402}
   - component: {fileID: 542617403}
+  - component: {fileID: 542617402}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2923,7 +2923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
+  m_SynchronizeScale: 0
   m_UseLocal: 1
 --- !u!114 &542617403
 MonoBehaviour:
@@ -9457,7 +9457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
 --- !u!114 &3263851206964899662 stripped
 MonoBehaviour:

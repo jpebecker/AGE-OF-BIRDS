@@ -26,6 +26,7 @@ public class NewGameController : MonoBehaviour
     {
         painelTimes.SetActive(true);
         view = GetComponent<PhotonView>();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
     void Update()
     {
@@ -94,9 +95,9 @@ public class NewGameController : MonoBehaviour
                 Team = 0;
                 passaro.view.RPC("birdName", RpcTarget.AllBuffered, PhotonNetwork.NickName.ToString());
                 FindObjectOfType<camera>().player = passaro.gameObject.transform;
-                view.RPC("BtnSwitch", RpcTarget.AllBuffered, 0);
                 waitPanel2.gameObject.SetActive(true);
-             
+                view.RPC("BtnSwitch", RpcTarget.AllBuffered, 0);
+
             }
             else//nature
             {
@@ -254,6 +255,7 @@ public class NewGameController : MonoBehaviour
                 painelTimes.SetActive(false);
                 TriggerControls();
                 TimerIsActive = true;
+                passaro.gameObject.SetActive(true);
             }
            
         }

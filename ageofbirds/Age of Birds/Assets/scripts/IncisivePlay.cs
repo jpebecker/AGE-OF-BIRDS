@@ -13,12 +13,12 @@ public class IncisivePlay : MonoBehaviour
     [Header("Configs")]
     public bool isPlaying = false;
     public TypeOfEvent eventoPosicionar;
-    public GameObject tornadoPrefab, fireStormPrefab,predatorPrefab;
+    public GameObject tornadoPrefab, fireStormPrefab, predatorPrefab;
     private PhotonView view;
-    private float DelayToSpawn=5f;
+    private float DelayToSpawn = 5f;
     private float timer;
     public Slider sliderDelay;
-    [SerializeField]private Image fillSlider,tornadoimage,fireImage,predatorImage;
+    [SerializeField] private Image fillSlider, tornadoimage, fireImage, predatorImage;
     public Color tornadoColor, fireColor, predatorColor;
     private void Start()
     {
@@ -51,16 +51,13 @@ public class IncisivePlay : MonoBehaviour
             switch (eventoPosicionar)
             {
                 case TypeOfEvent.Tornado:
-                    GameObject obj = PhotonNetwork.Instantiate(tornadoPrefab.name,Camera.main.ScreenToWorldPoint(Input.mousePosition),Quaternion.identity);
-                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 0);                 
+                    positionate(0);
                     break;
                 case TypeOfEvent.Firestorm:
-                    GameObject objeto = PhotonNetwork.Instantiate(fireStormPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
-                    objeto.transform.position = new Vector3(objeto.transform.position.x, objeto.transform.position.y, 0);
+                    positionate(1);
                     break;
                 case TypeOfEvent.Predator:
-                    GameObject predator = PhotonNetwork.Instantiate(predatorPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
-                    predator.transform.position = new Vector3(predator.transform.position.x, predator.transform.position.y, 0);
+                    positionate(2);
                     break;
 
             }
@@ -135,5 +132,24 @@ public class IncisivePlay : MonoBehaviour
         }
         #endregion
     }
-
+    private void positionate(int id)
+    {
+        if(id == 0)
+        {
+            GameObject obj = PhotonNetwork.Instantiate(tornadoPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 0);
+        }
+        if(id == 1)
+        {
+            GameObject objeto = PhotonNetwork.Instantiate(fireStormPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+            objeto.transform.position = new Vector3(objeto.transform.position.x, objeto.transform.position.y, 0);
+        }
+        if(id== 2)
+        {
+            GameObject predator = PhotonNetwork.Instantiate(predatorPrefab.name, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+            predator.transform.position = new Vector3(predator.transform.position.x, predator.transform.position.y, 0);
+        }
+    }
+    
 }
+
