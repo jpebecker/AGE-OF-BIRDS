@@ -62,6 +62,8 @@ public class menuController : MonoBehaviour
             sliderSfx.value = PlayerPrefs.GetInt("sfxVolume");
             SoundEffectVolume(sliderSfx.value);
         }
+
+        Photon.Pun.PhotonNetwork.Disconnect();
     }
 
     private void Update()

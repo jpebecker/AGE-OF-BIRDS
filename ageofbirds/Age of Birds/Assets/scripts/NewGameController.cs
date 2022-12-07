@@ -266,5 +266,4 @@ public class NewGameController : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
-
 }
