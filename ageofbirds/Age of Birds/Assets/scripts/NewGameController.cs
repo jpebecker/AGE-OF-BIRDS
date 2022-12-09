@@ -256,6 +256,7 @@ public class NewGameController : MonoBehaviour
                 TriggerControls();
                 TimerIsActive = true;
                 passaro.gameObject.SetActive(true);
+                
             }
            
         }
@@ -264,7 +265,10 @@ public class NewGameController : MonoBehaviour
     public void Exit()
     {
         Time.timeScale = 1;
-        Photon.Pun.PhotonNetwork.Disconnect();
+        if (PhotonNetwork.IsConnected)
+        {
+            Photon.Pun.PhotonNetwork.Disconnect();
+        }
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 

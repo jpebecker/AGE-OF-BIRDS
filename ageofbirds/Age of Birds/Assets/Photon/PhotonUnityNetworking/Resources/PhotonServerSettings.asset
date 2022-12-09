@@ -48,6 +48,8 @@ MonoBehaviour:
   - ButtonOff
   - BtnSwitch
   - EndMatch
+  - move
+  - positionate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

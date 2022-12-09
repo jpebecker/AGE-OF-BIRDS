@@ -189,8 +189,17 @@ public class bird : MonoBehaviour
                 //direcaoClique();
             }
 
-            move();
+            if (PhotonNetwork.IsConnected)
+            {
 
+                view.RPC("move", RpcTarget.AllBuffered);
+            }
+            else
+            {
+                move();
+            }
+            
+  
             #endregion
 
             if (transform.localScale.x < 20)
@@ -351,6 +360,7 @@ public class bird : MonoBehaviour
         }
     }
 
+    [PunRPC]
     private void move()
     {
         transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);

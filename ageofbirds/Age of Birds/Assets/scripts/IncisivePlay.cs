@@ -51,13 +51,13 @@ public class IncisivePlay : MonoBehaviour
             switch (eventoPosicionar)
             {
                 case TypeOfEvent.Tornado:
-                    positionate(0);
+                    view.RPC("positionate", RpcTarget.AllBuffered, 0);
                     break;
                 case TypeOfEvent.Firestorm:
-                    positionate(1);
+                    view.RPC("positionate", RpcTarget.AllBuffered, 1);
                     break;
                 case TypeOfEvent.Predator:
-                    positionate(2);
+                    view.RPC("positionate", RpcTarget.AllBuffered, 2);
                     break;
 
             }
@@ -132,6 +132,8 @@ public class IncisivePlay : MonoBehaviour
         }
         #endregion
     }
+
+    [PunRPC]
     private void positionate(int id)
     {
         if(id == 0)
