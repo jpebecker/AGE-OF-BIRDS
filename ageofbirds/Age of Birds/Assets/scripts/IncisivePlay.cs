@@ -46,7 +46,7 @@ public class IncisivePlay : MonoBehaviour
 
         #region posicionaraoclique
 
-        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && PhotonNetwork.IsConnected)//rightclick connected
+        if (Input.GetMouseButtonDown(1) && isPlaying && timer >= DelayToSpawn && PhotonNetwork.IsConnected)//rightclick connected
         {
             switch (eventoPosicionar)
             {
@@ -64,7 +64,7 @@ public class IncisivePlay : MonoBehaviour
 
             timer = 0;
         }
-        if (Input.GetMouseButtonDown(1) && isPlaying && view.IsMine && timer >= DelayToSpawn && !PhotonNetwork.IsConnected)//rightclick offline
+        if (Input.GetMouseButtonDown(1) && isPlaying && timer >= DelayToSpawn && !PhotonNetwork.IsConnected)//rightclick offline
         {
             switch (eventoPosicionar)
             {
